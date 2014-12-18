@@ -6,7 +6,8 @@ HEADERS += \
     myview.hpp \
     perso.hpp \
     ball.hpp \
-    angleoperation.hpp
+    angleoperation.hpp \
+    patate.hpp
 SOURCES += \
 	main.cpp \
         mouse.cpp \
@@ -14,10 +15,12 @@ SOURCES += \
     myview.cpp \
     perso.cpp \
     ball.cpp \
-    angleoperation.cpp
+    angleoperation.cpp \
+    patate.cpp
 
 RESOURCES += \
-	mice.qrc
+	mice.qrc \
+    test.qrc
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/collidingmice

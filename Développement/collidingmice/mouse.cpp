@@ -59,9 +59,12 @@ Mouse::Mouse()
 //! [1]
 QRectF Mouse::boundingRect() const
 {
-    qreal adjust = 0.5;
-    return QRectF(-18 - adjust, -22 - adjust,
-                  36 + adjust, 60 + adjust);
+    static qreal adjust = 0.5, height = 32, width = 59;
+
+    QRectF rect = QRectF(-38 - adjust, -16 - adjust,
+                         width + adjust * 2, height + adjust * 2);
+
+    return rect;
 }
 //! [1]
 
@@ -112,6 +115,7 @@ void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 //! [4]
 void Mouse::advance(int step)
 {
+    /*
     if (!step)
         return;
 //! [4]
@@ -185,6 +189,7 @@ void Mouse::advance(int step)
 
     setRotation(rotation() + dx);
     setPos(mapToParent(0, -(3 + sin(speed) * 3)));
+*/
 }
 //! [11]
 

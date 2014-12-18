@@ -68,6 +68,7 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi, QWidge
 
 void Ball::advance(int step)
 {
+    /*
     static short maxRange = 300;
     static qreal offset = 2.2;
     static QPointF startPos = this->pos();

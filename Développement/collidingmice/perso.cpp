@@ -43,7 +43,7 @@ Perso::Perso()
     speed = 1.5;
     balls = QList<Ball*>();
 
-    setRotation(90);
+    setRotation(0);
     setPos(0, 0);
 }
 
@@ -166,6 +166,7 @@ QPointF Perso::center() const
                    boundingRect().y() + boundingRect().height() / 2 - 7);
 }
 
+
 QPointF Perso::sceneCenter() const
 {
     return mapToScene(center());
@@ -173,23 +174,25 @@ QPointF Perso::sceneCenter() const
 
 void Perso::attaque()
 {
-    static const int offset = 5, maxBalls = 2;
-    QPointF t, t1, ballPos;
+    static GameManager *gm = GameManager::Instance();
+    static QGraphicsScene *scene = gm->getScene();
+
+    QPointF t1, ballPos;
     QLineF line;
-    int lol = 0;
+    QList<QGraphicsItem*> items = scene->items();
+
+    //t1 = center();
+ //   scene->items()
+    //line = QLineF(t1, ballPos);
 
 
-    t = sceneCenter();
-    t1 = center();
-    ballPos = scenePos();
+    foreach(QGraphicsItem *qgi, items)
+    {
+        if(qgi->type() == Ball::Type)
+            scene->removeItem(qgi);
+    }
 
+    Ball *b = new Ball(angle, scenePos(), sceneCenter(), this);
 
-    line = QLineF(t1, ballPos);
-    //GameManager::Instance()->addLineToScene(line);
-    //qWarning() << "perso ballpos :" << ballPos;
-
-    Ball *b = new Ball(angle, ballPos, t, this);
-    //Ball *b1;
-
-    GameManager::Instance()->addItemToScene(b);
+    gm->addItemToScene(b);
 }

@@ -2,6 +2,7 @@
 #include <QObject>
 #include "mouse.h"
 #include "perso.hpp"
+#include "patate.hpp"
 #include <QtWidgets>
 #include <QGraphicsTextItem>
 #include <math.h>
@@ -37,6 +38,8 @@ GameManager::GameManager()
 //! [2]
 
 //! [3]
+    // Souris
+    /*
     for (int i = 0; i < MouseCount; ++i)
     {
         Mouse *mouse = new Mouse();
@@ -44,8 +47,14 @@ GameManager::GameManager()
                       ::cos((i * 6.28) / MouseCount) * 200);
         _scene->addItem(mouse);
     }
+    */
+    Mouse *mouse = new Mouse();
+    mouse->setPos(100,0);
+    _scene->addItem(mouse);
     _scene->addItem(_perso);
 //! [3]
+    _scene->addRect(_perso->boundingRect());
+    //_scene->addRect(mouse->boundingRect());
 
     _textItem = _scene->addText("lol");
 
@@ -57,6 +66,11 @@ GameManager::GameManager()
     /*
     _scene->addLine(QLine(QPoint(0,-300), QPoint(0,300)));
     _scene->addLine(QLine(QPoint(-300, 0), QPoint(300, 0)));
+    */
+
+    // Patate
+    /*
+    _scene->addItem(new Patate(":/images/patate.png"));
     */
 
 //! [4]
