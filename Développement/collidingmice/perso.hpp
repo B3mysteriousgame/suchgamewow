@@ -18,6 +18,8 @@ class Perso : public Mouse
         void attaque();
         QPointF center() const;
         QPointF sceneCenter() const;
+        QRectF boundingRect() const;
+        QPainterPath shape() const;
 
         int type() const{return Type;}
 

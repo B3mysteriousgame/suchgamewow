@@ -29,6 +29,7 @@ class GameManager : QObject
         void removeItem(QGraphicsItem *it);
         Perso* getPerso();
         QList<Mouse*> getSceneMice();
+        void test();
 
     public slots:
         void changeColors();

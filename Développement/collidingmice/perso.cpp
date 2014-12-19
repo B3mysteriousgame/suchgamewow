@@ -160,6 +160,24 @@ qreal Perso::getSpeed() const
     return speed;
 }
 
+QRectF Perso::boundingRect() const
+{
+    static qreal adjust = 0.5, height = 32, width = 59;
+
+    QRectF rect = QRectF(x() - adjust, y() - adjust,
+                         width + adjust * 2, height + adjust * 2);
+
+    return rect;
+}
+
+QPainterPath Perso::shape() const
+{
+    QPainterPath path;
+    path.addRect(boundingRect());
+    //path.ro
+    return path;
+}
+
 QPointF Perso::center() const
 {
     return QPointF(boundingRect().x() + boundingRect().width() / 2,
