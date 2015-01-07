@@ -115,7 +115,6 @@ void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 //! [4]
 void Mouse::advance(int step)
 {
-    /*
     if (!step)
         return;
 //! [4]
@@ -189,7 +188,7 @@ void Mouse::advance(int step)
 
     setRotation(rotation() + dx);
     setPos(mapToParent(0, -(3 + sin(speed) * 3)));
-*/
+
 }
 //! [11]
 
