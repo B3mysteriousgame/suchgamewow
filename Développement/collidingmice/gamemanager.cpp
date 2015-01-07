@@ -61,6 +61,8 @@ GameManager::GameManager()
     _textItem->setPos(-300, -300);
     logCoords();
 
+
+
     // repere
     /*
     _scene->addLine(QLine(QPoint(0,-300), QPoint(0,300)));
@@ -68,9 +70,7 @@ GameManager::GameManager()
     */
 
     // Patate
-    /*
     _scene->addItem(new Patate(":/images/patate.png"));
-    */
 
 //! [4]
     _view->setScene(_scene);
@@ -153,27 +153,40 @@ void GameManager::mousePressEvent(QMouseEvent *event)
     changeColor(_perso);
 }
 
+void GameManager::test()
+{
+    QPointF p = _perso->pos();
+    QGraphicsEllipseItem *e = _scene->addEllipse(_perso->boundingRect());
+    e->show();
+    e->setRotation( _perso->rotation() - 90 );
+    qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
+}
+
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
     static short angleOffset = 5;
 
-    switch (event->key())
-    {
-        case Qt::Key_Up:
-            avancerPerso();
-            break;
-        case Qt::Key_Left:
-            _perso->addAngle(-1 * angleOffset * _perso->getSpeed());
-            break;
-        case Qt::Key_Right:
-            _perso->addAngle(angleOffset * _perso->getSpeed());
-            break;
-        case Qt::Key_A:
-            _perso->attaque();
-            break;
-        default:
-            break;
-    }
+    if(_perso != NULL)
+        switch (event->key())
+        {
+            case Qt::Key_Up:
+                avancerPerso();
+                break;
+            case Qt::Key_Left:
+                _perso->addAngle(-1 * angleOffset * _perso->getSpeed());
+                break;
+            case Qt::Key_Right:
+                _perso->addAngle(angleOffset * _perso->getSpeed());
+                break;
+            case Qt::Key_A:
+                _perso->attaque();
+                break;
+            case Qt::Key_Z:
+                test();
+                break;
+            default:
+                break;
+        }
 }
 
 void GameManager::addItemToScene(QGraphicsItem *item)
