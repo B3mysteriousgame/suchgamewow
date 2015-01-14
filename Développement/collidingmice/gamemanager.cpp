@@ -52,7 +52,7 @@ GameManager::GameManager()
 
     _scene->addItem(_perso);
 //! [3]
-    _scene->addRect(_perso->boundingRect());
+    //_scene->addRect(_perso->boundingRect());
     //_scene->addRect(mouse->boundingRect());
 
     _textItem = _scene->addText("lol");
@@ -70,7 +70,7 @@ GameManager::GameManager()
     */
 
     // Patate
-    _scene->addItem(new Patate(":/images/patate.png"));
+    _scene->addItem(new Patate());
 
 //! [4]
     _view->setScene(_scene);

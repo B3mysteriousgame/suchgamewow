@@ -121,22 +121,27 @@ void Mouse::advance(int step)
     // Don't move too far away
 //! [5]
     QLineF lineToCenter(QPointF(0, 0), mapFromScene(0, 0));
-    if (lineToCenter.length() > 150) {
+    if (lineToCenter.length() > 150)
+    {
         qreal angleToCenter = ::acos(lineToCenter.dx() / lineToCenter.length());
         if (lineToCenter.dy() < 0)
             angleToCenter = 2 * AngleOperation::Pi - angleToCenter;
         angleToCenter = AngleOperation::normalizeAngle((AngleOperation::Pi - angleToCenter) + AngleOperation::Pi / 2);
 
-        if (angleToCenter < AngleOperation::Pi && angleToCenter > AngleOperation::Pi / 4) {
+        if (angleToCenter < AngleOperation::Pi && angleToCenter > AngleOperation::Pi / 4)
+        {
             // Rotate left
             angle += (angle < -AngleOperation::Pi / 2) ? 0.25 : -0.25;
-        } else if (angleToCenter >= AngleOperation::Pi && angleToCenter < (AngleOperation::Pi + AngleOperation::Pi / 2 + AngleOperation::Pi / 4)) {
+        }
+        else if (angleToCenter >= AngleOperation::Pi && angleToCenter < (AngleOperation::Pi + AngleOperation::Pi / 2 + AngleOperation::Pi / 4)) {
             // Rotate right
             angle += (angle < AngleOperation::Pi / 2) ? 0.25 : -0.25;
         }
-    } else if (::sin(angle) < 0) {
+    }
+    else if (::sin(angle) < 0) {
         angle += 0.25;
-    } else if (::sin(angle) > 0) {
+    }
+    else if (::sin(angle) > 0) {
         angle -= 0.25;
 //! [5] //! [6]
     }
