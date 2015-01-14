@@ -7,6 +7,7 @@
 
 class Mouse;
 class Perso;
+class Patate;
 
 class GameManager : QObject
 {
@@ -48,6 +49,7 @@ class GameManager : QObject
         MyView *_view;
         QTimer *_timer;
         Perso *_perso;
+        Patate *_patate;
         QGraphicsTextItem *_textItem;
 
 };

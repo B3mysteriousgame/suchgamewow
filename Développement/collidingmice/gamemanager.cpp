@@ -6,6 +6,7 @@
 #include <QtWidgets>
 #include <QGraphicsTextItem>
 #include <math.h>
+#include "patate.hpp"
 
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static const int MouseCount = 7;
@@ -24,7 +25,9 @@ GameManager::GameManager()
 {
     _view = new MyView();
     _scene = new QGraphicsScene();
-    _perso = new Perso();
+    //_perso = new Perso();
+    _perso = NULL;
+    _patate = new Patate();
 
     _timer = new QTimer();
 
@@ -32,7 +35,7 @@ GameManager::GameManager()
 //! [0]
 
 //! [1]
-    _scene->setSceneRect(-300, -300, 600, 600);
+    _scene->setSceneRect(-400, -300, 800, 600);
 //! [1] //! [2]
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 //! [2]
@@ -50,7 +53,8 @@ GameManager::GameManager()
     mouse->setPos(100,0);
     _scene->addItem(mouse);*/
 
-    _scene->addItem(_perso);
+    //_scene->addItem(_perso);
+    _scene->addItem(_patate);
 //! [3]
     //_scene->addRect(_perso->boundingRect());
     //_scene->addRect(mouse->boundingRect());
@@ -59,7 +63,7 @@ GameManager::GameManager()
 
     _textItem->setPlainText("lol");
     _textItem->setPos(-300, -300);
-    logCoords();
+    //logCoords();
 
 
 
@@ -70,7 +74,7 @@ GameManager::GameManager()
     */
 
     // Patate
-    _scene->addItem(new Patate());
+    //_scene->addItem(new Patate());
 
 //! [4]
     _view->setScene(_scene);
@@ -82,7 +86,7 @@ GameManager::GameManager()
     _view->setDragMode(QGraphicsView::ScrollHandDrag);
 //! [5] //! [6]
     _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
-    _view->resize(700, 700);
+    _view->resize(850, 650);
     _view->show();
 
 
@@ -98,7 +102,8 @@ GameManager::~GameManager()
     delete(_scene);
     delete(_view);
     delete(_timer);
-    delete(_perso);
+    //delete(_perso);
+    delete(_patate);
     GameManager::m_instance = NULL;
 }
 
@@ -150,22 +155,22 @@ QTimer* GameManager::getTimer() const
 
 void GameManager::mousePressEvent(QMouseEvent *event)
 {
-    changeColor(_perso);
+    //changeColor(_perso);
 }
 
 void GameManager::test()
-{
+{/*
     QPointF p = _perso->pos();
     QGraphicsEllipseItem *e = _scene->addEllipse(_perso->boundingRect());
     e->show();
     e->setRotation( _perso->rotation() - 90 );
     qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
-}
+*/}
 
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
     static short angleOffset = 5;
-
+    /*
     if(_perso != NULL)
         switch (event->key())
         {
@@ -187,6 +192,25 @@ void GameManager::keyPressEvent(QKeyEvent* event)
             default:
                 break;
         }
+    */
+    if(_patate != NULL)
+        switch (event->key())
+        {
+            case Qt::Key_Up:
+                _patate->setSens(Patate::HAUT);
+                break;
+            case Qt::Key_Down:
+                _patate->setSens(Patate::BAS);
+                break;
+            case Qt::Key_Left:
+                _patate->setSens(Patate::GAUCHE);
+                break;
+            case Qt::Key_Right:
+                _patate->setSens(Patate::DROITE);
+                break;
+            default:
+                break;
+        }
 }
 
 void GameManager::addItemToScene(QGraphicsItem *item)
@@ -203,7 +227,7 @@ void GameManager::avancerPerso()
 {
     _perso->avancer();
 
-    logCoords();
+    //logCoords();
 }
 
 void GameManager::logCoords()

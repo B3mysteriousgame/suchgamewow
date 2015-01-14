@@ -1,4 +1,6 @@
 #include "patate.hpp"
+#include "gamemanager.hpp"
+#include "mouse.h"
 #include <QDebug>
 
 Patate::Patate(QGraphicsItem *parent)
@@ -12,15 +14,9 @@ Patate::Patate(QGraphicsItem *parent)
     _sprites.append(":/images/Sprites/linkD2.png");
 
     _imgCpt = 0;
-    _sens = 0;
+    _sens = Patate::DROITE;
 
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
-
-    /*
-    setPos(10, 10);
-
-    show();
-    */
 }
 
 Patate::Patate(Patate *p)
@@ -38,6 +34,17 @@ int Patate::getImgCpt() const
     return _imgCpt;
 }
 
+void Patate::setSens(short sens)
+{
+    if(sens != 0 && sens != 1 && sens != 2 && sens != 3 )
+    {
+        qDebug() << "Erreur valeur sens.";
+        throw;
+    }
+    else
+        _sens = sens;
+}
+
 QList<QString> Patate::getSprites() const
 {
     return _sprites;
@@ -45,52 +52,80 @@ QList<QString> Patate::getSprites() const
 
 void Patate::advance(int step)
 {
-    static short cpt = 0; // compteur de passage dans la fonction
-    static const short tour = 3; // change le sprite 1 fois sur 5
-    static const short nbSprite = 5;
-    static const float offset = 0.5;
-    float ddx = 0, ddy = 0;
-    QString spritePath = ":/images/Sprites/link";
+    static short cpt = 1, maxTour = 4, maxSprite = 4;
+    const qreal maxX = 435, maxY = 354;
+    QString spritePAth = ":/images/Sprites/link";
+    qreal ddx = 0, ddy = 0, offset = 0.9;
 
-    _sens = Patate::DROITE;
-    switch(_sens)
+    //_sens = Patate::BAS;
+    switch (_sens)
     {
         case Patate::DROITE:
-            ddx = offset;
-            spritePath.append("D");
+            ddx += offset;
+            spritePAth.append("D");
             break;
         case Patate::GAUCHE:
-            ddx = offset * -1.;
-            spritePath.append("G");
-            break;
-        case Patate::HAUT:
-            ddy = offset * -1.;
-            spritePath.append("H");
+            ddx += offset * -1.;
+            spritePAth.append("G");
             break;
         case Patate::BAS:
-            ddy = offset;
-            spritePath.append("B");
+            ddy += offset;
+            spritePAth.append("B");
+            break;
+        case Patate::HAUT:
+            ddy += offset * -1.;
+            spritePAth.append("H");
             break;
         default:
-            spritePath.append("D");
             break;
     }
 
-    if(cpt == 0)        // A droite
-    {
-        _imgCpt += 1;   // on incremente le cpteur de l'image affichee
-
-        if(_imgCpt >= nbSprite) // si superieur on arrange
-            _imgCpt = _imgCpt % nbSprite;
-
-        qWarning() << spritePath.append(QString::number(_imgCpt + 1)) ;
-        setPixmap(QPixmap(spritePath.append(QString::number(_imgCpt + 1))));
-    }
+    if(cpt >= maxTour) // on repasse a 0
+        cpt = 0; // incremente apres donc = 1 la prochaine fois
     else
-        if(cpt >= 3) // on remet a 0
-            cpt = -1;   // car incremente apres
+        if(cpt == 1) // on change l'image
+        {
+            _imgCpt += 1;
+
+            if(_imgCpt > maxSprite)
+                _imgCpt = 1;
+
+            spritePAth.append(QString::number(_imgCpt));
+            setPixmap(QPixmap(spritePAth));
+        }
 
     moveBy(ddx, ddy);
+
+    if(y() > maxY)
+        setPos(x(), maxY * -1.);
+    else
+    {
+        if(y() < maxY * -1.)
+            setPos(x(), maxY);
+        else
+        {
+            if(x() > maxX)
+                setPos(maxX * -1., y());
+            else
+                if(x() < maxX * -1.)
+                    setPos(maxX, y());
+        }
+    }
+
+    qWarning() << "pos: " << x() << " - " << y();
+    //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
+
+    // test collision
+    QList<QGraphicsItem*> listCollides = collidingItems();
+    if(listCollides.length() > 0)
+    {
+        foreach (QGraphicsItem *item, listCollides)
+        {
+            if(item->type() == Mouse::Type)
+                GameManager::Instance()->removeItem(item);
+        }
+    }
+
     ++cpt;
 }
 

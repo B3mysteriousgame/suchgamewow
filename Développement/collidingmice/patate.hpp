@@ -16,6 +16,8 @@ class Patate : public QGraphicsPixmapItem
 
         QList<QString> getSprites() const;
         int getImgCpt() const;
+        void setSens(short sens);
+
         void advance(int step);
 
         enum { Type = UserType + 4 };
