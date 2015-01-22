@@ -21,20 +21,21 @@ class GameManager : QObject
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
         QTimer* getTimer() const;
-        void addItemToScene(QGraphicsItem *item);
-        void addItemToScene(QLineF line);
-        void addItemToScene(QRectF rect);
-        void setText(QString txt);
-        void logCoords();
-        QPointF persoPos();
-        void removeItem(QGraphicsItem *it);
-        Perso* getPerso();
+        Perso* getPerso() const;
         QList<Mouse*> getSceneMice();
+        QPointF getPersoPos() const;
+
+        void addItemToScene(QGraphicsItem *item);
+        void logCoords(const QGraphicsItem *item);
+        void removeItem(QGraphicsItem *it);
+        void setText(const QString& txt);
+        void addItemToScene(QLineF &line);
+        void addItemToScene(QRectF& rect);
+        void addItemToScene(QGraphicsEllipseItem &el);
+
         void test();
 
     public slots:
-        void changeColors();
-        void changeColor(Mouse *m);
 
     private:
         GameManager& operator= (const GameManager& g){}

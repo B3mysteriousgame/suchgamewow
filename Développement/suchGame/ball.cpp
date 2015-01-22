@@ -10,13 +10,10 @@
 #include "perso.hpp"
 
 
-Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *parent) :
+Ball::Ball(qreal &angl, QPointF &ballScenePos, QPointF &origin, QGraphicsItem *parent) :
     QGraphicsItem(),
     speed(3),
-    diam(20),
-    width(10),
-    height(13),
-    line(false)
+    diam(20)
 {
     setRotation( parent->rotation() );
     ballScenePos = AngleOperation::addRelativeXY(50, -9, ballScenePos, rotation());
@@ -40,82 +37,18 @@ QRectF Ball::boundingRect() const
 QPainterPath Ball::shape() const
 {
     QPainterPath path;
-    //path.addRect(boundingRect());
     path.addEllipse(boundingRect());
     return path;
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi, QWidget *wid)
 {
-    /*
     painter->setBrush(Qt::green);
-    painter->drawEllipse( x(), y(), diam / 2, diam / 2);
-
-    painter->setBrush(Qt::yellow);
-    painter->drawEllipse(center(), 2, 2);
-
-    painter->setBrush(Qt::red);
-    painter->drawEllipse(QPointF(center().x(), center().y() - 3), 4, 4);
-    */
-
-    //QRectF rectangle(x(), y(), diam, diam);
-
-    painter->setBrush(Qt::green);
-    //painter->drawEllipse(boundingRect());
-
     painter->drawEllipse(0, 0, diam, diam);
 }
 
 void Ball::advance(int step)
 {
-    /*
-    static short maxRange = 300;
-    static qreal offset = 2.2;
-    static QPointF startPos = this->pos();
-    qreal x, y, c;
-    QPointF pos = this->pos();
-
-    if(this->x() < 0)
-        x = this->x() * -1;
-    else
-        x = this->x();
-    if(this->y() < 0)
-        y = this->y() * -1;
-    else
-        y = this->y();
-
-    if(QLineF(startPos, pos).length() >= maxRange)
-        delete(this);
-    else
-    {
-        // angle en radian
-        c = AngleOperation::degToRad(rotation());
-        y = cos(c) * -1 * offset;
-        x = sin(c) * offset;
-
-        //setPos(x + pos.x(), y + pos.y());
-        moveBy(x, y);
-    }
-
-    detectCollisions();
-    /*
-    static float offset = 1 * speed;// * step;
-    qreal x, y, c, rotat;
-
-    x = 1;
-    y = 0;
-    setPos(x + pos().x(), y + pos().y());
-
-    GameManager *gm = GameManager::Instance();
-    QList<QGraphicsItem*> touchedItems = collidingItems();
-    foreach (QGraphicsItem *m, touchedItems)
-    {
-        if((Mouse*)m != NULL)
-            if((Perso*)m != gm->getPerso())
-                gm->removeItem(m);
-    }
-    */
-
 }
 
 ///
@@ -208,7 +141,7 @@ void Ball::detectCollisions()
     //------- end detect collisions
 }
 
-QPointF Ball::center()
+QPointF Ball::getCenter() const
 {
     QRectF boundR = boundingRect();
     return QPointF(boundR.x() + boundR.width() / 2,

@@ -24,6 +24,7 @@ Patate::Patate(Patate *p)
 {
     _imgCpt = p->getImgCpt();
     _sprites = p->getSprites();
+    _sens = p->getSens();
 
     setPixmap(p->pixmap());
     //show();
@@ -34,7 +35,12 @@ int Patate::getImgCpt() const
     return _imgCpt;
 }
 
-void Patate::setSens(short sens)
+int Patate::getSens() const
+{
+    return _sens;
+}
+
+void Patate::setSens(const short sens)
 {
     if(sens != 0 && sens != 1 && sens != 2 && sens != 3 )
     {
@@ -48,6 +54,19 @@ void Patate::setSens(short sens)
 QList<QString> Patate::getSprites() const
 {
     return _sprites;
+}
+
+void Patate::test()
+{
+    static const int adjust = 1;
+    QRectF rec = boundingRect();
+    rec.setSize(QSize(rec.width() + adjust * 2, rec.height() + adjust * 2));
+    rec.setX( rec.x() - adjust );
+    rec.setY( rec.y() - adjust );
+
+    //QGraphicsEllipseItem ell = QGraphicsEllipseItem(rec);
+
+    //GameManager::Instance()->addItemToScene( ell );
 }
 
 void Patate::advance(int step)

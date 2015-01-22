@@ -107,16 +107,6 @@ GameManager::~GameManager()
     GameManager::m_instance = NULL;
 }
 
-void GameManager::changeColors()
-{
-    QList<QGraphicsItem*> l = _scene->items();
-    foreach (QGraphicsItem* qgi, l)
-    {
-        qgi = (Mouse*)qgi;
-        if((Mouse*)qgi != NULL)
-            ((Mouse*)qgi)->SetColor();
-    }
-}
 
 ///
 /// \brief Removes an item from the scene and deletes it
@@ -128,14 +118,9 @@ void GameManager::removeItem(QGraphicsItem *it)
     delete(it);
 }
 
-Perso* GameManager::getPerso()
+Perso* GameManager::getPerso() const
 {
     return _perso;
-}
-
-void GameManager::changeColor( Mouse *m)
-{
-    m->SetColor();
 }
 
 QGraphicsScene* GameManager::getScene() const
@@ -208,6 +193,9 @@ void GameManager::keyPressEvent(QKeyEvent* event)
             case Qt::Key_Right:
                 _patate->setSens(Patate::DROITE);
                 break;
+            case Qt::Key_A :
+                _patate->test();
+                break;
             default:
                 break;
         }
@@ -218,7 +206,7 @@ void GameManager::addItemToScene(QGraphicsItem *item)
     _scene->addItem(item);
 }
 
-void GameManager::setText(QString txt)
+void GameManager::setText(const QString &txt)
 {
     _textItem->setPlainText(txt);
 }
@@ -230,36 +218,35 @@ void GameManager::avancerPerso()
     //logCoords();
 }
 
-void GameManager::logCoords()
+void GameManager::logCoords(const QGraphicsItem *item)
 {
-    QPointF centre =  _perso->sceneCenter();
     QString coord("Pos: ");
     coord.append(QString().number(_perso->x()));
     coord.append(", ");
     coord.append(QString().number(_perso->y()));
 
-    coord.append("; Centre: ");
-    coord.append(QString().number(centre.x()));
-    coord.append(", ");
-    coord.append(QString().number(centre.y()));
-
     setText(coord);
-    //return coord;
+    qWarning() << "GameManager::logCoords --> Type:" << item->type() << "-" << coord;
 }
 
-void GameManager::addItemToScene(QRectF rect)
+void GameManager::addItemToScene(QRectF &rect)
 {
     _scene->addRect(rect);
 }
 
-void GameManager::addItemToScene(QLineF line)
+void GameManager::addItemToScene(QLineF &line)
 {
     _scene->addLine(line);
 }
 
-QPointF GameManager::persoPos()
+void GameManager::addItemToScene(QGraphicsEllipseItem& el)
 {
-    return _perso->sceneCenter();
+    //_scene->addEllipse((new QGraphicsEllipseItem(el))->rect());
+}
+
+QPointF GameManager::getPersoPos() const
+{
+    return _perso->pos();
 }
 
 QList<Mouse*> GameManager::getSceneMice()

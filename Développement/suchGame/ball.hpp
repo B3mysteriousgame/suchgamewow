@@ -12,16 +12,15 @@ class Ball : public QGraphicsItem
 
     public:
         enum { Type = UserType + 3 };
+        virtual int type() const{return Type;}
 
-        Ball(qreal angl, QPointF po, QPointF origin, QGraphicsItem *parent = 0);
+        Ball(qreal& angl, QPointF& po, QPointF& origin, QGraphicsItem *parent = 0);
         Ball(const Ball& b);
         QRectF boundingRect() const;
         QPainterPath shape() const;
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi,
                    QWidget *wid = 0);
-        QPointF center();
-
-        virtual int type() const{return Type;}
+        QPointF getCenter() const;
 
     signals:
 
@@ -36,11 +35,6 @@ class Ball : public QGraphicsItem
         void advance(int step);
         qreal speed;
         qreal diam;
-        qreal width;
-        qreal height;
-
-        bool line;
-
 };
 
 #endif // BALL_HPP

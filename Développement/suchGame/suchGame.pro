@@ -1,7 +1,7 @@
 QT += widgets
 
 HEADERS += \
-	mouse.h \
+    mouse.h \
     gamemanager.hpp \
     myview.hpp \
     perso.hpp \
@@ -9,8 +9,8 @@ HEADERS += \
     angleoperation.hpp \
     patate.hpp
 SOURCES += \
-	main.cpp \
-        mouse.cpp \
+    main.cpp \
+    mouse.cpp \
     gamemanager.cpp \
     myview.cpp \
     perso.cpp \
@@ -19,9 +19,9 @@ SOURCES += \
     patate.cpp
 
 RESOURCES += \
-	mice.qrc \
+    mice.qrc \
     test.qrc
 
 # install
-target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/collidingmice
+target.path = ./suchGame
 INSTALLS += target

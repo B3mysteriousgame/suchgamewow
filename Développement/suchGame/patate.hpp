@@ -10,18 +10,19 @@ class Patate : public QGraphicsPixmapItem
 
     public:
         enum { GAUCHE, HAUT, DROITE, BAS };
+        enum { Type = UserType + 4 };
+        virtual int type() const{return Type;}
 
         Patate(QGraphicsItem *parent = 0);
         Patate(Patate *p);
 
         QList<QString> getSprites() const;
         int getImgCpt() const;
-        void setSens(short sens);
+        int getSens() const;
+        void setSens(const short sens);
 
         void advance(int step);
-
-        enum { Type = UserType + 4 };
-        virtual int type() const{return Type;}
+        void test();
 
     private:
         int _imgCpt;

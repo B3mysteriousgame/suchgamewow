@@ -16,8 +16,8 @@ class Perso : public Mouse
         void addAngle(qreal a);
         qreal getSpeed() const;
         void attaque();
-        QPointF center() const;
-        QPointF sceneCenter() const;
+        QPointF getCenter() const;
+        QPointF getSceneCenter() const;
         QRectF boundingRect() const;
         QPainterPath shape() const;
 
