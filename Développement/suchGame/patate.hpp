@@ -3,11 +3,10 @@
 
 #include <QGraphicsPixmapItem>
 #include <QObject>
+#include "personnage.hpp"
 
-class Patate : public QGraphicsPixmapItem
+class Patate : public Personnage
 {
-    //Q_OBJECT
-
     public:
         enum { GAUCHE, HAUT, DROITE, BAS };
         enum { Type = UserType + 4 };
@@ -15,6 +14,7 @@ class Patate : public QGraphicsPixmapItem
 
         Patate(QGraphicsItem *parent = 0);
         Patate(Patate *p);
+        ~Patate(){}
 
         QList<QString> getSprites() const;
         int getImgCpt() const;
@@ -27,8 +27,6 @@ class Patate : public QGraphicsPixmapItem
     private:
         int _imgCpt;
         int _sens; // 0=gauche; 1=haut; 2=droite; 3=bas;
-
-
         QList<QString> _sprites;
 };
 #endif // PATATE_HPP

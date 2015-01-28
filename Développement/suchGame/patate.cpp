@@ -3,8 +3,9 @@
 #include "mouse.h"
 #include <QDebug>
 
+
 Patate::Patate(QGraphicsItem *parent)
-    : QGraphicsPixmapItem(parent)
+    : Personnage(parent)
 {
     // ":/images/patate.png"
     // _sprites = QList<QString>();
@@ -19,8 +20,12 @@ Patate::Patate(QGraphicsItem *parent)
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 }
 
+/**
+ * @brief Constructeur par copie ( pointeur vers l'objet patate a copié )
+ * @param p (pointeur vers Objet patate a copier)
+ */
 Patate::Patate(Patate *p)
-    : QGraphicsPixmapItem(p->parentItem())
+    : Personnage(p->parentItem())
 {
     _imgCpt = p->getImgCpt();
     _sprites = p->getSprites();

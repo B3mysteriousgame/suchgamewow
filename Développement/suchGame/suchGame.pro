@@ -7,7 +7,9 @@ HEADERS += \
     perso.hpp \
     ball.hpp \
     angleoperation.hpp \
-    patate.hpp
+    patate.hpp \
+    personnage.hpp \
+    ennemy.hpp
 SOURCES += \
     main.cpp \
     mouse.cpp \
@@ -16,7 +18,9 @@ SOURCES += \
     perso.cpp \
     ball.cpp \
     angleoperation.cpp \
-    patate.cpp
+    patate.cpp \
+    ennemy.cpp \
+    personnage.cpp
 
 RESOURCES += \
     mice.qrc \
