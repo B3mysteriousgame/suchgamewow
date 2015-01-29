@@ -22,6 +22,7 @@ class Patate : public QGraphicsPixmapItem
         void setSens(const short sens);
 
         void advance(int step);
+        void avancer(short sens);
         void test();
 
     private:

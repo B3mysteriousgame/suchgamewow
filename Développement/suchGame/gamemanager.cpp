@@ -182,16 +182,20 @@ void GameManager::keyPressEvent(QKeyEvent* event)
         switch (event->key())
         {
             case Qt::Key_Up:
-                _patate->setSens(Patate::HAUT);
+                // _patate->setSens(Patate::HAUT);
+                _patate->avancer(Patate::HAUT);
                 break;
             case Qt::Key_Down:
-                _patate->setSens(Patate::BAS);
+                // _patate->setSens(Patate::BAS);
+                _patate->avancer(Patate::BAS);
                 break;
             case Qt::Key_Left:
-                _patate->setSens(Patate::GAUCHE);
+                // _patate->setSens(Patate::GAUCHE);
+                _patate->avancer(Patate::GAUCHE);
                 break;
             case Qt::Key_Right:
-                _patate->setSens(Patate::DROITE);
+                // _patate->setSens(Patate::DROITE);
+                _patate->avancer(Patate::DROITE);
                 break;
             case Qt::Key_A :
                 _patate->test();
