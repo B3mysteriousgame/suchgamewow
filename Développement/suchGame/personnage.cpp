@@ -1,4 +1,5 @@
 #include "personnage.hpp"
+#include <QDebug>
 
 int Personnage::getSens() const
 {
@@ -7,5 +8,12 @@ int Personnage::getSens() const
 
 void Personnage::setSens(const short sens)
 {
-    this->_sens = sens;
+
+    if(sens != 0 && sens != 1 && sens != 2 && sens != 3 )
+    {
+        qDebug() << "Erreur valeur sens.";
+        throw;
+    }
+    else
+       this->_sens = sens;
 }
