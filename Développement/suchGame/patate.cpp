@@ -75,13 +75,99 @@ void Patate::test()
 }
 
 void Patate::advance(int step)
-{
+{/*
     static short cpt = 1, maxTour = 4, maxSprite = 4;
     const qreal maxX = 435, maxY = 354;
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 0.9;
 
     //_sens = Patate::BAS;
+    switch (_sens)
+    {
+        case Patate::DROITE:
+            ddx += offset;
+            spritePAth.append("D");
+            break;
+        case Patate::GAUCHE:
+            ddx += offset * -1.;
+            spritePAth.append("G");
+            break;
+        case Patate::BAS:
+            ddy += offset;
+            spritePAth.append("B");
+            break;
+        case Patate::HAUT:
+            ddy += offset * -1.;
+            spritePAth.append("H");
+            break;
+        default:
+            break;
+    }
+
+    if(cpt >= maxTour) // on repasse a 0
+        cpt = 0; // incremente apres donc = 1 la prochaine fois
+    else
+        if(cpt == 1) // on change l'image
+        {
+            _imgCpt += 1;
+
+            if(_imgCpt > maxSprite)
+                _imgCpt = 1;
+
+            spritePAth.append(QString::number(_imgCpt));
+            setPixmap(QPixmap(spritePAth));
+        }
+
+    moveBy(ddx, ddy);
+
+    if(y() > maxY)
+        setPos(x(), maxY * -1.);
+    else
+    {
+        if(y() < maxY * -1.)
+            setPos(x(), maxY);
+        else
+        {
+            if(x() > maxX)
+                setPos(maxX * -1., y());
+            else
+                if(x() < maxX * -1.)
+                    setPos(maxX, y());
+        }
+    }
+
+    qWarning() << "pos: " << x() << " - " << y();
+    //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
+
+    // test collision
+    QList<QGraphicsItem*> listCollides = collidingItems();
+    if(listCollides.length() > 0)
+    {
+        foreach (QGraphicsItem *item, listCollides)
+        {
+            if(item->type() == Mouse::Type)
+                GameManager::Instance()->removeItem(item);
+        }
+    }
+
+    ++cpt;
+*/}
+
+void Patate::avancer(short sens)
+{
+    static short cpt = 1;
+    static const short maxTour = 4, maxSprite = 4;
+    const qreal maxX = 435, maxY = 354;
+    QString spritePAth = ":/images/Sprites/link";
+    qreal ddx = 0, ddy = 0, offset = 2.;
+
+    if(sens != _sens)
+    {
+        _imgCpt = 1;
+        cpt = 1;
+    }
+
+    _sens = sens;
     switch (_sens)
     {
         case Patate::DROITE:
