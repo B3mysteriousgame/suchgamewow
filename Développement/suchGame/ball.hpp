@@ -13,7 +13,7 @@ class Ball : public QGraphicsItem
 //    Q_OBJECT
 
     public:
-        enum { Type = UserType + 3 };
+        enum { Type = UserType + 6 };
         virtual int type() const{return Type;}
 
         Ball(qreal angl, QPointF po, QPointF origin, QGraphicsItem *parent = 0);
@@ -24,6 +24,7 @@ class Ball : public QGraphicsItem
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi,
                    QWidget *wid = 0);
         QPointF getCenter() const;
+        void doEffect(QGraphicsItem *item);
 
     signals:
 

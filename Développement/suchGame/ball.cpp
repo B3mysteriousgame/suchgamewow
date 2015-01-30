@@ -119,11 +119,7 @@ void Ball::advance(int step)
     QList<QGraphicsItem*> listCollides = collidingItems();
     if(listCollides.length() > 0)
         foreach (QGraphicsItem *item, listCollides)
-            if(item->type() == Mouse::Type)
-            {
-                GameManager::Instance()->removeItem(item);
-                delete(this);
-            }
+            doEffect(item);
 }
 
 /**
@@ -221,4 +217,13 @@ QPointF Ball::getCenter() const
     QRectF boundR = boundingRect();
     return QPointF(boundR.x() + boundR.width() / 2,
                    boundR.y() + boundR.height() / 2);
+}
+
+void Ball::doEffect(QGraphicsItem *item)
+{
+    if(item->type() == Mouse::Type)
+    {
+        GameManager::Instance()->removeItem(item);
+        delete(this);
+    }
 }

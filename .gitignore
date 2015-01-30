@@ -6,4 +6,5 @@ Développement/suchGame/*.user
 Développement/suchGame/*.user.*
 *.autosave
 Développement/build-suchGame-Desktop_Qt_5_4_0_MinGW_32bit-Debug/*
+Développement/build-suchGame-Desktop_Qt_5_3_MinGW_32bit-Debug/*
 *.user.*

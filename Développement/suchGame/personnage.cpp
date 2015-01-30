@@ -17,3 +17,24 @@ void Personnage::setSens(const short sens)
     else
        this->_sens = sens;
 }
+
+qreal Personnage::getSpeed() const
+{
+    return _speed;
+}
+
+void Personnage::setSpeed(const qreal val)
+{
+    _speed = val;
+}
+
+QPointF Personnage::center() const
+{
+    qreal x, y;
+    QRectF rec = boundingRect();
+
+    x = rec.x() + rec.width() / 2;
+    y = rec.y() + rec.height() / 2;
+
+    return QPointF(x, y);
+}

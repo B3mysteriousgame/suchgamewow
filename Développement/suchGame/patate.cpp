@@ -43,31 +43,7 @@ int Patate::getImgCpt() const
     return _imgCpt;
 }
 
-int Patate::getSens() const
-{
-    return _sens;
-}
 
-void Patate::setSens(const short sens)
-{
-    if(sens != 0 && sens != 1 && sens != 2 && sens != 3 )
-    {
-        qDebug() << "Erreur valeur sens.";
-        throw;
-    }
-    else
-        _sens = sens;
-}
-
-qreal Patate::getSpeed() const
-{
-    return _speed;
-}
-
-void Patate::setSpeed(const qreal val)
-{
-    _speed= val;
-}
 
 QList<QString> Patate::getSprites() const
 {
@@ -195,12 +171,6 @@ void Patate::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi,
 
 }
 */
-QPointF Patate::center() const
-{
-    return QPointF(boundingRect().x() + boundingRect().width() / 2,
-                       boundingRect().y() + boundingRect().height() / 2 - 7);
-
-}
 
 void Patate::attaque()
 {
