@@ -7,6 +7,7 @@
 #include <QGraphicsTextItem>
 #include <math.h>
 #include "patate.hpp"
+#include "ennemy.hpp"
 
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static const int MouseCount = 7;
@@ -49,6 +50,19 @@ GameManager::GameManager()
                       ::cos((i * 6.28) / MouseCount) * 200);
         _scene->addItem(mouse);
     }
+
+    //Test ajout ennemy
+        Ennemy *ennemy = new Ennemy();
+        ennemy->setPos(::sin((1 * 6.28) / MouseCount) * 200,
+                       ::cos((1 * 6.28) / MouseCount) * 200);
+       _scene->addItem(ennemy);
+
+
+       _textItem = _scene->addText("Je suis un vilain ennemy");
+       _textItem->setParentItem(ennemy);
+       _textItem->setPlainText("Je suis un vilain ennemy");
+
+
     /*Mouse *mouse = new Mouse();
     mouse->setPos(100,0);
     _scene->addItem(mouse);*/
