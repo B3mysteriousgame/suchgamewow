@@ -20,12 +20,17 @@ class Patate : public Personnage
         int getImgCpt() const;
         int getSens() const;
         void setSens(const short sens);
+        qreal getSpeed() const;
+        void setSpeed(const qreal val);
+        QPointF center() const;
 
         void advance(int step);
         void avancer(short sens);
         void test();
+        void attaque();
 
     private:
+        qreal _speed;
         int _imgCpt;
         int _sens; // 0=gauche; 1=haut; 2=droite; 3=bas;
         QList<QString> _sprites;

@@ -8,12 +8,13 @@
 #include "gamemanager.hpp"
 #include "angleoperation.hpp"
 #include "perso.hpp"
+#include "patate.hpp"
 
 
-Ball::Ball(qreal &angl, QPointF &ballScenePos, QPointF &origin, QGraphicsItem *parent) :
+Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *parent) :
     QGraphicsItem(),
-    speed(3),
-    diam(20)
+    _speed(3),
+    _diam(50)
 {
     setRotation( parent->rotation() );
     ballScenePos = AngleOperation::addRelativeXY(50, -9, ballScenePos, rotation());
@@ -24,14 +25,53 @@ Ball::Ball(qreal &angl, QPointF &ballScenePos, QPointF &origin, QGraphicsItem *p
 
 Ball::Ball(const Ball& b)
 {
+    // TODO
+}
 
+Ball::Ball(Patate *parent) :
+    QGraphicsItem(),
+    _speed(3),
+    _diam(10)
+{
+    short offset = 10;
+    qreal dx = 0, dy = 0;
+    setRotation(0);
+
+    if(parent != NULL)
+    {
+        setPos(parent->pos());
+        qWarning() << pos();
+
+        _sens = parent->getSens();
+
+        switch (_sens)
+        {
+            case Patate::HAUT:
+                dy = -offset;
+                break;
+            case Patate::BAS:
+                dy = offset;
+                break;
+            case Patate::GAUCHE:
+                dx = -offset;
+                break;
+            case Patate::DROITE:
+                dx = offset;
+                break;
+            default:
+                break;
+        }
+
+        moveBy(dx, dy);
+        qWarning() << pos();
+    }
 }
 
 QRectF Ball::boundingRect() const
 {
     float offset = 0.5;
 
-    return QRectF(this->x()-offset, this->y()-offset, this->diam + 2. * offset, this->diam + 2. * offset);
+    return QRectF(this->x()-offset, this->y()-offset, this->_diam + 2. * offset, this->_diam + 2. * offset);
 }
 
 QPainterPath Ball::shape() const
@@ -44,18 +84,53 @@ QPainterPath Ball::shape() const
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi, QWidget *wid)
 {
     painter->setBrush(Qt::green);
-    painter->drawEllipse(0, 0, diam, diam);
+    painter->drawEllipse(0, 0, _diam, _diam);
 }
 
 void Ball::advance(int step)
 {
+    static const qreal offset = 1, maxX = 300, maxY = 300;
+    qreal dy = 0, dx = 0;
+
+    switch (_sens)
+    {
+        case Patate::HAUT:
+            dy = _speed * offset * -1;
+            break;
+        case Patate::BAS:
+            dy = _speed * offset;
+            break;
+        case Patate::GAUCHE:
+            dx = _speed * offset * -1;
+            break;
+        case Patate::DROITE:
+            dx = _speed * offset;
+            break;
+        default:
+            break;
+    }
+    moveBy(dx, dy);
+
+    // on verif qu'on est tj dans la scene
+    if(x() > 300 || x() < -300 || y() > 300 || y() < -300)
+        delete(this);
+
+    // test collision
+    QList<QGraphicsItem*> listCollides = collidingItems();
+    if(listCollides.length() > 0)
+        foreach (QGraphicsItem *item, listCollides)
+            if(item->type() == Mouse::Type)
+            {
+                GameManager::Instance()->removeItem(item);
+                delete(this);
+            }
 }
 
-///
-/// \brief Retourne une liste d'objets Mouse en collision
-/// \param Pointeur vers le gameManager pour eviter l'appelle d'instance()
-/// \return Une QList des souris détectees
-///
+/**
+ * @brief Retourne une liste d'objets Mouse en collision
+ * @param Pointeur vers le gameManager pour eviter l'appelle d'instance()
+ * @return Une QList des souris détectees
+ */
 QList<Mouse*> Ball::collidingMice(GameManager *gm)
 {
     QList<Mouse*> lmice = gm->getSceneMice();

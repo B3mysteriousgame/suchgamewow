@@ -198,7 +198,7 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 _patate->avancer(Patate::DROITE);
                 break;
             case Qt::Key_A :
-                _patate->test();
+                _patate->attaque();
                 break;
             default:
                 break;
