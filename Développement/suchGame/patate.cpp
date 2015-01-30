@@ -18,6 +18,7 @@ Patate::Patate(QGraphicsItem *parent)
     _imgCpt = 0;
     _sens = Patate::DROITE;
     _speed = 3;
+    _gm = NULL;
 
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 }
@@ -33,6 +34,7 @@ Patate::Patate(Patate *p)
     _sprites = p->getSprites();
     _sens = p->getSens();
     _speed = p->getSpeed();
+    _gm = NULL;
 
     setPixmap(p->pixmap());
     //show();
@@ -57,10 +59,6 @@ void Patate::test()
     rec.setSize(QSize(rec.width() + adjust * 2, rec.height() + adjust * 2));
     rec.setX( rec.x() - adjust );
     rec.setY( rec.y() - adjust );
-
-    //QGraphicsEllipseItem ell = QGraphicsEllipseItem(rec);
-
-    //GameManager::Instance()->addItemToScene( ell );
 }
 
 void Patate::advance(int step){}
@@ -172,11 +170,14 @@ void Patate::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi,
 }
 */
 
+Patate::~Patate(){}
+
 void Patate::attaque()
 {
-    static GameManager *gm = GameManager::Instance();
+    if(_gm == NULL)
+        _gm = GameManager::Instance();
 
     Ball *b = new Ball(this);
 
-    gm->addItemToScene(b);
+    _gm->addItemToScene(b);
 }

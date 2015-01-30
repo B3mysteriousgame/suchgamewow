@@ -15,13 +15,13 @@ class Ennemy : public Personnage
         Ennemy(QGraphicsItem *parent = 0);
         ~Ennemy();
 
-        QList<QString> getSprites() const{}
-        int getImgCpt() const;
-        int getSens() const;
-        void setSens(const short sens);
-
         void advance(int step);
         void attaque(){}
+
+    private:
+        void doStrat();
+
+        bool _touched;
 };
 
 #endif // ENNEMY_H

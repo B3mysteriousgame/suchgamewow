@@ -13,7 +13,7 @@ class Patate : public Personnage
 
         Patate(QGraphicsItem *parent = 0);
         Patate(Patate *p);
-        ~Patate(){}
+        ~Patate();
 
         QList<QString> getSprites() const;
         int getImgCpt() const;

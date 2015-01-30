@@ -4,6 +4,8 @@
 #include <QGraphicsPixmapItem>
 #include <QObject>
 
+class GameManager;
+
 class Personnage : public QGraphicsPixmapItem
 {
 public:
@@ -33,6 +35,7 @@ protected:
     int _imgCpt;
     int _sens; // 0=gauche; 1=haut; 2=droite; 3=bas;
     QList<QString> _sprites;
+    GameManager *_gm;
 
 };
 

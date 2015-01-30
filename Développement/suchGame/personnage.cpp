@@ -1,4 +1,5 @@
 #include "personnage.hpp"
+#include "gamemanager.hpp"
 #include <QDebug>
 
 int Personnage::getSens() const

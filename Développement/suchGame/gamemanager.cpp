@@ -281,3 +281,9 @@ QList<Mouse*> GameManager::getSceneMice()
 
     return listeM;
 }
+
+int GameManager::randInt(int low, int high) const
+{
+    // Random number between low and high
+    return qrand() % ((high + 1) - low) + low;
+}
