@@ -36,7 +36,7 @@ GameManager::GameManager()
 //! [0]
 
 //! [1]
-    _scene->setSceneRect(-400, -300, 800, 600);
+    _scene->setSceneRect(-540, -303, 1080, 607);
 //! [1] //! [2]
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 //! [2]
@@ -100,7 +100,7 @@ GameManager::GameManager()
     _view->setDragMode(QGraphicsView::ScrollHandDrag);
 //! [5] //! [6]
     _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
-    _view->resize(850, 650);
+    _view->resize(800, 450);
     _view->show();
 
 

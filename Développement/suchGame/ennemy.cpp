@@ -1,9 +1,11 @@
 #include "ennemy.hpp"
 #include "gamemanager.hpp"
 #include "mouse.h"
+#include "movefreelystrat.hpp"
 #include<QDebug>
 
-Ennemy::Ennemy(QGraphicsItem *parent):Personnage(parent)
+Ennemy::Ennemy(QGraphicsItem *parent) :
+    Personnage(parent)
 {
     _sprites.append(":/images/patateSaiyen.png");
 
@@ -11,13 +13,14 @@ Ennemy::Ennemy(QGraphicsItem *parent):Personnage(parent)
     _sens = Ennemy::DROITE;
     _gm = NULL;
     _touched = false;
-
+    _strat = new MoveFreelyStrat(this);
 
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 }
 
 Ennemy::~Ennemy()
 {
+    delete(_strat);
 }
 
 void Ennemy::advance(int step)
@@ -86,26 +89,7 @@ void Ennemy::advance(int step)
     //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
 
     // test collision
-    QList<QGraphicsItem*> listCollides = collidingItems();
-
-    // si on touche qch
-    if(listCollides.length() > 1) // le texte touche toujours
-    {
-        if(!_touched) // si on a pas deja gere le cas
-            foreach(QGraphicsItem *item, listCollides)
-            {
-                // si c'est pas le texte
-                if(item->type() != QGraphicsTextItem::Type)
-                {
-                    _touched = true;
-                    doStrat();
-                }
-            }
-    }
-    else // sinon (si on touche rien)
-        if(_touched)
-            _touched = false;
-
+    _strat->executer();
 
     ++cpt; // compteur de tour
 }

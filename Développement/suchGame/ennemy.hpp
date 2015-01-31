@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 #include "personnage.hpp"
 
+class Strategie;
 class Ennemy : public Personnage
 {
     public:
@@ -17,11 +18,14 @@ class Ennemy : public Personnage
 
         void advance(int step);
         void attaque(){}
+        bool touched(){ return _touched; }
+        void setTouched(bool t){ _touched = t; }
 
     private:
         void doStrat();
 
         bool _touched;
+        Strategie *_strat;
 };
 
 #endif // ENNEMY_H

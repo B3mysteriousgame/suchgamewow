@@ -9,7 +9,11 @@ HEADERS += \
     angleoperation.hpp \
     patate.hpp \
     personnage.hpp \
-    ennemy.hpp
+    ennemy.hpp \
+    strat1.hpp \
+    strat2.hpp \
+    strategie.hpp \
+    movefreelystrat.hpp
 SOURCES += \
     main.cpp \
     mouse.cpp \
@@ -20,7 +24,10 @@ SOURCES += \
     angleoperation.cpp \
     patate.cpp \
     ennemy.cpp \
-    personnage.cpp
+    personnage.cpp \
+    strat1.cpp \
+    strat2.cpp \
+    movefreelystrat.cpp
 
 RESOURCES += \
     mice.qrc \

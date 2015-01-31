@@ -9,7 +9,7 @@
 #include "angleoperation.hpp"
 #include "perso.hpp"
 #include "patate.hpp"
-
+#include "ennemy.hpp"
 
 Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *parent) :
     QGraphicsItem(),
@@ -35,7 +35,7 @@ Ball::Ball(Patate *parent) :
 {
     short offset = 10;
     qreal dx = 0, dy = 0;
-    setRotation(0);
+    int angle = 0;
 
     if(parent != NULL)
     {
@@ -48,20 +48,25 @@ Ball::Ball(Patate *parent) :
         {
             case Patate::HAUT:
                 dy = -offset;
+                angle = 0;
                 break;
             case Patate::BAS:
                 dy = offset;
+                angle = 180;
                 break;
             case Patate::GAUCHE:
                 dx = -offset;
+                angle = 270;
                 break;
             case Patate::DROITE:
                 dx = offset;
+                angle = 90;
                 break;
             default:
                 break;
         }
 
+        setRotation(angle);
         moveBy(dx, dy);
         qWarning() << pos();
     }
@@ -69,7 +74,7 @@ Ball::Ball(Patate *parent) :
 
 QRectF Ball::boundingRect() const
 {
-    float offset = 0.5;
+    float offset = 0.1;
 
     return QRectF(this->x()-offset, this->y()-offset, this->_diam + 2. * offset, this->_diam + 2. * offset);
 }
@@ -89,7 +94,9 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi, QWidge
 
 void Ball::advance(int step)
 {
-    static const qreal offset = 1, maxX = 300, maxY = 300;
+    static const qreal offset = 1;
+    static const qreal maxX = GameManager::Instance()->getScene()->width() / 2;
+    static const qreal maxY = GameManager::Instance()->getScene()->height() / 2;
     qreal dy = 0, dx = 0;
 
     switch (_sens)
@@ -221,9 +228,17 @@ QPointF Ball::getCenter() const
 
 void Ball::doEffect(QGraphicsItem *item)
 {
-    if(item->type() == Mouse::Type)
+    if(item->type() == Ennemy::Type)
     {
+        qWarning() << "got an ennemy";
         GameManager::Instance()->removeItem(item);
         delete(this);
     }
+    else
+        if(item->type() == Mouse::Type)
+        {
+            qWarning() << "got a mouse";
+            GameManager::Instance()->removeItem(item);
+            delete(this);
+        }
 }
