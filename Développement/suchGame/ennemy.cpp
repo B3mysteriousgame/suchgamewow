@@ -25,10 +25,21 @@ Ennemy::~Ennemy()
 
 void Ennemy::advance(int step)
 {
-    static short cpt = 1, maxTour = 4, maxSprite = 4;
-    const qreal maxX = 435, maxY = 354;
+    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 20, newsens = -1;
+    static const qreal maxX = GameManager::Instance()->getView()->width();
+    static const qreal maxY = GameManager::Instance()->getView()->height();
+
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 0.9;
+
+    /*
+    // ---- Changement de sens aleatoire ----
+    // 1 chance sur changeSensChance de changer de sens
+    newsens = GameManager::Instance()->randInt(0, changeSensChance);
+    if(newsens == 1)
+        _sens = GameManager::Instance()->randInt(1, changeSensChance); // le nouveau sens
+    // --------------------------------------
+    */
 
     //_sens = Patate::BAS;
     switch (_sens)
@@ -70,17 +81,17 @@ void Ennemy::advance(int step)
     moveBy(ddx, ddy);
 
     if(y() > maxY)
-        setPos(x(), maxY * -1.);
+        setPos(x(), 0);
     else
     {
-        if(y() < maxY * -1.)
+        if(y() < 0)
             setPos(x(), maxY);
         else
         {
             if(x() > maxX)
-                setPos(maxX * -1., y());
+                setPos(0, y());
             else
-                if(x() < maxX * -1.)
+                if(x() < 0)
                     setPos(maxX, y());
         }
     }

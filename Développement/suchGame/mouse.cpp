@@ -46,6 +46,7 @@
 
 #include <math.h>
 #include "angleoperation.hpp"
+#include "gamemanager.hpp"
 
 //! [0]
 Mouse::Mouse()
@@ -120,7 +121,7 @@ void Mouse::advance(int step)
 //! [4]
     // Don't move too far away
 //! [5]
-    QLineF lineToCenter(QPointF(0, 0), mapFromScene(0, 0));
+    QLineF lineToCenter(QPointF(0, 0), mapFromScene(GameManager::Instance()->sceneCenter()));
     if (lineToCenter.length() > 150)
     {
         qreal angleToCenter = ::acos(lineToCenter.dx() / lineToCenter.length());

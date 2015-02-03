@@ -36,7 +36,7 @@ GameManager::GameManager()
 //! [0]
 
 //! [1]
-    _scene->setSceneRect(-540, -303, 1080, 607);
+    _scene->setSceneRect(0, 0, 936, 555);
 //! [1] //! [2]
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 //! [2]
@@ -46,8 +46,8 @@ GameManager::GameManager()
     for (int i = 0; i < MouseCount; ++i)
     {
         Mouse *mouse = new Mouse();
-        mouse->setPos(::sin((i * 6.28) / MouseCount) * 200,
-                      ::cos((i * 6.28) / MouseCount) * 200);
+        mouse->setPos(::sin((i * 6.28) / MouseCount) * 200 + (_scene->width() / 2),
+                      ::cos((i * 6.28) / MouseCount) * 200 + (_scene->height() / 2));
         _scene->addItem(mouse);
     }
 
@@ -93,14 +93,23 @@ GameManager::GameManager()
 //! [4]
     _view->setScene(_scene);
     _view->setRenderHint(QPainter::Antialiasing);
-    _view->setBackgroundBrush(QPixmap(":/images/cheese.jpg"));
+    _view->setBackgroundBrush(QPixmap(":/images/map.png"));
 //! [4] //! [5]
     _view->setCacheMode(QGraphicsView::CacheBackground);
     _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    _view->setDragMode(QGraphicsView::ScrollHandDrag);
+    //_view->setDragMode(QGraphicsView::ScrollHandDrag);
 //! [5] //! [6]
+
     _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
-    _view->resize(800, 450);
+    _view->setAutoFillBackground(false);
+
+    QSize qs(936, 555);
+    _view->resize(qs);
+    //_view->setFixedSize();
+
+    _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     _view->show();
 
 
@@ -122,10 +131,10 @@ GameManager::~GameManager()
 }
 
 
-///
-/// \brief Removes an item from the scene and deletes it
-/// \param it: the item to be removed
-///
+/**
+ * @brief Removes an item from the scene and deletes it
+ * @param it: the item to be removed
+ **/
 void GameManager::removeItem(QGraphicsItem *it)
 {
     _scene->removeItem(it);
@@ -286,4 +295,9 @@ int GameManager::randInt(int low, int high) const
 {
     // Random number between low and high
     return qrand() % ((high + 1) - low) + low;
+}
+
+QPointF GameManager::sceneCenter() const
+{
+    return QPointF(_scene->width() / 2, _scene->height() / 2);
 }

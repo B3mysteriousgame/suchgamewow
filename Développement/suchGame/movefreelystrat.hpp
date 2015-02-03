@@ -4,6 +4,8 @@
 #include "strategie.hpp"
 
 class Ennemy;
+class Ball;
+
 class MoveFreelyStrat : public Strategie
 {
     public:
@@ -13,8 +15,8 @@ class MoveFreelyStrat : public Strategie
         void analyser ();
         void appliquer ();
         void doStrat();
+        void doBallStrat(Ball *item);
         Ennemy *_parent;
 };
-
 
 #endif // MOVEFREELYSTRAT_HPP

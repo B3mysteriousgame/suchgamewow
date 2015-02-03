@@ -33,6 +33,7 @@ class GameManager : QObject
         void addItemToScene(QRectF& rect);
         void addItemToScene(QGraphicsEllipseItem &el);
         int randInt(int low, int high) const;
+        QPointF sceneCenter() const;
 
         void test();
 

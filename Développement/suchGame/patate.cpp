@@ -20,6 +20,7 @@ Patate::Patate(QGraphicsItem *parent)
     _speed = 3;
     _gm = NULL;
 
+    setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 }
 
@@ -67,7 +68,8 @@ void Patate::avancer(short sens)
 {
     static short cpt = 1; // va de 1 a maxTour non compris (1 a 3)
     static const short maxTour = 4, maxSprite = 4;
-    const qreal maxX = 435, maxY = 354;
+    static const qreal maxX = GameManager::Instance()->getView()->width();
+    static const qreal maxY = GameManager::Instance()->getView()->height();
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 1;
 
@@ -118,17 +120,17 @@ void Patate::avancer(short sens)
     moveBy(ddx, ddy);
 
     if(y() > maxY)
-        setPos(x(), maxY * -1.);
+        setPos(x(), 0);
     else
     {
-        if(y() < maxY * -1.)
+        if(y() < 0)
             setPos(x(), maxY);
         else
         {
             if(x() > maxX)
-                setPos(maxX * -1., y());
+                setPos(0, y());
             else
-                if(x() < maxX * -1.)
+                if(x() < 0)
                     setPos(maxX, y());
         }
     }

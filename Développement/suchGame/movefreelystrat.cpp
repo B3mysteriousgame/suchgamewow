@@ -2,6 +2,7 @@
 #include "movefreelystrat.hpp"
 #include "ennemy.hpp"
 #include "gamemanager.hpp"
+#include "ball.hpp"
 
 MoveFreelyStrat::MoveFreelyStrat(Ennemy *parent) :
     _parent(parent)
@@ -35,7 +36,10 @@ void MoveFreelyStrat::appliquer ()
                 if(item->type() != QGraphicsTextItem::Type)
                 {
                     _parent->setTouched(true);
-                    doStrat();
+                    if(item->type() == Ball::Type)
+                        doBallStrat((Ball*)item);
+                    else
+                        doStrat();
                 }
             }
     }
@@ -44,6 +48,9 @@ void MoveFreelyStrat::appliquer ()
             _parent->setTouched(false);
 }
 
+/**
+ * @brief Donne un sens aléatoire au parent, different de son sens actuel
+ */
 void MoveFreelyStrat::doStrat()
 {
     static short nusens = 0;
@@ -59,4 +66,11 @@ void MoveFreelyStrat::doStrat()
             break;
         }
     }
+}
+
+void MoveFreelyStrat::doBallStrat(Ball *item)
+{
+    qWarning() << "Biatch!";
+    //delete(_parent);
+    //delete(item);
 }

@@ -13,7 +13,7 @@
 
 Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *parent) :
     QGraphicsItem(),
-    _speed(3),
+    _speed(6),
     _diam(50)
 {
     setRotation( parent->rotation() );
@@ -30,7 +30,7 @@ Ball::Ball(const Ball& b)
 
 Ball::Ball(Patate *parent) :
     QGraphicsItem(),
-    _speed(3),
+    _speed(6),
     _diam(10)
 {
     short offset = 10;
@@ -40,7 +40,7 @@ Ball::Ball(Patate *parent) :
     if(parent != NULL)
     {
         setPos(parent->pos());
-        qWarning() << pos();
+        //qWarning() << pos();
 
         _sens = parent->getSens();
 
@@ -68,7 +68,7 @@ Ball::Ball(Patate *parent) :
 
         setRotation(angle);
         moveBy(dx, dy);
-        qWarning() << pos();
+        //qWarning() << pos();
     }
 }
 
@@ -76,7 +76,7 @@ QRectF Ball::boundingRect() const
 {
     float offset = 0.1;
 
-    return QRectF(this->x()-offset, this->y()-offset, this->_diam + 2. * offset, this->_diam + 2. * offset);
+    return QRectF(-offset, -offset, this->_diam + 2. * offset, this->_diam + 2. * offset);
 }
 
 QPainterPath Ball::shape() const
@@ -94,9 +94,10 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi, QWidge
 
 void Ball::advance(int step)
 {
-    static const qreal offset = 1;
-    static const qreal maxX = GameManager::Instance()->getScene()->width() / 2;
-    static const qreal maxY = GameManager::Instance()->getScene()->height() / 2;
+    static const qreal offset = 1, changeSensChance = 3;
+    static const qreal maxX = GameManager::Instance()->getView()->width();
+    static const qreal maxY = GameManager::Instance()->getView()->height();
+    short newsens = -1;
     qreal dy = 0, dx = 0;
 
     switch (_sens)
@@ -119,7 +120,7 @@ void Ball::advance(int step)
     moveBy(dx, dy);
 
     // on verif qu'on est tj dans la scene
-    if(x() > 300 || x() < -300 || y() > 300 || y() < -300)
+    if(x() > maxX || x() < 0 || y() > maxY || y() < 0)
         delete(this);
 
     // test collision
@@ -202,7 +203,7 @@ void Ball::detectCollisions()
     {
         foreach (QGraphicsItem* item, lcolliding)
         {
-            qWarning() << "item, mouse, perso" << item->type() << "-" << Mouse::Type << "-" << Perso::Type;
+            // qWarning() << "item, mouse, perso" << item->type() << "-" << Mouse::Type << "-" << Perso::Type;
             if( item->type() != Perso::Type && item->type() == Mouse::Type )
             {
                 qWarning() << "MOUSE";
