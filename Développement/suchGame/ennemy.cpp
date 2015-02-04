@@ -25,21 +25,28 @@ Ennemy::~Ennemy()
 
 void Ennemy::advance(int step)
 {
-    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 20, newsens = -1;
-    static const qreal maxX = GameManager::Instance()->getView()->width();
-    static const qreal maxY = GameManager::Instance()->getView()->height();
+    static GameManager *Michel = GameManager::Instance();
+    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
+    static const qreal maxX = Michel->getView()->width();
+    static const qreal maxY = Michel->getView()->height();
 
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 0.9;
 
-    /*
+
     // ---- Changement de sens aleatoire ----
-    // 1 chance sur changeSensChance de changer de sens
-    newsens = GameManager::Instance()->randInt(0, changeSensChance);
-    if(newsens == 1)
-        _sens = GameManager::Instance()->randInt(1, changeSensChance); // le nouveau sens
-    // --------------------------------------
-    */
+     //1 chance sur changeSensChance de changer de sens
+    if(Michel->randInt(1,changeSensChance)==1)
+        while(1)
+        {
+            newsens = Michel->randInt(0, 3);
+
+            if(newsens != _sens)
+            {
+                _sens = newsens;
+                break;
+            }
+        }
 
     //_sens = Patate::BAS;
     switch (_sens)
@@ -105,24 +112,3 @@ void Ennemy::advance(int step)
     ++cpt; // compteur de tour
 }
 
-void Ennemy::doStrat()
-{
-    static short nusens = 0;
-
-    if(_gm == NULL)
-        _gm = GameManager::Instance();
-
-    //_sens = (_sens + 2) % 4;
-
-
-    while(1)
-    {
-        nusens = _gm->randInt(0, 3);
-
-        if(nusens != _sens)
-        {
-            _sens = nusens;
-            break;
-        }
-    }
-}

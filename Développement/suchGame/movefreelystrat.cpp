@@ -19,6 +19,9 @@ void MoveFreelyStrat::analyser ()
     //qWarning() << "MoveFreelyStrat analysed.";
 }
 
+/**
+ * @brief Verifie si le parent est touch et applique une strategie en consequence
+ */
 void MoveFreelyStrat::appliquer ()
 {
     //qWarning() << "MoveFreelyStrat applied.";
@@ -26,7 +29,7 @@ void MoveFreelyStrat::appliquer ()
     // ------- test collision ------- //
     QList<QGraphicsItem*> listCollides = _parent->collidingItems();
 
-    // si on touche qch
+    // si on touche qqch
     if(listCollides.length() > 1) // le texte touche toujours
     {
         if(!_parent->touched()) // si on a pas deja gere le cas
@@ -70,7 +73,8 @@ void MoveFreelyStrat::doStrat()
 
 void MoveFreelyStrat::doBallStrat(Ball *item)
 {
-    qWarning() << "Biatch!";
+    qWarning() << "Biaretour"
+                  "atch!";
     //delete(_parent);
     //delete(item);
 }
