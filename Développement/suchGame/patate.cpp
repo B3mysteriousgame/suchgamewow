@@ -19,6 +19,8 @@ Patate::Patate(QGraphicsItem *parent)
     _sens = Patate::DROITE;
     _speed = 3;
     _gm = NULL;
+    _fullhealth = 100;
+    _actualhealth = _fullhealth;
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));

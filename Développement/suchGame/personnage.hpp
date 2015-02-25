@@ -23,7 +23,13 @@ public:
     void setSens(const short sens);
     qreal getSpeed() const;
     void setSpeed(const qreal val);
+    int getFullHealth() const;
+    void setFullHealth(const int health);
+    int getActualHealth() const;
+    void setActualHealth(const int health);
     QPointF center() const;
+
+    void loseHealth(int degats);
 
     virtual void advance(int step) = 0;
 
@@ -34,6 +40,8 @@ protected:
     qreal _speed;
     int _imgCpt;
     int _sens; // 0=gauche; 1=haut; 2=droite; 3=bas;
+    int _actualhealth;
+    int _fullhealth;
     QList<QString> _sprites;
     GameManager *_gm;
 

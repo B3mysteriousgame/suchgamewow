@@ -5,7 +5,6 @@
 
 class Mouse;
 class GameManager;
-
 class Patate;
 
 class Ball : public QGraphicsItem
@@ -26,8 +25,10 @@ class Ball : public QGraphicsItem
         QPointF getCenter() const;
         void doEffect(QGraphicsItem *item);
 
-    signals:
+        int getDegats() const;
+        void setDegats(int degats);
 
+    signals:
     public slots:
 
     private:
@@ -39,7 +40,9 @@ class Ball : public QGraphicsItem
         void advance(int step);
         qreal _speed;
         qreal _diam;
+        int _degats;
         short _sens;
+
 };
 
 #endif // BALL_HPP

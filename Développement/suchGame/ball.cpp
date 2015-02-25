@@ -14,7 +14,8 @@
 Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *parent) :
     QGraphicsItem(),
     _speed(6),
-    _diam(50)
+    _diam(50),
+    _degats(50)
 {
     setRotation( parent->rotation() );
     ballScenePos = AngleOperation::addRelativeXY(50, -9, ballScenePos, rotation());
@@ -23,15 +24,21 @@ Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *pare
     //qWarning() << "ballScenePos:" << ballScenePos;
 }
 
-Ball::Ball(const Ball& b)
+Ball::Ball(const Ball& b) :
+
+    QGraphicsItem(),
+    _speed(6),
+    _diam(10),
+    _degats(50)
 {
-    // TODO
+      // TODO
 }
 
 Ball::Ball(Patate *parent) :
     QGraphicsItem(),
     _speed(6),
-    _diam(10)
+    _diam(10),
+    _degats(50)
 {
     short offset = 10;
     qreal dx = 0, dy = 0;
@@ -77,6 +84,11 @@ QRectF Ball::boundingRect() const
     float offset = 0.1;
 
     return QRectF(-offset, -offset, this->_diam + 2. * offset, this->_diam + 2. * offset);
+}
+
+int Ball::getDegats() const
+{
+    return _degats;
 }
 
 QPainterPath Ball::shape() const
@@ -227,12 +239,26 @@ QPointF Ball::getCenter() const
                    boundR.y() + boundR.height() / 2);
 }
 
+
+
 void Ball::doEffect(QGraphicsItem *item)
 {
     if(item->type() == Ennemy::Type)
     {
-        qWarning() << "got an ennemy";
-        GameManager::Instance()->removeItem(item);
+        Ennemy *leEnnemy = (Ennemy*) item;
+
+        qWarning() << leEnnemy->getFullHealth();
+        if(leEnnemy->getActualHealth() <= 0)
+        {
+            qWarning() << "Ennemy killed";
+            GameManager::Instance()->removeItem(leEnnemy);
+
+        }
+        else
+        {
+            leEnnemy->loseHealth(_degats);
+            qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
+        }
         delete(this);
     }
     else

@@ -14,6 +14,7 @@ class Ennemy : public Personnage
         virtual int type() const{return Type;}
 
         Ennemy(QGraphicsItem *parent = 0);
+        Ennemy(const Ennemy& e);
         ~Ennemy();
 
         void advance(int step);

@@ -14,6 +14,8 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
+    _fullhealth = 100;
+    _actualhealth = _fullhealth;
 
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 }
@@ -22,6 +24,7 @@ Ennemy::~Ennemy()
 {
     delete(_strat);
 }
+
 
 void Ennemy::advance(int step)
 {
