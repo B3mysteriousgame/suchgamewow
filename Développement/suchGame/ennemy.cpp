@@ -16,7 +16,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _strat = new MoveFreelyStrat(this);
     _fullhealth = 100;
     _actualhealth = _fullhealth;
-
+    _resistance = 25;
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 }
 

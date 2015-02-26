@@ -49,12 +49,24 @@ void Personnage::setActualHealth(const int health)
     _actualhealth = health;
 }
 
+void Personnage::calculResistance()
+{
+    // TODO -> Récupérer résistance sur tout les items du personnage + Resistance de base ( Nécessite Item inventaire )
+}
+
 void Personnage::loseHealth(const int degats)
 {
-    _actualhealth -= degats;
-    qWarning() << "saucisse" << _actualhealth;
-    if(_actualhealth <= 0)
-        _actualhealth = 0;
+    int vraiDegats;
+
+    vraiDegats = degats - _resistance;
+
+    if(vraiDegats >= 1);
+    {
+        _actualhealth -= vraiDegats;
+        qWarning() << "saucisse" << _actualhealth;
+        if(_actualhealth <= 0)
+            _actualhealth = 0;
+    }
 }
 
 QPointF Personnage::center() const

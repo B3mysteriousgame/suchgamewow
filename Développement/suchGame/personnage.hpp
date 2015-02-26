@@ -30,6 +30,7 @@ public:
     QPointF center() const;
 
     void loseHealth(int degats);
+    void calculResistance();
 
     virtual void advance(int step) = 0;
 
@@ -42,6 +43,7 @@ protected:
     int _sens; // 0=gauche; 1=haut; 2=droite; 3=bas;
     int _actualhealth;
     int _fullhealth;
+    int _resistance;
     QList<QString> _sprites;
     GameManager *_gm;
 

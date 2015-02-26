@@ -246,18 +246,13 @@ void Ball::doEffect(QGraphicsItem *item)
     if(item->type() == Ennemy::Type)
     {
         Ennemy *leEnnemy = (Ennemy*) item;
+        leEnnemy->loseHealth(_degats);
+        qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
 
-        qWarning() << leEnnemy->getFullHealth();
         if(leEnnemy->getActualHealth() <= 0)
         {
             qWarning() << "Ennemy killed";
             GameManager::Instance()->removeItem(leEnnemy);
-
-        }
-        else
-        {
-            leEnnemy->loseHealth(_degats);
-            qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
         }
         delete(this);
     }
