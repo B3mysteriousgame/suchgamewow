@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/patateSaiyen.png</file>
+        <file>images/Sprites/linkD1.png</file>
+        <file>images/Sprites/linkD2.png</file>
+        <file>images/Sprites/linkD3.png</file>
+        <file>images/Sprites/linkD4.png</file>
+        <file>images/Sprites/linkH1.png</file>
+        <file>images/Sprites/linkH2.png</file>
+        <file>images/Sprites/linkH3.png</file>
+        <file>images/Sprites/linkH4.png</file>
+        <file>images/Sprites/linkB1.png</file>
+        <file>images/Sprites/linkB2.png</file>
+        <file>images/Sprites/linkB3.png</file>
+        <file>images/Sprites/linkB4.png</file>
+        <file>images/Sprites/linkG1.png</file>
+        <file>images/Sprites/linkG2.png</file>
+        <file>images/Sprites/linkG3.png</file>
+        <file>images/Sprites/linkG4.png</file>
+        <file>images/map.png</file>
+    </qresource>
+</RCC>
