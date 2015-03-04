@@ -57,6 +57,11 @@ GameManager::GameManager()
                        ::cos((1 * 6.28) / MouseCount) * 200);
        _scene->addItem(ennemy);
 
+     // Test ajout barre sur ennemy
+       QGraphicsItem *barre = new QGraphicsRectItem(0,0,50,10);
+       barre->moveBy(-12,-15);
+       barre->setParentItem(ennemy);
+       _scene->addItem(barre);
 
        _textItem = _scene->addText("Je suis un vilain ennemy");
        _textItem->setParentItem(ennemy);
