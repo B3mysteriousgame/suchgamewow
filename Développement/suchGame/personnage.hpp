@@ -30,6 +30,7 @@ public:
     QPointF center() const;
 
     void loseHealth(int degats);
+    qreal getPourcentageVie();
     void calculResistance();
 
     virtual void advance(int step) = 0;

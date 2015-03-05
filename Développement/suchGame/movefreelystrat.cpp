@@ -3,6 +3,7 @@
 #include "ennemy.hpp"
 #include "gamemanager.hpp"
 #include "ball.hpp"
+#include "barre.hpp"
 
 MoveFreelyStrat::MoveFreelyStrat(Ennemy *parent) :
     _parent(parent)
@@ -36,7 +37,7 @@ void MoveFreelyStrat::appliquer ()
             foreach(QGraphicsItem *item, listCollides)
             {
                 // si c'est pas le texte ou la barre de vie
-                if(item->type() != QGraphicsTextItem::Type || QGraphicsRectItem::Type )
+                if(item->type() != QGraphicsTextItem::Type || Barre::Type )
                 {
                     _parent->setTouched(true);
                     if(item->type() == Ball::Type)
