@@ -36,7 +36,7 @@ GameManager::GameManager()
 //! [0]
 
 //! [1]
-    _scene->setSceneRect(0, 0, 936, 555);
+    _scene->setSceneRect(-230, -130, 936, 555);
 //! [1] //! [2]
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 //! [2]
@@ -103,9 +103,11 @@ GameManager::GameManager()
     _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
     _view->setAutoFillBackground(false);
 
-    QSize qs(936, 555);
+    QSize qs(MyView::WIDTH, MyView::HEIGHT);
     _view->resize(qs);
     //_view->setFixedSize();
+
+    qWarning() << "Scene's at" << _scene->sceneRect().center();
 
     _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -167,13 +169,19 @@ void GameManager::mousePressEvent(QMouseEvent *event)
 }
 
 void GameManager::test()
-{/*
-    QPointF p = _perso->pos();
-    QGraphicsEllipseItem *e = _scene->addEllipse(_perso->boundingRect());
-    e->show();
-    e->setRotation( _perso->rotation() - 90 );
-    qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
-*/}
+{
+    QPointF oldPoint, newPoint; // in scene coord
+    qWarning() << "In GameManager::test";
+
+    //oldPoint = _view->mapToScene(_view->getCenter());
+    oldPoint = _view->getCenter();
+    qWarning() << _patate;
+
+    if(_patate != NULL)
+        newPoint =  _patate->mapToScene(_patate->center());
+
+    _view->centerOn( _view->mapFromScene(newPoint) );
+}
 
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
@@ -222,6 +230,10 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 break;
             case Qt::Key_A :
                 _patate->attaque();
+                break;
+            case Qt::Key_Z :
+                //_patate->attaque();
+                test();
                 break;
             default:
                 break;

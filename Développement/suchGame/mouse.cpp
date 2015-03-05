@@ -121,7 +121,11 @@ void Mouse::advance(int step)
 //! [4]
     // Don't move too far away
 //! [5]
-    QLineF lineToCenter(QPointF(0, 0), mapFromScene(GameManager::Instance()->sceneCenter()));
+    // from view center
+    MyView *v = GameManager::Instance()->getView();
+    QPointF vc = v->mapToScene( v->getCenter() );
+    //QLineF lineToCenter(QPointF(0, 0), mapFromScene(GameManager::Instance()->sceneCenter()));
+    QLineF lineToCenter(QPointF(0, 0), mapFromScene(vc));
     if (lineToCenter.length() > 150)
     {
         qreal angleToCenter = ::acos(lineToCenter.dx() / lineToCenter.length());
