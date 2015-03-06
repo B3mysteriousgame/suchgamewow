@@ -19,6 +19,13 @@ void Personnage::setSens(const short sens)
        this->_sens = sens;
 }
 
+qreal Personnage::getPourcentageVie()
+{
+    qreal pourcentage;
+    pourcentage = ( _actualhealth * 100 )/ _fullhealth;
+    return pourcentage;
+}
+
 qreal Personnage::getSpeed() const
 {
     return _speed;
