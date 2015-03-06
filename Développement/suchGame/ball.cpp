@@ -25,7 +25,6 @@ Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *pare
 }
 
 Ball::Ball(const Ball& b) :
-
     QGraphicsItem(),
     _speed(6),
     _diam(10),

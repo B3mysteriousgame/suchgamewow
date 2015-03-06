@@ -13,7 +13,8 @@ HEADERS += \
     strat1.hpp \
     strat2.hpp \
     strategie.hpp \
-    movefreelystrat.hpp
+    movefreelystrat.hpp \
+    arme.h
 SOURCES += \
     main.cpp \
     mouse.cpp \
@@ -27,7 +28,8 @@ SOURCES += \
     personnage.cpp \
     strat1.cpp \
     strat2.cpp \
-    movefreelystrat.cpp
+    movefreelystrat.cpp \
+    arme.cpp
 
 RESOURCES += \
     mice.qrc \
