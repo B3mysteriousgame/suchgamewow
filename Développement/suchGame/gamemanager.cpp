@@ -8,6 +8,7 @@
 #include <math.h>
 #include "patate.hpp"
 #include "ennemy.hpp"
+#include "barre.hpp"
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -72,8 +73,18 @@ GameManager::GameManager()
         Ennemy *ennemy = new Ennemy();
         ennemy->setPos(::sin((1 * 6.28) / MouseCount) * 200,
                        ::cos((1 * 6.28) / MouseCount) * 200);
-       _scene->addItem(ennemy);
+        Barre *barre = ennemy->getBarre();
+        barre->moveBy(-12,-15);
+        barre->setParentItem(ennemy);
 
+       _scene->addItem(ennemy);
+       _scene->addItem(barre);
+
+     // Test ajout barre sur ennemy
+//       QGraphicsItem *barre = new QGraphicsRectItem(0,0,50,10);
+//       barre->moveBy(-12,-15);
+//       barre->setParentItem(ennemy);
+//       _scene->addItem(barre);
 
        _textItem = _scene->addText("Je suis un vilain ennemy");
        _textItem->setParentItem(ennemy);

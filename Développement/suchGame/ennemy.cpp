@@ -3,6 +3,7 @@
 #include "mouse.h"
 #include "movefreelystrat.hpp"
 #include<QDebug>
+#include "barre.hpp"
 
 Ennemy::Ennemy(QGraphicsItem *parent) :
     Personnage(parent)
@@ -16,13 +17,31 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _strat = new MoveFreelyStrat(this);
     _fullhealth = 100;
     _actualhealth = _fullhealth;
-
+    _resistance = 25;
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
+
+    _barre = new Barre();
 }
 
 Ennemy::~Ennemy()
 {
     delete(_strat);
+    delete(_barre);
+}
+
+Barre *Ennemy::getBarre() {
+
+    return _barre;
+
+}
+
+void Ennemy::loseHealth(int degats)
+{
+    qreal pourcentage;
+    Personnage::loseHealth(degats);
+    pourcentage = Ennemy::getPourcentageVie();
+    _barre->setLargeur(pourcentage/2);
+
 }
 
 

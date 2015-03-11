@@ -20,6 +20,7 @@ Patate::Patate(QGraphicsItem *parent)
     _gm = NULL;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
+    _resistance = 50;
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));

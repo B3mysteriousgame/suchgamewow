@@ -25,7 +25,6 @@ Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *pare
 }
 
 Ball::Ball(const Ball& b) :
-
     QGraphicsItem(),
     _speed(6),
     _diam(10),
@@ -246,18 +245,22 @@ void Ball::doEffect(QGraphicsItem *item)
     if(item->type() == Ennemy::Type)
     {
         Ennemy *leEnnemy = (Ennemy*) item;
+        leEnnemy->loseHealth(_degats);
+        qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
 
-        qWarning() << leEnnemy->getFullHealth();
         if(leEnnemy->getActualHealth() <= 0)
         {
             qWarning() << "Ennemy killed";
             GameManager::Instance()->removeItem(leEnnemy);
+<<<<<<< HEAD
 
         }
         else
         {
             leEnnemy->loseHealth(_degats);
             //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
+=======
+>>>>>>> c7fd1a6ded1bc0c4f72629cb3e49f972cf98ec9b
         }
         delete(this);
     }

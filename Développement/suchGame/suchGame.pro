@@ -14,7 +14,15 @@ HEADERS += \
     strat2.hpp \
     strategie.hpp \
     movefreelystrat.hpp \
+<<<<<<< HEAD
     myscene.hpp
+=======
+<<<<<<< HEAD
+    arme.h
+=======
+    barre.hpp
+>>>>>>> e4f104a2297f8ae19c7f81cf4e80b55021f75adf
+>>>>>>> c7fd1a6ded1bc0c4f72629cb3e49f972cf98ec9b
 SOURCES += \
     main.cpp \
     mouse.cpp \
@@ -29,7 +37,15 @@ SOURCES += \
     strat1.cpp \
     strat2.cpp \
     movefreelystrat.cpp \
+<<<<<<< HEAD
     myscene.cpp
+=======
+<<<<<<< HEAD
+    arme.cpp
+=======
+    barre.cpp
+>>>>>>> e4f104a2297f8ae19c7f81cf4e80b55021f75adf
+>>>>>>> c7fd1a6ded1bc0c4f72629cb3e49f972cf98ec9b
 
 RESOURCES += \
     mice.qrc \
