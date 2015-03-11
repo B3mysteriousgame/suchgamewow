@@ -257,14 +257,14 @@ void Ball::doEffect(QGraphicsItem *item)
         else
         {
             leEnnemy->loseHealth(_degats);
-            qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
+            //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
         }
         delete(this);
     }
     else
         if(item->type() == Mouse::Type)
         {
-            qWarning() << "got a mouse";
+            //qWarning() << "got a mouse";
             GameManager::Instance()->removeItem(item);
             delete(this);
         }

@@ -9,6 +9,23 @@
 #include "patate.hpp"
 #include "ennemy.hpp"
 
+#ifdef Q_OS_WIN
+#include <windows.h> // for Sleep
+#endif
+void GameManager::qSleep(int ms)
+{
+    if(ms <= 0)
+        return;
+
+#ifdef Q_OS_WIN
+    Sleep(uint(ms));
+#else
+    struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };
+    nanosleep(&ts, NULL);
+#endif
+}
+
+
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static const int MouseCount = 7;
 GameManager* GameManager::m_instance = NULL;
@@ -178,62 +195,38 @@ void GameManager::test()
     qWarning() << _patate;
 
     if(_patate != NULL)
+    {
+        //_view->centerOn(_patate);
         newPoint =  _patate->mapToScene(_patate->center());
-
-    _view->centerOn( _view->mapFromScene(newPoint) );
+    }
+    _view->centerOn( newPoint ); // demande un point en coord de scene
 }
 
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
     static short angleOffset = 5;
-    /*
-    if(_perso != NULL)
-        switch (event->key())
-        {
-            case Qt::Key_Up:
-                avancerPerso();
-                break;
-            case Qt::Key_Left:
-                _perso->addAngle(-1 * angleOffset * _perso->getSpeed());
-                break;
-            case Qt::Key_Right:
-                _perso->addAngle(angleOffset * _perso->getSpeed());
-                break;
-            case Qt::Key_A:
-                _perso->attaque();
-                break;
-            case Qt::Key_Z:
-                test();
-                break;
-            default:
-                break;
-        }
-    */
+
     if(_patate != NULL)
         switch (event->key())
         {
             case Qt::Key_Up:
-                // _patate->setSens(Patate::HAUT);
                 _patate->avancer(Patate::HAUT);
                 break;
             case Qt::Key_Down:
-                // _patate->setSens(Patate::BAS);
                 _patate->avancer(Patate::BAS);
                 break;
             case Qt::Key_Left:
-                // _patate->setSens(Patate::GAUCHE);
                 _patate->avancer(Patate::GAUCHE);
                 break;
             case Qt::Key_Right:
-                // _patate->setSens(Patate::DROITE);
                 _patate->avancer(Patate::DROITE);
                 break;
             case Qt::Key_A :
                 _patate->attaque();
                 break;
             case Qt::Key_Z :
-                //_patate->attaque();
-                test();
+                //test();
+                scrollView(_patate->getSens());
                 break;
             default:
                 break;
@@ -312,4 +305,51 @@ int GameManager::randInt(int low, int high) const
 QPointF GameManager::sceneCenter() const
 {
     return QPointF(_scene->width() / 2, _scene->height() / 2);
+}
+
+/**
+ * @brief Deplace la vue en fonction du sens passe en param,
+ *  et met en pause les items qui ne sont plus visibles.
+ *  Ne fait rien si mauvais sens
+ * @param sens: indique le sens dans lequel scroller.
+ *  Il doit correspondre à l'enum de Personnage (0 <= sens <= 3)
+ */
+void GameManager::scrollView(short sens)
+{
+    static qreal viewWidth = _view->width();
+    static qreal viewHeight = _view->height();
+
+    if(sens < 0 || sens > 3)
+        return;
+
+    QPointF point = _view->mapToScene(_view->getCenter());
+    QPointF oldPoint = point;
+
+    pauseItems();
+
+    switch(sens)
+    {
+        case Personnage::GAUCHE:
+            point.rx() -= viewWidth;
+            break;
+        case Personnage::HAUT:
+            point.ry() -= viewHeight;
+            break;
+        case Personnage::DROITE:
+            point.rx() += viewWidth;
+            break;
+        case Personnage::BAS:
+            point.ry() += viewHeight;
+            break;
+    }
+    _view->centerOn(point);
+
+    //qWarning() << oldPoint << "-----------" << point;
+}
+
+void GameManager::pauseItems()
+{
+    QRectF sceneRect(_view->mapToScene(0,0), _view->mapToScene(QPoint(_view->width(), _view->height())));
+
+    //qWarning() << sceneRect;
 }

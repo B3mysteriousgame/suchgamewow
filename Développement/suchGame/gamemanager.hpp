@@ -17,6 +17,7 @@ class GameManager : QObject
         static GameManager *Instance();
         void keyPressEvent(QKeyEvent* event);
         void mousePressEvent(QMouseEvent * event);
+        void scrollView(short sens);
 
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
@@ -35,6 +36,7 @@ class GameManager : QObject
         int randInt(int low, int high) const;
         QPointF sceneCenter() const;
 
+        static void qSleep(int ms);
         void test();
 
     public slots:
@@ -54,6 +56,7 @@ class GameManager : QObject
         Perso *_perso;
         Patate *_patate;
         QGraphicsTextItem *_textItem;
+        void pauseItems();
 
 };
 

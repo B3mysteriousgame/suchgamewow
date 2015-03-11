@@ -12,6 +12,7 @@ class MyView : public QGraphicsView
         void keyPressEvent(QKeyEvent* event);
         void mousePressEvent(QMouseEvent *event);
         QPoint getCenter() const;
+        QRectF getViewRect() const;
 
         static const qreal WIDTH = 467;
         static const qreal HEIGHT = 277;
