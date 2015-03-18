@@ -58,7 +58,7 @@ void MoveFreelyStrat::appliquer ()
 void MoveFreelyStrat::doStrat()
 {
     static short nusens = 0;
-    static GameManager *gm = GameManager::Instance();
+    static GameManager* const gm = GameManager::Instance();
 
     while(1)
     {

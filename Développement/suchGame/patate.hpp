@@ -24,11 +24,13 @@ class Patate : public Personnage
         void test();
         void attaque();
         void handlePosLimits();
+        void setXp(const int xp);
+        void addXp(const int xp);
 
     private:
         void stayInScene();
         void stayInView();
-        bool scrollView(const short lastBlockinDir);
+        bool scrollView();
         bool isNearSceneBorder() const;
 
         // permet de savoir de quel cote est le bord
@@ -36,5 +38,6 @@ class Patate : public Personnage
         //  (-1 non, 0 bordure gauche, 1 bordure haut, etc...)
         short _blockinCase;
         short _blockinBorder;
+        int _xp;
 };
 #endif // PATATE_HPP

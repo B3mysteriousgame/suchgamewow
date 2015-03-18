@@ -21,6 +21,7 @@ Patate::Patate(QGraphicsItem *parent)
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _resistance = 50;
+    _xp = 0;
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
@@ -65,7 +66,7 @@ void Patate::test()
     rec.setY( rec.y() - adjust );
 }
 
-void Patate::advance(int step){}
+void Patate::advance(int){}
 
 void Patate::avancer(short sens)
 {
@@ -74,7 +75,7 @@ void Patate::avancer(short sens)
     static MyView *view = GameManager::Instance()->getView();
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 1;
-    static short lastBlockinDir = -1;
+    //static short lastBlockinDir = -1;
 
     if(sens != _sens) // si on change de sens
     {
@@ -217,12 +218,12 @@ void Patate::stayInView()
  * @return le sens bloquant si la patate est aux limites de la scene,
  *  -1 sinon
  */
-bool Patate::scrollView(const short lastBlockinDir)
+bool Patate::scrollView()
 {
     static QRectF viewRect;
     static QRectF lastViewRect = GameManager::Instance()->getView()->getViewRect();
-    static bool viewScrolled = false;
-    qreal xx, yy;
+    //static bool viewScrolled = false;
+    //qreal xx, yy;
 
     // permet de laisser un decalage avec les bords
     static const short offset = 2;
@@ -230,8 +231,8 @@ bool Patate::scrollView(const short lastBlockinDir)
     viewRect = GameManager::Instance()->getView()->getViewRect();
     // TODO: essayer de pas recup le rect a chaque tour
 
-    xx = x();
-    yy = y();
+    //xx = x();
+    //yy = y();
 
     if(y() > lastViewRect.bottomRight().y() - offset ||
         y() < lastViewRect.topLeft().y() + offset ||
@@ -334,4 +335,15 @@ bool Patate::isNearSceneBorder() const
     }
 
     return !smallSceneRect.contains(this->boundingRect());
+}
+
+void Patate::setXp(const int xp)
+{
+    _xp = xp;
+}
+
+void Patate::addXp(const int xp)
+{
+    _xp += xp;
+    qWarning() << "XP now at" << _xp;
 }

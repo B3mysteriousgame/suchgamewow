@@ -9,8 +9,6 @@ class Patate;
 
 class Ball : public QGraphicsItem
 {
-//    Q_OBJECT
-
     public:
         enum { Type = UserType + 6 };
         virtual int type() const{return Type;}

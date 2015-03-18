@@ -15,12 +15,18 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
+    _xpDon = 5;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _resistance = 25;
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 
     _barre = new Barre();
+}
+
+int Ennemy::getXpDon() const
+{
+    return _xpDon;
 }
 
 Ennemy::~Ennemy()
@@ -45,9 +51,10 @@ void Ennemy::loseHealth(int degats)
 }
 
 
-void Ennemy::advance(int step)
+void Ennemy::advance(int)
 {
-    static GameManager *Michel = GameManager::Instance();
+    // const pointer to GameManager
+    static GameManager* const Michel = GameManager::Instance();
     static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
     static const qreal maxX = Michel->getView()->width();
     static const qreal maxY = Michel->getView()->height();

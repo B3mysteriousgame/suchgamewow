@@ -19,6 +19,7 @@ class Ennemy : public Personnage
         Ennemy(const Ennemy& e);
         ~Ennemy();
 
+        int getXpDon() const;
         void loseHealth(int degats);
         void advance(int step);
         void attaque(){}
@@ -30,6 +31,7 @@ class Ennemy : public Personnage
         void doStrat();
         Barre *_barre;
         bool _touched;
+        int _xpDon;
         Strategie *_strat;
 };
 

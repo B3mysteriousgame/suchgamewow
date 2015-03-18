@@ -107,6 +107,7 @@ void Ball::advance(int /*step*/)
 {
     static const qreal offset = 1;
     static const GameManager *gm = GameManager::Instance();
+    static QList<QGraphicsItem*> listCollides = QList<QGraphicsItem*>();
     const qreal maxX = gm->getView()->width();
     const qreal maxY = gm->getView()->height();
     //short newsens = -1;
@@ -136,7 +137,8 @@ void Ball::advance(int /*step*/)
         delete(this);
 
     // test collision
-    QList<QGraphicsItem*> listCollides = collidingItems();
+    listCollides.clear();
+    listCollides = collidingItems();
     if(listCollides.length() > 0)
         foreach (QGraphicsItem *item, listCollides)
             doEffect(item);
@@ -168,7 +170,7 @@ QList<Mouse*> Ball::collidingMice(GameManager *gm)
 ///
 void Ball::detectColls()
 {
-    static GameManager *gm = GameManager::Instance();
+    static GameManager* const gm = GameManager::Instance();
     bool touched = false;
     QList<Mouse*> lcolliding = collidingMice(gm);
     QString sentence = "";
@@ -201,7 +203,7 @@ void Ball::detectColls()
 void Ball::detectCollisions()
 {
     // detect collision
-    static GameManager *gm = GameManager::Instance();
+    static GameManager* const gm = GameManager::Instance();
     QList<QGraphicsItem*> lcolliding = collidingItems();
 
     if(lcolliding.count() > 0)
@@ -236,6 +238,7 @@ QPointF Ball::getCenter() const
 
 void Ball::doEffect(QGraphicsItem *item)
 {
+    GameManager* const gm = GameManager::Instance();
     if(item->type() == Ennemy::Type)
     {
         Ennemy *leEnnemy = (Ennemy*) item;
@@ -245,7 +248,8 @@ void Ball::doEffect(QGraphicsItem *item)
         if(leEnnemy->getActualHealth() <= 0)
         {
             qWarning() << "Ennemy killed";
-            GameManager::Instance()->removeItem(leEnnemy);
+            gm->ennemyGotKilled(leEnnemy->getXpDon());
+            gm->removeItem(leEnnemy);
         }
         else
         {

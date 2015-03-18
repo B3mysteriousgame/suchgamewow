@@ -47,8 +47,10 @@ GameManager::GameManager()
     //_perso = new Perso();
     _perso = NULL;
     _patate = new Patate();
+     _ennemyCpt = 0;
 
     _timer = new QTimer();
+    _timerPopEnnemy = new QTimer();
 
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 //! [0]
@@ -69,27 +71,13 @@ GameManager::GameManager()
         _scene->addItem(mouse);
     }
 
-    //Test ajout ennemy
-        Ennemy *ennemy = new Ennemy();
-        ennemy->setPos(::sin((1 * 6.28) / MouseCount) * 200,
-                       ::cos((1 * 6.28) / MouseCount) * 200);
-        Barre *barre = ennemy->getBarre();
-        barre->moveBy(-12,-15);
-        barre->setParentItem(ennemy);
+    popEnnemy();
 
-       _scene->addItem(ennemy);
-       _scene->addItem(barre);
-
-     // Test ajout barre sur ennemy
-//       QGraphicsItem *barre = new QGraphicsRectItem(0,0,50,10);
-//       barre->moveBy(-12,-15);
-//       barre->setParentItem(ennemy);
-//       _scene->addItem(barre);
-
-       _textItem = _scene->addText("Je suis un vilain ennemy");
-       _textItem->setParentItem(ennemy);
-       _textItem->setPlainText("Je suis un vilain ennemy");
-
+    /*
+    _textItem = _scene->addText("Je suis un vilain ennemy");
+    _textItem->setParentItem(ennemy);
+    _textItem->setPlainText("Je suis un vilain ennemy");
+    */
 
     /*Mouse *mouse = new Mouse();
     mouse->setPos(100,0);
@@ -144,10 +132,12 @@ GameManager::GameManager()
 
 
     QObject::connect(_timer, SIGNAL(timeout()), _scene, SLOT(advance()));
+    QObject::connect(_timerPopEnnemy, SIGNAL(timeout()), this, SLOT(popEnnemy()));
     //QObject::connect(_scene, SIGNAL(keyPressEvent()), this, SLOT(changeColors()));
 
 
     _timer->start(1000 / 33);
+    _timerPopEnnemy->start(1000 * 5);
 }
 
 GameManager::~GameManager()
@@ -358,9 +348,46 @@ void GameManager::scrollView(short sens)
     //qWarning() << oldPoint << "-----------" << point;
 }
 
+void GameManager::ennemyGotKilled(const int xp)
+{
+    _patate->addXp(xp);
+    _ennemyCpt -= 1;
+}
+
+
 void GameManager::pauseItems()
 {
     QRectF sceneRect(_view->mapToScene(0,0), _view->mapToScene(QPoint(_view->width(), _view->height())));
 
     //qWarning() << sceneRect;
+}
+
+void GameManager::popEnnemy()
+{
+    //Test ajout ennemy
+    Ennemy *ennemy = new Ennemy();
+    ennemy->setPos(::sin((1 * 6.28) / MouseCount) * 200,
+                   ::cos((1 * 6.28) / MouseCount) * 200);
+    Barre *barre = ennemy->getBarre();
+    barre->moveBy(-12,-15);
+    barre->setParentItem(ennemy);
+
+    _scene->addItem(ennemy);
+    _scene->addItem(barre);
+
+     // Test ajout barre sur ennemy
+//       QGraphicsItem *barre = new QGraphicsRectItem(0,0,50,10);
+//       barre->moveBy(-12,-15);
+//       barre->setParentItem(ennemy);
+//       _scene->addItem(barre);
+
+    _ennemyCpt += 1;
+
+    if(_ennemyCpt == 20) // le max
+    {
+        if(_timerPopEnnemy->isActive())
+            _timerPopEnnemy->stop();
+    }
+    else
+        _timerPopEnnemy->start( 100 * randInt(1,50) );
 }

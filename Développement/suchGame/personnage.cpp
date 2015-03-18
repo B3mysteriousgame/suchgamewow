@@ -67,7 +67,7 @@ void Personnage::loseHealth(const int degats)
 
     vraiDegats = degats - _resistance;
 
-    if(vraiDegats >= 1);
+    if(vraiDegats >= 1)
     {
         _actualhealth -= vraiDegats;
         qWarning() << "saucisse" << _actualhealth;
