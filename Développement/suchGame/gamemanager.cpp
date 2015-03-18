@@ -191,7 +191,7 @@ QTimer* GameManager::getTimer() const
     return _timer;
 }
 
-void GameManager::mousePressEvent(QMouseEvent *event)
+void GameManager::mousePressEvent(QMouseEvent*)
 {
     //changeColor(_perso);
 }
@@ -215,7 +215,7 @@ void GameManager::test()
 
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
-    static short angleOffset = 5;
+    //static short angleOffset = 5;
 
     if(_patate != NULL)
         switch (event->key())
@@ -282,7 +282,7 @@ void GameManager::addItemToScene(QLineF &line)
     _scene->addLine(line);
 }
 
-void GameManager::addItemToScene(QGraphicsEllipseItem& el)
+void GameManager::addItemToScene(QGraphicsEllipseItem&)
 {
     //_scene->addEllipse((new QGraphicsEllipseItem(el))->rect());
 }
@@ -296,7 +296,7 @@ QList<Mouse*> GameManager::getSceneMice()
 {
     QList<QGraphicsItem*> liste =  _scene->items();
     QList<Mouse*> listeM = QList<Mouse*>();
-    short max = liste.count();
+    //short max = liste.count();
 
     foreach (QGraphicsItem* item, liste)
     {
@@ -334,7 +334,7 @@ void GameManager::scrollView(short sens)
         return;
 
     QPointF point = _view->mapToScene(_view->getCenter());
-    QPointF oldPoint = point;
+    //QPointF oldPoint = point;
 
     pauseItems();
 

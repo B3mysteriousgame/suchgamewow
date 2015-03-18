@@ -13,12 +13,12 @@ public:
     enum { Type = UserType + 3 };
     virtual int type() const{return Type;}
 
-    Personnage(QGraphicsItem *parent = 0){}
-    Personnage(Personnage *p){}
+    Personnage(QGraphicsItem* = 0){}
+    Personnage(Personnage*){}
     ~Personnage(){}
 
-    virtual QList<QString> getSprites() const{}
-    virtual int getImgCpt() const{}
+    virtual QList<QString> getSprites() const{ return QList<QString>(); }
+    virtual int getImgCpt() const{ return _imgCpt; }
     int getSens() const;
     void setSens(const short sens);
     qreal getSpeed() const;

@@ -11,7 +11,7 @@
 #include "patate.hpp"
 #include "ennemy.hpp"
 
-Ball::Ball(QPointF ballScenePos, QGraphicsItem *parent) :
+Ball::Ball(qreal angl, QPointF ballScenePos, QPointF origin, QGraphicsItem *parent) :
     QGraphicsItem(),
     _speed(6),
     _diam(50),
@@ -24,7 +24,7 @@ Ball::Ball(QPointF ballScenePos, QGraphicsItem *parent) :
     //qWarning() << "ballScenePos:" << ballScenePos;
 }
 
-Ball::Ball(const Ball&) :
+Ball::Ball(const Ball& b) :
     QGraphicsItem(),
     _speed(6),
     _diam(10),
@@ -97,19 +97,18 @@ QPainterPath Ball::shape() const
     return path;
 }
 
-void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
+void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi, QWidget *wid)
 {
     painter->setBrush(Qt::green);
     painter->drawEllipse(0, 0, _diam, _diam);
 }
 
-void Ball::advance(int /*step*/)
+void Ball::advance(int step)
 {
-    static const qreal offset = 1;
-    static const GameManager *gm = GameManager::Instance();
-    const qreal maxX = gm->getView()->width();
-    const qreal maxY = gm->getView()->height();
-    //short newsens = -1;
+    static const qreal offset = 1, changeSensChance = 3;
+    static const qreal maxX = GameManager::Instance()->getView()->width();
+    static const qreal maxY = GameManager::Instance()->getView()->height();
+    short newsens = -1;
     qreal dy = 0, dx = 0;
 
     switch (_sens)
@@ -179,6 +178,11 @@ void Ball::detectColls()
         {
             switch(item->type())
             {
+                /*
+                case Perso::Type:
+                    sentence = "PERSO";
+                    break;
+                */
                 case Mouse::Type:
                     sentence = "MOUSE";
                     touched = true;
@@ -196,13 +200,15 @@ void Ball::detectColls()
 
 ///
 /// \brief Detecte les collision en utilisant QGraphicsItem::collidingItems()
-/// NOT USED
 ///
 void Ball::detectCollisions()
 {
+    static bool touched = false;
+
     // detect collision
     static GameManager *gm = GameManager::Instance();
     QList<QGraphicsItem*> lcolliding = collidingItems();
+    Perso *pitem = NULL;
 
     if(lcolliding.count() > 0)
     {
@@ -214,7 +220,7 @@ void Ball::detectCollisions()
                 qWarning() << "MOUSE";
 
                 gm->removeItem(item);
-                // touched = true;
+                touched = true;
                 break;
             }
             else
@@ -246,13 +252,17 @@ void Ball::doEffect(QGraphicsItem *item)
         {
             qWarning() << "Ennemy killed";
             GameManager::Instance()->removeItem(leEnnemy);
+<<<<<<< HEAD
+
         }
         else
         {
             leEnnemy->loseHealth(_degats);
-            //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();        }
-            delete(this);
+            //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
+=======
+>>>>>>> c7fd1a6ded1bc0c4f72629cb3e49f972cf98ec9b
         }
+        delete(this);
     }
     else
         if(item->type() == Mouse::Type)

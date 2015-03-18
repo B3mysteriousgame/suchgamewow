@@ -15,7 +15,7 @@ class Ball : public QGraphicsItem
         enum { Type = UserType + 6 };
         virtual int type() const{return Type;}
 
-        Ball(qreal angl, QPointF po, QPointF origin, QGraphicsItem *parent = 0);
+        Ball(QPointF po, QGraphicsItem *parent = 0);
         Ball(const Ball& b);
         Ball(Patate *parent);
         QRectF boundingRect() const;

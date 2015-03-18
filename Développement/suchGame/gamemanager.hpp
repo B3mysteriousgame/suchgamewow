@@ -16,7 +16,7 @@ class GameManager : QObject
     public:
         static GameManager *Instance();
         void keyPressEvent(QKeyEvent* event);
-        void mousePressEvent(QMouseEvent * event);
+        void mousePressEvent(QMouseEvent *event);
         void scrollView(short sens);
 
         QGraphicsScene* getScene() const ;
@@ -42,8 +42,10 @@ class GameManager : QObject
     public slots:
 
     private:
-        GameManager& operator= (const GameManager& g){}
-        GameManager (const GameManager& g){}
+        Q_DISABLE_COPY(GameManager)
+
+        //GameManager& operator= (const GameManager&){}
+        //GameManager (const GameManager& g);
         GameManager();
         ~GameManager();
         void avancerPerso();
