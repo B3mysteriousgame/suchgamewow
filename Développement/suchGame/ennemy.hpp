@@ -26,6 +26,7 @@ class Ennemy : public Personnage
         bool touched(){ return _touched; }
         void setTouched(bool t){ _touched = t; }
         Barre* getBarre();
+        void handleSceneBounder();
 
     private:
         void doStrat();

@@ -14,12 +14,13 @@
 Ball::Ball(QPointF ballScenePos, QGraphicsItem *parent) :
     QGraphicsItem(),
     _speed(6),
-    _diam(50),
-    _degats(50)
+    _diam(50)
 {
     setRotation( parent->rotation() );
     ballScenePos = AngleOperation::addRelativeXY(50, -9, ballScenePos, rotation());
     setPos( ballScenePos ); // pos en coord de scene !!
+
+    _degats = 5 + ((Personnage*)parent)->getAtk();
 
     //qWarning() << "ballScenePos:" << ballScenePos;
 }
@@ -36,9 +37,10 @@ Ball::Ball(const Ball&) :
 Ball::Ball(Patate *parent) :
     QGraphicsItem(),
     _speed(6),
-    _diam(10),
-    _degats(50)
+    _diam(10)
 {
+    _degats = 5 + parent->getAtk();
+
     short offset = 10;
     qreal dx = 0, dy = 0;
     int angle = 0;

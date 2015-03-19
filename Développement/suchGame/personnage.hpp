@@ -23,6 +23,9 @@ public:
     void setSens(const short sens);
     qreal getSpeed() const;
     void setSpeed(const qreal val);
+    int getAtk() const { return _atk; }
+    void setAtk(const int nuAtk) { _atk = nuAtk; }
+    void addAtk(const int atk) { _atk += atk; }
     int getFullHealth() const;
     void setFullHealth(const int health);
     int getActualHealth() const;
@@ -44,7 +47,9 @@ protected:
     int _sens; // 0=gauche; 1=haut; 2=droite; 3=bas;
     int _actualhealth;
     int _fullhealth;
-    int _resistance;
+    int _def;
+    int _atk;
+    int _mana;
     QList<QString> _sprites;
     GameManager *_gm;
 

@@ -26,6 +26,7 @@ class Patate : public Personnage
         void handlePosLimits();
         void setXp(const int xp);
         void addXp(const int xp);
+        void lvlUp();
 
     private:
         void stayInScene();
@@ -39,5 +40,7 @@ class Patate : public Personnage
         short _blockinCase;
         short _blockinBorder;
         int _xp;
+        int _xpMax;
+        int _lvl;
 };
 #endif // PATATE_HPP

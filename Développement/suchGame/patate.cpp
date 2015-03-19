@@ -20,8 +20,11 @@ Patate::Patate(QGraphicsItem *parent)
     _gm = NULL;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
-    _resistance = 50;
+    _def = 50;
     _xp = 0;
+    _xpMax = 200;
+    _lvl = 1;
+    _atk = 45;
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
@@ -346,4 +349,26 @@ void Patate::addXp(const int xp)
 {
     _xp += xp;
     qWarning() << "XP now at" << _xp;
+
+    if(_xp > _xpMax)
+    {
+        int diff = _xp - _xpMax;
+        lvlUp();
+        addXp(diff);
+    }
+}
+
+void Patate::lvlUp()
+{
+    _lvl += 1;
+    _xpMax += 200;
+    _atk += 20;
+    _def += 4;
+
+    if(_lvl % 2 == 0) // lvl paire
+        _fullhealth += 28;
+    else
+        _mana += 24;
+
+    qWarning() << "Level up! Now lvl" << _lvl;
 }

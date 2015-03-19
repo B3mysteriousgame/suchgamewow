@@ -352,6 +352,9 @@ void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
     _ennemyCpt -= 1;
+    qWarning() << "Total ennemies:" << _ennemyCpt;
+
+    _timerPopEnnemy->start( 100 * randInt(1,50) );
 }
 
 
@@ -382,8 +385,9 @@ void GameManager::popEnnemy()
 //       _scene->addItem(barre);
 
     _ennemyCpt += 1;
+    qWarning() << "Total ennemies:" << _ennemyCpt;
 
-    if(_ennemyCpt == 20) // le max
+    if(_ennemyCpt == 10) // le max
     {
         if(_timerPopEnnemy->isActive())
             _timerPopEnnemy->stop();

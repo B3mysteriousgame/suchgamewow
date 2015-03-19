@@ -15,10 +15,10 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = 5;
+    _xpDon = 10;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
-    _resistance = 25;
+    _def = 25;
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 
     _barre = new Barre();
@@ -47,7 +47,6 @@ void Ennemy::loseHealth(int degats)
     Personnage::loseHealth(degats);
     pourcentage = Ennemy::getPourcentageVie();
     _barre->setLargeur(pourcentage/2);
-
 }
 
 
@@ -56,8 +55,10 @@ void Ennemy::advance(int)
     // const pointer to GameManager
     static GameManager* const Michel = GameManager::Instance();
     static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
+    /*
     static const qreal maxX = Michel->getView()->width();
     static const qreal maxY = Michel->getView()->height();
+    */
 
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 0.9;
@@ -116,28 +117,34 @@ void Ennemy::advance(int)
 
     moveBy(ddx, ddy);
 
-    if(y() > maxY)
-        setPos(x(), 0);
-    else
-    {
-        if(y() < 0)
-            setPos(x(), maxY);
-        else
-        {
-            if(x() > maxX)
-                setPos(0, y());
-            else
-                if(x() < 0)
-                    setPos(maxX, y());
-        }
-    }
+    handleSceneBounder();
 
     //qWarning() << "pos: " << x() << " - " << y();
     //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
 
-    // test collision
+    // exécute la strat
     _strat->executer();
 
     ++cpt; // compteur de tour
 }
 
+void Ennemy::handleSceneBounder()
+{
+    static const QRectF bounder = GameManager::Instance()->getScene()->sceneRect();
+
+    if(y() > bounder.bottomLeft().y())
+        setPos(x(), bounder.topLeft().y());
+    else
+    {
+        if(y() < bounder.topLeft().y())
+            setPos(x(), bounder.bottomLeft().y());
+        else
+        {
+            if(x() > bounder.topRight().x())
+                setPos(bounder.topLeft().x(), y());
+            else
+                if(x() < bounder.topLeft().x())
+                    setPos(bounder.topRight().x(), y());
+        }
+    }
+}
