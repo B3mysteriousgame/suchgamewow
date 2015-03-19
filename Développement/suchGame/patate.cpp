@@ -77,15 +77,20 @@ void Patate::avancer(short sens)
     static const short maxTour = 4, maxSprite = 4;
     static MyView *view = GameManager::Instance()->getView();
     QString spritePAth = ":/images/Sprites/link";
-    qreal ddx = 0, ddy = 0, offset = 1;
     //static short lastBlockinDir = -1;
+
+    static qreal ddx, ddy, offset = 1;
+    ddx = 0;
+    ddy = 0;
+
 
     if(sens != _sens) // si on change de sens
     {
         cpt = 1; // pour changer d'image apres
-        _imgCpt = 0; // incremente apres, dond img 1 sera affichee
+        _imgCpt = 0; // incremente apres, donc img 1 sera affichee
 
         _sens = sens; // on dit qu'on change de sens
+        //offset += 2;
 
         /*
         if(_blockinCase != -1)
@@ -93,12 +98,7 @@ void Patate::avancer(short sens)
          */
     }
     else // sinon on test le scroll
-    {
-        /*
-        lastBlockinDir = _blockinCase;
-        _blockinCase = scrollView(lastBlockinDir);
-        */
-    }
+        offset = 1;
 
     // on calcule la nouvelle valeur de x ou y en fonction du sens
     switch (_sens)

@@ -1,0 +1,8 @@
+Faire les mvmts de la pata (keypress) en utilisant un timer:
+	http://stackoverflow.com/questions/4458463/how-to-make-keyword-to-work-instantly-with-no-delay-in-qt4-6-c
+
+Creer les maps (1 pr commencer)
+
+AbstractFactory pour les ennemis
+
+Trouver d'où vient le putain de crash

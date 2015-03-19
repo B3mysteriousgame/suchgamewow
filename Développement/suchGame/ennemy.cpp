@@ -15,7 +15,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = 10;
+    _xpDon = 23;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _def = 25;
@@ -35,10 +35,9 @@ Ennemy::~Ennemy()
     delete(_barre);
 }
 
-Barre *Ennemy::getBarre() {
-
+Barre *Ennemy::getBarre()
+{
     return _barre;
-
 }
 
 void Ennemy::loseHealth(int degats)
