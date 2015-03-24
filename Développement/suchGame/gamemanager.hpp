@@ -8,6 +8,7 @@
 class Mouse;
 class Perso;
 class Patate;
+class Ennemy;
 
 class GameManager : QObject
 {

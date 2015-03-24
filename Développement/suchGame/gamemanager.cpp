@@ -152,6 +152,7 @@ void GameManager::removeItem(QGraphicsItem *it)
     delete(it);
 }
 
+
 Perso* GameManager::getPerso() const
 {
     return _perso;

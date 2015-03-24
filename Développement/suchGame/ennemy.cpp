@@ -129,6 +129,7 @@ void Ennemy::advance(int step)
     //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
 
     // test collision
+
     _strat->executer();
 
     ++cpt; // compteur de tour
