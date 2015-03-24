@@ -30,9 +30,7 @@ class Ball : public QGraphicsItem
     public slots:
 
     private:
-        void detectCollisions();
-        void detectColls();
-        QList<Mouse*> collidingMice(GameManager *gm);
+        QList<QGraphicsItem *> collidingEnnemy();
 
     protected:
         void advance(int step);

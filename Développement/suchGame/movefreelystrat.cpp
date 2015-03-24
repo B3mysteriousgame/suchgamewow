@@ -36,14 +36,16 @@ void MoveFreelyStrat::appliquer ()
         if(!_parent->touched()) // si on a pas deja gere le cas
             foreach(QGraphicsItem *item, listCollides)
             {
-                // si c'est pas le texte ou la barre de vie
-                if(item->type() != QGraphicsTextItem::Type || Barre::Type )
+                // si c'est pas le texte ni la barre de vie
+                if(item->type() != QGraphicsTextItem::Type && item->type() != Barre::Type )
                 {
                     _parent->setTouched(true);
+                    /*
                     if(item->type() == Ball::Type)
                         doBallStrat((Ball*)item);
                     else
-                        doStrat();
+                    */
+                    doStrat();
                 }
             }
     }
@@ -72,6 +74,7 @@ void MoveFreelyStrat::doStrat()
     }
 }
 
+// NOT USED
 void MoveFreelyStrat::doBallStrat(Ball *item)
 {
     _parent->loseHealth(item->getDegats());

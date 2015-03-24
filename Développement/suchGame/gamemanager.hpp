@@ -28,7 +28,6 @@ class GameManager : QObject
 
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem *item);
-        void removeItem(QGraphicsItem *it);
         void setText(const QString& txt);
         void addItemToScene(QLineF &line);
         void addItemToScene(QRectF& rect);
@@ -38,9 +37,12 @@ class GameManager : QObject
         void ennemyGotKilled(const int xp);
         static void qSleep(int ms);
         void test();
+        void patateLvlUp();
 
     public slots:
         void popEnnemy();
+        void removeItem(QGraphicsItem *it);
+        void hideLvlUp();
 
     private:
         Q_DISABLE_COPY(GameManager)
@@ -56,10 +58,12 @@ class GameManager : QObject
         QGraphicsScene *_scene;
         MyView *_view;
         QTimer *_timer;
+        QTimer *_timerLvlUp;
         QTimer *_timerPopEnnemy;
         Perso *_perso;
         Patate *_patate;
         QGraphicsTextItem *_textItem;
+        QGraphicsPixmapItem *_lvlUpTxt;
         int _ennemyCpt;
 
         void pauseItems();

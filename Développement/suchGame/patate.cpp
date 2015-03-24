@@ -24,7 +24,7 @@ Patate::Patate(QGraphicsItem *parent)
     _xp = 0;
     _xpMax = 200;
     _lvl = 1;
-    _atk = 45;
+    _atk = 48;
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
@@ -370,5 +370,6 @@ void Patate::lvlUp()
     else
         _mana += 24;
 
+    _gm->patateLvlUp();
     qWarning() << "Level up! Now lvl" << _lvl;
 }

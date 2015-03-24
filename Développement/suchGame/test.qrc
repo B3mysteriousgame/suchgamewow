@@ -18,5 +18,6 @@
         <file>images/Sprites/linkG3.png</file>
         <file>images/Sprites/linkG4.png</file>
         <file>images/map.png</file>
+        <file>images/Sprites/lvlUpTxt.png</file>
     </qresource>
 </RCC>

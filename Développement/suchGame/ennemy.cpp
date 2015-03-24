@@ -15,13 +15,15 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = 23;
+    _xpDon = 70;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _def = 25;
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
 
     _barre = new Barre();
+    _barre->moveBy(-12,-15);
+    _barre->setParentItem(this);
 }
 
 int Ennemy::getXpDon() const

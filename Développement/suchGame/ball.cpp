@@ -108,125 +108,70 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
 void Ball::advance(int /*step*/)
 {
     static const qreal offset = 1;
-    static const GameManager *gm = GameManager::Instance();
-    static QList<QGraphicsItem*> listCollides = QList<QGraphicsItem*>();
-    const qreal maxX = gm->getView()->width();
-    const qreal maxY = gm->getView()->height();
+    static GameManager* const gm = GameManager::Instance();
+    static MyView* const view = gm->getView();
+    //static QList<QGraphicsItem*> listCollides;
+    static QRectF viewRect;
+
+    QList<QGraphicsItem*> listCollides;
+
+
     //short newsens = -1;
     qreal dy = 0, dx = 0;
 
-    switch (_sens)
-    {
-        case Patate::HAUT:
-            dy = _speed * offset * -1;
-            break;
-        case Patate::BAS:
-            dy = _speed * offset;
-            break;
-        case Patate::GAUCHE:
-            dx = _speed * offset * -1;
-            break;
-        case Patate::DROITE:
-            dx = _speed * offset;
-            break;
-        default:
-            break;
-    }
-    moveBy(dx, dy);
-
-    // on verif qu'on est tj dans la scene
-    if(x() > maxX || x() < 0 || y() > maxY || y() < 0)
-        delete(this);
+    viewRect = view->getViewRect();
 
     // test collision
-    listCollides.clear();
-    listCollides = collidingItems();
+    //listCollides.clear();
+    listCollides = collidingEnnemy();
     if(listCollides.length() > 0)
-        foreach (QGraphicsItem *item, listCollides)
-            doEffect(item);
+    {
+        doEffect(listCollides[0]);
+        gm->removeItem(this);
+    }
+    else // nothing touched
+    {
+        switch (_sens)
+        {
+            case Patate::HAUT:
+                dy = _speed * offset * -1;
+                break;
+            case Patate::BAS:
+                dy = _speed * offset;
+                break;
+            case Patate::GAUCHE:
+                dx = _speed * offset * -1;
+                break;
+            case Patate::DROITE:
+                dx = _speed * offset;
+                break;
+            default:
+                break;
+        }
+        moveBy(dx, dy);
+
+        // on verif qu'on est tj dans la view
+        if(x() > viewRect.bottomRight().x() || x() < viewRect.bottomLeft().x() || y() > viewRect.bottomRight().y() || y() < viewRect.topRight().y())
+            delete(this);
+    }
 }
 
 /**
- * @brief Retourne une liste d'objets Mouse en collision
- * @param Pointeur vers le gameManager pour eviter l'appelle d'instance()
- * @return Une QList des souris détectees
+ * @brief Retourne une liste d'objets Mouse ou Ennemy en collision
+ * @return Une QList des souris/ennemy detectes
  */
-QList<Mouse*> Ball::collidingMice(GameManager *gm)
+QList<QGraphicsItem*> Ball::collidingEnnemy()
 {
-    QList<Mouse*> lmice = gm->getSceneMice();
-    QList<Mouse*> lColMice = QList<Mouse*>();
+    QList<QGraphicsItem*> collidings = collidingItems();
+    QList<QGraphicsItem*> collidingEnnemies;
 
-    //for(int i = 0; i < max; ++i)
-    foreach (Mouse *item, lColMice)
+    foreach (QGraphicsItem *qgi, collidings)
     {
-        // tester si item est NULL
-        if(collidesWithPath(item->shape()))
-            lColMice.append(item);
+        if(qgi->type() == Ennemy::Type || qgi->type() == Mouse::Type)
+            collidingEnnemies.append(qgi);
     }
 
-    return lColMice;
-}
-
-///
-/// \brief Detecte les collision en utilisant Ball::collidingMice
-///
-void Ball::detectColls()
-{
-    static GameManager* const gm = GameManager::Instance();
-    bool touched = false;
-    QList<Mouse*> lcolliding = collidingMice(gm);
-    QString sentence = "";
-
-    if(lcolliding.count() > 0)
-    {
-        foreach (Mouse *item, lcolliding)
-        {
-            switch(item->type())
-            {
-                case Mouse::Type:
-                    sentence = "MOUSE";
-                    touched = true;
-                    break;
-                default:
-                    sentence = "AUTRE :'(";
-                    break;
-            }
-            qWarning() << sentence;
-            if(touched)
-                break;
-        }
-    }
-}
-
-///
-/// \brief Detecte les collision en utilisant QGraphicsItem::collidingItems()
-/// NOT USED
-///
-void Ball::detectCollisions()
-{
-    // detect collision
-    static GameManager* const gm = GameManager::Instance();
-    QList<QGraphicsItem*> lcolliding = collidingItems();
-
-    if(lcolliding.count() > 0)
-    {
-        foreach (QGraphicsItem* item, lcolliding)
-        {
-            // qWarning() << "item, mouse, perso" << item->type() << "-" << Mouse::Type << "-" << Perso::Type;
-            if( item->type() != Perso::Type && item->type() == Mouse::Type )
-            {
-                qWarning() << "MOUSE";
-
-                gm->removeItem(item);
-                // touched = true;
-                break;
-            }
-            else
-                qWarning() << "NOT MOUSE ";
-        }
-
-    }
-    //------- end detect collisions
+    return collidingEnnemies;
 }
 
 QPointF Ball::getCenter() const
@@ -240,31 +185,25 @@ QPointF Ball::getCenter() const
 
 void Ball::doEffect(QGraphicsItem *item)
 {
-    GameManager* const gm = GameManager::Instance();
+    static GameManager* const gm = GameManager::Instance();
     if(item->type() == Ennemy::Type)
     {
         Ennemy *leEnnemy = (Ennemy*) item;
         leEnnemy->loseHealth(_degats);
         qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
 
-        if(leEnnemy->getActualHealth() <= 0)
+        if(leEnnemy->getActualHealth() <= 0) // si mort
         {
             qWarning() << "Ennemy killed";
             gm->ennemyGotKilled(leEnnemy->getXpDon());
             gm->removeItem(leEnnemy);
         }
-        else
-        {
-            leEnnemy->loseHealth(_degats);
-            //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();        }
-            delete(this);
-        }
+        //delete(this);
     }
     else
         if(item->type() == Mouse::Type)
         {
-            //qWarning() << "got a mouse";
             GameManager::Instance()->removeItem(item);
-            delete(this);
+            //delete(this);
         }
 }
