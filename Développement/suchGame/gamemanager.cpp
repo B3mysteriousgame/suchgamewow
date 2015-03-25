@@ -6,9 +6,9 @@
 #include <QtWidgets>
 #include <QGraphicsTextItem>
 #include <math.h>
-#include "patate.hpp"
 #include "ennemy.hpp"
 #include "barre.hpp"
+#include <iostream>
 
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static const int MouseCount = 7;
@@ -178,13 +178,15 @@ void GameManager::mousePressEvent(QMouseEvent *event)
 }
 
 void GameManager::test()
-{/*
-    QPointF p = _perso->pos();
-    QGraphicsEllipseItem *e = _scene->addEllipse(_perso->boundingRect());
-    e->show();
-    e->setRotation( _perso->rotation() - 90 );
-    qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
-*/}
+{
+   Patate jose = Patate();
+   Ennemy manuel = Ennemy();
+   //jose.attaque(manuel);
+   qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
+
+
+    //qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
+}
 
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
