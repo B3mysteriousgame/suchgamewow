@@ -2,6 +2,7 @@
 #define MYVIEW_HPP
 
 #include <QGraphicsView>
+#include <QPointF>
 
 class MyView : public QGraphicsView
 {
@@ -10,6 +11,11 @@ class MyView : public QGraphicsView
         explicit MyView();
         void keyPressEvent(QKeyEvent* event);
         void mousePressEvent(QMouseEvent *event);
+        QPoint getCenter() const;
+        QRectF getViewRect() const;
+
+        static const qreal WIDTH = 467;
+        static const qreal HEIGHT = 277;
 
     signals:
 

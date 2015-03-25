@@ -19,17 +19,20 @@ class Ennemy : public Personnage
         Ennemy(const Ennemy& e);
         ~Ennemy();
 
+        int getXpDon() const;
         void loseHealth(int degats);
         void advance(int step);
         void attaque(){}
         bool touched(){ return _touched; }
         void setTouched(bool t){ _touched = t; }
         Barre* getBarre();
+        void handleSceneBounder();
 
     private:
         void doStrat();
         Barre *_barre;
         bool _touched;
+        int _xpDon;
         Strategie *_strat;
 };
 

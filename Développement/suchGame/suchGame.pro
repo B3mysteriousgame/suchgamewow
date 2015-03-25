@@ -14,9 +14,10 @@ HEADERS += \
     strat2.hpp \
     strategie.hpp \
     movefreelystrat.hpp \
+    ennemyfactory.h \
+    myscene.hpp \
     arme.h \
-    barre.hpp \
-    ennemyfactory.h
+    barre.hpp
 
 SOURCES += \
     main.cpp \
@@ -32,9 +33,10 @@ SOURCES += \
     strat1.cpp \
     strat2.cpp \
     movefreelystrat.cpp \
+    ennemyfactory.cpp \
+    myscene.cpp \
     arme.cpp \
-    barre.cpp \
-    ennemyfactory.cpp
+    barre.cpp
 
 RESOURCES += \
     mice.qrc \

@@ -22,7 +22,7 @@ void Personnage::setSens(const short sens)
 qreal Personnage::getPourcentageVie()
 {
     qreal pourcentage;
-    pourcentage = ( _actualhealth * 100 )/ _fullhealth;
+    pourcentage = _actualhealth * 100 / _fullhealth;
     return pourcentage;
 }
 
@@ -65,14 +65,16 @@ void Personnage::loseHealth(const int degats)
 {
     int vraiDegats;
 
-    vraiDegats = degats - _resistance;
+    vraiDegats = degats - _def;
 
-    if(vraiDegats >= 1);
+    if(vraiDegats >= 1)
     {
         _actualhealth -= vraiDegats;
-        qWarning() << "saucisse" << _actualhealth;
-        if(_actualhealth <= 0)
+
+        if(_actualhealth < 0)
             _actualhealth = 0;
+
+        qWarning() << "saucisse" << _actualhealth;
     }
 }
 

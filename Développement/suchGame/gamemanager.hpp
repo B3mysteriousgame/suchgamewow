@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include "myview.hpp"
 #include <QTimer>
+#include "ennemyfactory.h"
 
 class Mouse;
 class Perso;
@@ -17,32 +18,40 @@ class GameManager : QObject
     public:
         static GameManager *Instance();
         void keyPressEvent(QKeyEvent* event);
-        void mousePressEvent(QMouseEvent * event);
+        void mousePressEvent(QMouseEvent *event);
+        void scrollView(short sens);
 
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
-        QTimer* getTimer() const;
+        QTimer* getPopTimer() const;
         Perso* getPerso() const;
         QList<Mouse*> getSceneMice();
         QPointF getPersoPos() const;
 
+
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem *item);
-        void removeItem(QGraphicsItem *it);
         void setText(const QString& txt);
         void addItemToScene(QLineF &line);
         void addItemToScene(QRectF& rect);
         void addItemToScene(QGraphicsEllipseItem &el);
         int randInt(int low, int high) const;
         QPointF sceneCenter() const;
-
+        void ennemyGotKilled(const int xp);
+        static void qSleep(int ms);
         void test();
+        void patateLvlUp();
 
     public slots:
+        void popEnnemy();
+        void removeItem(QGraphicsItem *it);
+        void hideLvlUp();
 
     private:
-        GameManager& operator= (const GameManager& g){}
-        GameManager (const GameManager& g){}
+        Q_DISABLE_COPY(GameManager)
+
+        //GameManager& operator= (const GameManager&){}
+        //GameManager (const GameManager& g);
         GameManager();
         ~GameManager();
         void avancerPerso();
@@ -52,9 +61,17 @@ class GameManager : QObject
         QGraphicsScene *_scene;
         MyView *_view;
         QTimer *_timer;
+        QTimer *_timerPopEnnemy;
+        QTimer *_timerLvlUp;
+        EnnemyFactory _ef;
+
         Perso *_perso;
         Patate *_patate;
         QGraphicsTextItem *_textItem;
+        QGraphicsPixmapItem *_lvlUpTxt;
+        int _ennemyCpt;
+
+        void pauseItems();
 
 };
 
