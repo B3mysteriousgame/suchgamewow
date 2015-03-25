@@ -6,8 +6,8 @@
 
 EnnemyFactory::EnnemyFactory()
 {
-    _gm = GameManager::Instance();
-    _timerPopEnnemy = _gm->getPopTimer();
+
+
 }
 
 EnnemyFactory::~EnnemyFactory()
@@ -23,17 +23,18 @@ void EnnemyFactory::createEnnemy()
     Barre *barre = ennemy->getBarre();
     barre->moveBy(-12,-15);
     barre->setParentItem(ennemy);
-    _gm->addItemToScene(ennemy);
+
+    GameManager::Instance()->addItemToScene(ennemy);
 
     _listeMichels.append(ennemy);
 
-    if( _listeMichels.length() == 10) // le max
-      {
-        if(_timerPopEnnemy->isActive())
-            _timerPopEnnemy->stop();
-      }
+    if( _listeMichels.length() == 10)
+    {
+        if(GameManager::Instance()->isTimerActive())
+            GameManager::Instance()->stopTimer();
+    }
     else
-        _timerPopEnnemy->start( 100 * (_gm->randInt(1,50)) );
+        GameManager::Instance()->startTimer(1000 * (GameManager::Instance()->randInt(1,50)));
 
 }
 

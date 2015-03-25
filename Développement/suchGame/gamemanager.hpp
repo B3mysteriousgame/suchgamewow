@@ -28,7 +28,9 @@ class GameManager : QObject
         QList<Mouse*> getSceneMice();
         QPointF getPersoPos() const;
 
-
+        bool isTimerActive();
+        void stopTimer();
+        void startTimer(int ms);
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem *item);
         void setText(const QString& txt);

@@ -47,8 +47,8 @@ GameManager::GameManager()
     //_perso = new Perso();
     _perso = NULL;
     _patate = new Patate();
-     _ennemyCpt = 0;
-     _lvlUpTxt = NULL;
+    _ennemyCpt = 0;
+    _lvlUpTxt = NULL;
     _timerPopEnnemy = new QTimer();
     _timer = new QTimer();
     _timerLvlUp = new QTimer();
@@ -72,19 +72,6 @@ GameManager::GameManager()
         _scene->addItem(mouse);
     }
 
-    popEnnemy();
-
-    /*
-    _textItem = _scene->addText("Je suis un vilain ennemy");
-    _textItem->setParentItem(ennemy);
-    _textItem->setPlainText("Je suis un vilain ennemy");
-    */
-
-    /*Mouse *mouse = new Mouse();
-    mouse->setPos(100,0);
-    _scene->addItem(mouse);*/
-
-    //_scene->addItem(_perso);
     _scene->addItem(_patate);
 //! [3]
     //_scene->addRect(_perso->boundingRect());
@@ -395,5 +382,21 @@ void GameManager::hideLvlUp()
     _timerLvlUp->stop();
     _lvlUpTxt->hide();
     _lvlUpTxt->setActive(false);
+}
+
+//Gestion du timerPopEnnemy
+bool GameManager::isTimerActive()
+{
+    return _timerPopEnnemy->isActive();
+}
+
+void GameManager::stopTimer()
+{
+    _timerPopEnnemy->stop();
+}
+
+void GameManager::startTimer(int ms)
+{
+    _timerPopEnnemy->start(ms);
 }
 
