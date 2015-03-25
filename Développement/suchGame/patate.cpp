@@ -4,7 +4,6 @@
 #include "ball.hpp"
 #include <QDebug>
 
-
 Patate::Patate(QGraphicsItem *parent)
     : Personnage(parent),
       _imgCpt (0),
@@ -22,7 +21,21 @@ Patate::Patate(QGraphicsItem *parent)
     _sprites.append(":/images/Sprites/linkD3.png");
     _sprites.append(":/images/Sprites/linkD2.png");
 
+<<<<<<< HEAD
 
+=======
+    _imgCpt = 0;
+    _sens = Patate::DROITE;
+    _speed = 3;
+    _gm = NULL;
+    _fullhealth = 100;
+    _actualhealth = _fullhealth;
+    _def = 50;
+    _xp = 0;
+    _xpMax = 200;
+    _lvl = 1;
+    _atk = 48;
+>>>>>>> a6968f8cd1cecf71169b410da489be68fcf64a49
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
@@ -40,6 +53,7 @@ Patate::Patate(Patate *p)
     _sens = p->getSens();
     _speed = p->getSpeed();
     _gm = NULL;
+    _blockinCase = -1;
 
     setPixmap(p->pixmap());
     //show();
@@ -66,25 +80,38 @@ void Patate::test()
     rec.setY( rec.y() - adjust );
 }
 
-void Patate::advance(int step){}
+void Patate::advance(int){}
 
 void Patate::avancer(short sens)
 {
     static short cpt = 1; // va de 1 a maxTour non compris (1 a 3)
     static const short maxTour = 4, maxSprite = 4;
-    static const qreal maxX = GameManager::Instance()->getView()->width();
-    static const qreal maxY = GameManager::Instance()->getView()->height();
+    static MyView *view = GameManager::Instance()->getView();
     QString spritePAth = ":/images/Sprites/link";
-    qreal ddx = 0, ddy = 0, offset = 1;
+    //static short lastBlockinDir = -1;
+
+    static qreal ddx, ddy, offset = 1;
+    ddx = 0;
+    ddy = 0;
+
 
     if(sens != _sens) // si on change de sens
     {
-        cpt = 1; // pour changer d'image
-        _imgCpt = 0; // incremente apres, dond img 1 sera affichee
+        cpt = 1; // pour changer d'image apres
+        _imgCpt = 0; // incremente apres, donc img 1 sera affichee
 
         _sens = sens; // on dit qu'on change de sens
-    }
+        //offset += 2;
 
+        /*
+        if(_blockinCase != -1)
+            _blockinCase = -1;
+         */
+    }
+    else // sinon on test le scroll
+        offset = 1;
+
+    // on calcule la nouvelle valeur de x ou y en fonction du sens
     switch (_sens)
     {
         case Patate::DROITE:
@@ -107,8 +134,8 @@ void Patate::avancer(short sens)
             break;
     }
 
-    if(cpt >= maxTour) // on repasse a 0
-        cpt = 1; // incremente apres donc = 1 la prochaine fois
+    if(cpt >= maxTour) // on repasse a 1
+        cpt = 1;
 
     if(cpt == 1) // on change l'image
     {
@@ -122,35 +149,19 @@ void Patate::avancer(short sens)
     }
 
     moveBy(ddx, ddy);
+    view->centerOn(this);
 
-    if(y() > maxY)
-        setPos(x(), 0);
-    else
+    /*
+    if(_blockinBorder != _sens)
     {
-        if(y() < 0)
-            setPos(x(), maxY);
-        else
-        {
-            if(x() > maxX)
-                setPos(0, y());
-            else
-                if(x() < 0)
-                    setPos(maxX, y());
-        }
+        moveBy(ddx, ddy);
+
+        if(_blockinCase != lastBlockinDir)
+            _blockinCase = -1; // pour pas rebloquer   
     }
+    */
 
-    qWarning() << "pos: " << x() << " - " << y();
-
-    // test collision
-    /*QList<QGraphicsItem*> listCollides = collidingItems();
-    if(listCollides.length() > 0)
-    {
-        foreach (QGraphicsItem *item, listCollides)
-        {
-            if(item->type() == Mouse::Type)
-                GameManager::Instance()->removeItem(item);
-        }
-    }*/
+    //qWarning() << "pos: " << x() << " - " << y();
 
     ++cpt;
 }
@@ -186,4 +197,190 @@ void Patate::attaque()
     Ball *b = new Ball(this);
 
     _gm->addItemToScene(b);
+}
+
+/**
+ * @brief S'assure que le patate est dans la vue,
+ *  et la tp a l'oppose si elle depasse
+ */
+void Patate::stayInView()
+{
+    static QRectF viewRect;
+
+    viewRect = GameManager::Instance()->getView()->getViewRect();
+    // TODO: essayer de pas recup le rect a chaque tour
+
+    if(y() > viewRect.bottomLeft().y())
+        setPos(x(), viewRect.topRight().y());
+    else
+    {
+        if(y() < viewRect.topRight().y())
+            setPos(x(), viewRect.bottomLeft().y());
+        else
+        {
+            if(x() > viewRect.bottomRight().x())
+                setPos(viewRect.topLeft().x(), y());
+            else
+                if(x() < viewRect.topLeft().x())
+                    setPos(viewRect.bottomRight().x(), y());
+        }
+    }
+}
+
+/**
+ * @brief Scroll la vue si la patate sort des bords
+ * @return le sens bloquant si la patate est aux limites de la scene,
+ *  -1 sinon
+ */
+bool Patate::scrollView()
+{
+    static QRectF viewRect;
+    static QRectF lastViewRect = GameManager::Instance()->getView()->getViewRect();
+    //static bool viewScrolled = false;
+    //qreal xx, yy;
+
+    // permet de laisser un decalage avec les bords
+    static const short offset = 2;
+
+    viewRect = GameManager::Instance()->getView()->getViewRect();
+    // TODO: essayer de pas recup le rect a chaque tour
+
+    //xx = x();
+    //yy = y();
+
+    if(y() > lastViewRect.bottomRight().y() - offset ||
+        y() < lastViewRect.topLeft().y() + offset ||
+        x() > lastViewRect.bottomRight().x() - offset ||
+        x() < lastViewRect.topLeft().x() + offset)
+    {
+        if(isNearSceneBorder()) // proche du bord
+        {
+            _blockinBorder = _sens; // on empeche de continuer par la
+            qWarning() << "Patate near border" << _sens;
+        }
+        else // ailleurs
+        {
+            GameManager::Instance()->scrollView(_sens); // on scroll
+
+            viewRect = GameManager::Instance()->getView()->getViewRect();
+            //viewScrolled = true;
+
+            if(_blockinBorder != -1)
+                _blockinBorder = -1;
+
+            qWarning() << "Scrolled towards" << _sens;
+            GameManager::qSleep(250);
+        }
+    }
+
+    /*
+    // Verifie si on s'apprete a sortir de la scene
+    // en testant si scrollView() a marcher ou non
+    if(lastViewRect != viewRect)
+    {
+        lastViewRect = viewRect;
+    }
+    else if(lastViewRect == viewRect && viewScrolled == true)
+    { // la patate s'apprete a sortir de la scene
+        viewScrolled = false; // pour pas le retraiter la fois suivante
+        return _sens;
+    }
+    */
+
+    //viewScrolled = false;
+
+    return -1;
+}
+
+/**
+ * @brief S'assure que le personnage ne depasse pas
+ *  les bords de la scene
+ *
+ * not used
+ */
+void Patate::stayInScene()
+{
+    static const QRectF sceneRect = GameManager::Instance()->getScene()->sceneRect();
+
+    if(y() > sceneRect.bottomLeft().y())
+        setPos(x(), sceneRect.topRight().y());
+    else
+    {
+        if(y() < sceneRect.topRight().y())
+            setPos(x(), sceneRect.bottomLeft().y());
+        else
+        {
+            if(x() > sceneRect.bottomRight().x())
+                setPos(sceneRect.topLeft().x(), y());
+            else
+                if(x() < sceneRect.topLeft().x())
+                    setPos(sceneRect.bottomRight().x(), y());
+        }
+    }
+}
+
+void Patate::handlePosLimits()
+{
+/*    if(_blockinBorder != _sens && _blockinCase != _sens)
+        scrollView(_sens);
+    else
+        stayInScene();
+*/}
+
+/**
+ * @brief Patate::isNearSceneBorder Verifie si on est proche d'une bordure de la scene
+ *  en testant si on est contenu dans le rectangle de la scene (un peu plus petit)
+ * @return vrai si proche d'un bord, faux sinon
+ */
+bool Patate::isNearSceneBorder() const
+{
+    static const short offset = 20;
+    static const QRectF smallSceneRect = GameManager::Instance()->getScene()->sceneRect().adjusted(offset, offset, -2 * offset, -2 * offset);
+    static bool cpt = true;
+
+    if(cpt)
+    {
+        cpt = false;
+        qWarning() << "Patate::isNearSceneBorder ---> Rectangle:" << smallSceneRect;
+    }
+    else
+    {
+        qWarning() << "Patate::isNearSceneBorder ---> Not close to bordas";
+    }
+
+    return !smallSceneRect.contains(this->boundingRect());
+}
+
+void Patate::setXp(const int xp)
+{
+    _xp = xp;
+}
+
+void Patate::addXp(const int xp)
+{
+    _xp += xp;
+    qWarning() << "XP now at" << _xp;
+
+    if(_xp > _xpMax)
+    {
+        int diff = _xp - _xpMax;
+        lvlUp();
+        addXp(diff);
+    }
+}
+
+void Patate::lvlUp()
+{
+    _lvl += 1;
+    _xpMax += 200;
+    _atk += 20;
+    _def += 4;
+
+    if(_lvl % 2 == 0) // lvl paire
+        _fullhealth += 28;
+    else
+        _mana += 24;
+
+    _gm->patateLvlUp();
+    qWarning() << "Level up! Now lvl" << _lvl;
 }

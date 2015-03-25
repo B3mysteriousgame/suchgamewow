@@ -18,9 +18,29 @@ class Patate : public Personnage
         QList<QString> getSprites() const;
         int getImgCpt() const;
 
+        //void setSens(const short sens) override;
         void advance(int step);
         void avancer(short sens);
         void test();
         void attaque();
+        void handlePosLimits();
+        void setXp(const int xp);
+        void addXp(const int xp);
+        void lvlUp();
+
+    private:
+        void stayInScene();
+        void stayInView();
+        bool scrollView();
+        bool isNearSceneBorder() const;
+
+        // permet de savoir de quel cote est le bord
+        //  si on est dans une "case bordure"
+        //  (-1 non, 0 bordure gauche, 1 bordure haut, etc...)
+        short _blockinCase;
+        short _blockinBorder;
+        int _xp;
+        int _xpMax;
+        int _lvl;
 };
 #endif // PATATE_HPP

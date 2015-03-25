@@ -9,13 +9,11 @@ class Patate;
 
 class Ball : public QGraphicsItem
 {
-//    Q_OBJECT
-
     public:
         enum { Type = UserType + 6 };
         virtual int type() const{return Type;}
 
-        Ball(qreal angl, QPointF po, QPointF origin, QGraphicsItem *parent = 0);
+        Ball(QPointF po, QGraphicsItem *parent = 0);
         Ball(const Ball& b);
         Ball(Patate *parent);
         QRectF boundingRect() const;
@@ -32,9 +30,7 @@ class Ball : public QGraphicsItem
     public slots:
 
     private:
-        void detectCollisions();
-        void detectColls();
-        QList<Mouse*> collidingMice(GameManager *gm);
+        QList<QGraphicsItem *> collidingEnnemy();
 
     protected:
         void advance(int step);

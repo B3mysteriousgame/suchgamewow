@@ -43,7 +43,7 @@ void Perso::avancer()
     */
 }
 
-void Perso::advance(int step){}
+void Perso::advance(int /*step*/){}
 
 qreal Perso::getSpeed() const
 {
