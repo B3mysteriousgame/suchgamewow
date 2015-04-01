@@ -154,9 +154,9 @@ void GameManager::removeItem(QGraphicsItem *it)
 }
 
 
-Perso* GameManager::getPerso() const
+Patate *GameManager::getPatate() const
 {
-    return _perso;
+    return _patate;
 }
 
 QGraphicsScene* GameManager::getScene() const
@@ -270,9 +270,9 @@ void GameManager::addItemToScene(QGraphicsEllipseItem&)
     //_scene->addEllipse((new QGraphicsEllipseItem(el))->rect());
 }
 
-QPointF GameManager::getPersoPos() const
+QPointF GameManager::getPatatePos() const
 {
-    return _perso->pos();
+    return _patate->pos();
 }
 
 QList<Mouse*> GameManager::getSceneMice()

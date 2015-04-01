@@ -24,9 +24,9 @@ class GameManager : QObject
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
         QTimer* getPopTimer() const;
-        Perso* getPerso() const;
+        Patate* getPatate() const;
         QList<Mouse*> getSceneMice();
-        QPointF getPersoPos() const;
+        QPointF getPatatePos() const;
 
         bool isTimerActive();
         void stopTimer();

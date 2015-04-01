@@ -21,7 +21,7 @@ void EnnemyFactory::createEnnemy()
     ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
                    ::cos((1 * 6.28) / 7) * 200);
     Barre *barre = ennemy->getBarre();
-    barre->moveBy(-12,-15);
+    barre->moveBy(-4,0);
     barre->setParentItem(ennemy);
 
     GameManager::Instance()->addItemToScene(ennemy);
@@ -34,7 +34,7 @@ void EnnemyFactory::createEnnemy()
             GameManager::Instance()->stopTimer();
     }
     else
-        GameManager::Instance()->startTimer(1000 * (GameManager::Instance()->randInt(1,50)));
+        GameManager::Instance()->startTimer(500 * (GameManager::Instance()->randInt(1,50)));
 
 }
 
@@ -53,4 +53,3 @@ int EnnemyFactory::getNbEnnemy()
 {
     return _listeMichels.length();
 }
-
