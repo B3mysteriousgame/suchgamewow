@@ -10,7 +10,6 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     Personnage(parent)
 {
     _sprites.append(":/images/patateSaiyen.png");
-
     _imgCpt = 0;
     _sens = Ennemy::DROITE;
     _gm = NULL;

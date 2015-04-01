@@ -6,9 +6,9 @@
 #include <QtWidgets>
 #include <QGraphicsTextItem>
 #include <math.h>
-#include "patate.hpp"
 #include "ennemy.hpp"
 #include "barre.hpp"
+#include <iostream>
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -181,11 +181,16 @@ void GameManager::mousePressEvent(QMouseEvent*)
 
 void GameManager::test()
 {
+   //jose.attaque(manuel);
+   //qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
+
+
+    //qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
     QPointF oldPoint, newPoint; // in scene coord
     qWarning() << "In GameManager::test";
 
     //oldPoint = _view->mapToScene(_view->getCenter());
-    oldPoint = _view->getCenter();
+    ;oldPoint = _view->getCenter();
     qWarning() << _patate;
 
     if(_patate != NULL)
