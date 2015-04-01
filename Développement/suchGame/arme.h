@@ -1,9 +1,7 @@
 #ifndef ARME_H
 #define ARME_H
 
-class QGraphicsPixmapItem;
-
-class Arme : public QGraphicsPixmapItem
+class Arme
 {
     public:
         Arme();

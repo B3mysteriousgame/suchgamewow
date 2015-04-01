@@ -5,14 +5,8 @@
 #include <QDebug>
 
 Patate::Patate(QGraphicsItem *parent)
-    : Personnage(parent),
-      _imgCpt (0),
-      _sens (Patate::DROITE),
-      _speed (3),
-      _gm (NULL),
-      _fullhealth (100),
-      _actualhealth (_fullhealth),
-      _resistance (50)
+    : Personnage(parent)
+
 {
     // ":/images/patate.png"
     // _sprites = QList<QString>();
@@ -20,22 +14,12 @@ Patate::Patate(QGraphicsItem *parent)
     _sprites.append(":/images/Sprites/linkD2.png");
     _sprites.append(":/images/Sprites/linkD3.png");
     _sprites.append(":/images/Sprites/linkD2.png");
-
-<<<<<<< HEAD
-
-=======
     _imgCpt = 0;
     _sens = Patate::DROITE;
     _speed = 3;
     _gm = NULL;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
-    _def = 50;
-    _xp = 0;
-    _xpMax = 200;
-    _lvl = 1;
-    _atk = 48;
->>>>>>> a6968f8cd1cecf71169b410da489be68fcf64a49
 
     setPos(10, 20);
     setPixmap(QPixmap(":/images/Sprites/linkD1.png"));

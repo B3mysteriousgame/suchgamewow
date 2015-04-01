@@ -7,10 +7,10 @@ Arme::Arme()
 
 }
 
-int Arme::attaquer(Personnage *personnage)
-{
-    personnage->_actualhealth = personnage->_actualhealth - this->_atq;
-}
+//int Arme::attaquer(Personnage *personnage)
+//{
+//    personnage->_actualhealth = personnage->_actualhealth - this->_atq;
+//}
 
 int Arme::get_atq() const
 {

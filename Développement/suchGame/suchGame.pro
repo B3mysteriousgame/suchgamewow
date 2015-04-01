@@ -1,54 +1,43 @@
 QT += widgets
 
 HEADERS += \
-    mouse.h \
-    gamemanager.hpp \
-    myview.hpp \
-    perso.hpp \
-    ball.hpp \
     angleoperation.hpp \
-    patate.hpp \
-    personnage.hpp \
+    arme.h \
+    ball.hpp \
+    barre.hpp \
     ennemy.hpp \
+    gamemanager.hpp \
+    map.h \
+    mouse.h \
+    movefreelystrat.hpp \
+    myscene.hpp \
+    myview.hpp \
+    patate.hpp \
+    perso.hpp \
+    personnage.hpp \
     strat1.hpp \
     strat2.hpp \
-    strategie.hpp \
-    movefreelystrat.hpp \
-<<<<<<< HEAD
-    arme.h \
-    barre.hpp \
-    map.h \
-    element.h
-=======
-    myscene.hpp \
-    arme.h \
-    barre.hpp
->>>>>>> a6968f8cd1cecf71169b410da489be68fcf64a49
+    strategie.hpp
+
 
 SOURCES += \
-    main.cpp \
-    mouse.cpp \
-    gamemanager.cpp \
-    myview.cpp \
-    perso.cpp \
-    ball.cpp \
     angleoperation.cpp \
-    patate.cpp \
+    arme.cpp \
+    ball.cpp \
+    barre.cpp \
     ennemy.cpp \
+    gamemanager.cpp \
+    main.cpp \
+    map.cpp \
+    mouse.cpp \
+    movefreelystrat.cpp \
+    myview.cpp \
+    myscene.cpp \
+    patate.cpp \
+    perso.cpp \
     personnage.cpp \
     strat1.cpp \
-    strat2.cpp \
-    movefreelystrat.cpp \
-<<<<<<< HEAD
-    arme.cpp \
-    barre.cpp \
-    map.cpp \
-    element.cpp
-=======
-    myscene.cpp \
-    arme.cpp \
-    barre.cpp
->>>>>>> a6968f8cd1cecf71169b410da489be68fcf64a49
+    strat2.cpp
 
 RESOURCES += \
     mice.qrc \

@@ -193,20 +193,16 @@ void GameManager::mousePressEvent(QMouseEvent*)
 
 void GameManager::test()
 {
-<<<<<<< HEAD
-   Patate jose = Patate();
-   Ennemy manuel = Ennemy();
    //jose.attaque(manuel);
-   qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
+   //qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
 
 
     //qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
-=======
     QPointF oldPoint, newPoint; // in scene coord
     qWarning() << "In GameManager::test";
 
     //oldPoint = _view->mapToScene(_view->getCenter());
-    oldPoint = _view->getCenter();
+    ;oldPoint = _view->getCenter();
     qWarning() << _patate;
 
     if(_patate != NULL)
@@ -215,7 +211,6 @@ void GameManager::test()
         newPoint =  _patate->mapToScene(_patate->center());
     }
     _view->centerOn( newPoint ); // demande un point en coord de scene
->>>>>>> a6968f8cd1cecf71169b410da489be68fcf64a49
 }
 
 void GameManager::keyPressEvent(QKeyEvent* event)
