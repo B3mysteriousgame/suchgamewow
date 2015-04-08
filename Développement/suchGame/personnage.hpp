@@ -1,4 +1,4 @@
-#ifndef PERSONNAGE_H
+ #ifndef PERSONNAGE_H
 #define PERSONNAGE_H
 
 #include <QGraphicsPixmapItem>

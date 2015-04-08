@@ -79,8 +79,4 @@ void MoveFreelyStrat::doBallStrat(Ball *item)
 {
     _parent->loseHealth(item->getDegats());
 
-    qWarning() << "Biaretour"
-                  "atch!";
-    //delete(_parent);
-    //delete(item);
 }

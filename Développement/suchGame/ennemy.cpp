@@ -4,12 +4,12 @@
 #include "movefreelystrat.hpp"
 #include<QDebug>
 #include "barre.hpp"
+#include <QList>
 
 Ennemy::Ennemy(QGraphicsItem *parent) :
     Personnage(parent)
 {
     _sprites.append(":/images/patateSaiyen.png");
-
     _imgCpt = 0;
     _sens = Ennemy::DROITE;
     _gm = NULL;
@@ -24,6 +24,8 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _barre = new Barre();
     _barre->moveBy(-12,-15);
     _barre->setParentItem(this);
+
+    _patateproche = false;
 }
 
 int Ennemy::getXpDon() const
@@ -53,8 +55,17 @@ void Ennemy::loseHealth(int degats)
 
 void Ennemy::advance(int)
 {
-    // const pointer to GameManager
     static GameManager* const Michel = GameManager::Instance();
+    QPointF pointpatate = Michel->getPatatePos();
+
+    if(_patateproche == true)
+    {
+
+    }
+    else
+    {
+    // const pointer to GameManager
+
     static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
     /*
     static const qreal maxX = Michel->getView()->width();
@@ -123,11 +134,29 @@ void Ennemy::advance(int)
     //qWarning() << "pos: " << x() << " - " << y();
     //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
 
+    // test collision
+
+
     // exécute la strat
+
     _strat->executer();
 
     ++cpt; // compteur de tour
+
+
+    QPointF pointpatate = Michel->getPatatePos();
+    QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
+    QLineF ligne = QLineF(pointpatate,pointennemy);
+
+    if(ligne.length() < 100)
+    {
+        _patateproche = true;
+    }
+
+    }
 }
+
+
 
 void Ennemy::handleSceneBounder()
 {

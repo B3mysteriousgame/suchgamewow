@@ -4,10 +4,12 @@
 #include <QGraphicsScene>
 #include "myview.hpp"
 #include <QTimer>
+#include "ennemyfactory.h"
 
 class Mouse;
 class Perso;
 class Patate;
+class Ennemy;
 
 class GameManager : public QObject
 {
@@ -21,11 +23,14 @@ class GameManager : public QObject
 
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
-        QTimer* getTimer() const;
-        Perso* getPerso() const;
+        QTimer* getPopTimer() const;
+        Patate* getPatate() const;
         QList<Mouse*> getSceneMice();
-        QPointF getPersoPos() const;
+        QPointF getPatatePos() const;
 
+        bool isTimerActive();
+        void stopTimer();
+        void startTimer(int ms);
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem *item);
         void setText(const QString& txt);
@@ -65,8 +70,10 @@ class GameManager : public QObject
         QGraphicsScene *_scene;
         MyView *_view;
         QTimer *_timer;
-        QTimer *_timerLvlUp;
         QTimer *_timerPopEnnemy;
+        QTimer *_timerLvlUp;
+        EnnemyFactory _ef;
+
         Perso *_perso;
         Patate *_patate;
         QGraphicsTextItem *_textItem;

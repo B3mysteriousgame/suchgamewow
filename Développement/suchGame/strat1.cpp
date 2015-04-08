@@ -14,4 +14,7 @@ void Strat1::analyser ()
 void Strat1::appliquer ()
 {
     qWarning() << "Strat1 applied.";
+
+
+
 }

@@ -6,9 +6,9 @@
 #include <QtWidgets>
 #include <QGraphicsTextItem>
 #include <math.h>
-#include "patate.hpp"
 #include "ennemy.hpp"
 #include "barre.hpp"
+#include <iostream>
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -47,11 +47,10 @@ GameManager::GameManager()
     //_perso = new Perso();
     _perso = NULL;
     _patate = new Patate();
-     _ennemyCpt = 0;
-     _lvlUpTxt = NULL;
-
-    _timer = new QTimer();
+    _ennemyCpt = 0;
+    _lvlUpTxt = NULL;
     _timerPopEnnemy = new QTimer();
+    _timer = new QTimer();
     _timerLvlUp = new QTimer();
 
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
@@ -74,7 +73,6 @@ GameManager::GameManager()
     }
 
     popEnnemy();
-
 
     _scene->addItem(_patate);
 //! [3]
@@ -120,6 +118,7 @@ GameManager::~GameManager()
     delete(_scene);
     delete(_view);
     delete(_timer);
+	delete(_timerPopEnnemy);
     delete(_patate);
     delete(_timerLvlUp);
     delete(_lvlUpTxt);
@@ -137,9 +136,10 @@ void GameManager::removeItem(QGraphicsItem *it)
     delete(it);
 }
 
-Perso* GameManager::getPerso() const
+
+Patate *GameManager::getPatate() const
 {
-    return _perso;
+    return _patate;
 }
 
 QGraphicsScene* GameManager::getScene() const
@@ -152,9 +152,9 @@ MyView* GameManager::getView() const
     return _view;
 }
 
-QTimer* GameManager::getTimer() const
+QTimer* GameManager::getPopTimer() const
 {
-    return _timer;
+    return _timerPopEnnemy;
 }
 
 void GameManager::mousePressEvent(QMouseEvent*)
@@ -164,12 +164,16 @@ void GameManager::mousePressEvent(QMouseEvent*)
 
 void GameManager::test()
 {
+   //jose.attaque(manuel);
+   //qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
+
+
+    //qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
     QPointF oldPoint, newPoint; // in scene coord
     qWarning() << "In GameManager::test";
 
-    //oldPoint = _view->mapToScene(_view->getCenter());
     oldPoint = _view->getCenter();
-    //qWarning() << _patate;
+    qWarning() << _patate;
 
     if(_patate != NULL)
     {
@@ -281,9 +285,9 @@ void GameManager::addItemToScene(QGraphicsEllipseItem&)
     //_scene->addEllipse((new QGraphicsEllipseItem(el))->rect());
 }
 
-QPointF GameManager::getPersoPos() const
+QPointF GameManager::getPatatePos() const
 {
-    return _perso->pos();
+    return _patate->pos();
 }
 
 QList<Mouse*> GameManager::getSceneMice()
@@ -355,10 +359,15 @@ void GameManager::scrollView(short sens)
 void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
-    _ennemyCpt -= 1;
-    qWarning() << "Total ennemies:" << _ennemyCpt;
 
-    _timerPopEnnemy->start( 100 * randInt(1,50) );
+    /*
+	_ennemyCpt -= 1;
+	    qWarning() << "Total ennemies:" << _ennemyCpt;
+	
+	    _timerPopEnnemy->start( 100 * randInt(1,50) );
+	*/
+
+
 }
 
 
@@ -371,31 +380,7 @@ void GameManager::pauseItems()
 
 void GameManager::popEnnemy()
 {
-    //Test ajout ennemy
-    Ennemy *ennemy = new Ennemy();
-    ennemy->setPos(::sin((1 * 6.28) / MouseCount) * 200,
-                   ::cos((1 * 6.28) / MouseCount) * 200);
-
-    _scene->addItem(ennemy);
-
-    //_scene->addItem(barre);
-
-    // Test ajout barre sur ennemy
-//       QGraphicsItem *barre = new QGraphicsRectItem(0,0,50,10);
-//       barre->moveBy(-12,-15);
-//       barre->setParentItem(ennemy);
-//       _scene->addItem(barre);
-
-    _ennemyCpt += 1;
-    qWarning() << "Total ennemies:" << _ennemyCpt;
-
-    if(_ennemyCpt == 10) // le max
-    {
-        if(_timerPopEnnemy->isActive())
-            _timerPopEnnemy->stop();
-    }
-    else
-        _timerPopEnnemy->start( 100 * randInt(1,50) );
+    _ef.createEnnemy();
 }
 
 void GameManager::patateLvlUp()
@@ -420,3 +405,20 @@ void GameManager::hideLvlUp()
     _lvlUpTxt->hide();
     _lvlUpTxt->setActive(false);
 }
+
+//Gestion du timerPopEnnemy
+bool GameManager::isTimerActive()
+{
+    return _timerPopEnnemy->isActive();
+}
+
+void GameManager::stopTimer()
+{
+    _timerPopEnnemy->stop();
+}
+
+void GameManager::startTimer(int ms)
+{
+    _timerPopEnnemy->start(ms);
+}
+

@@ -1,4 +1,4 @@
-﻿Analyse/dia~
+Analyse/dia~
 Analyse/*.dia~
 Analyse/~$meplay.docx
 Développement/suchGame/Changelog.txt
@@ -6,3 +6,4 @@ Développement/suchGame/*.user
 Développement/suchGame/*.user.*
 *.autosave
 Développement/build-suchGame*
+.cpp.bak

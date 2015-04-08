@@ -34,6 +34,7 @@ class Ennemy : public Personnage
         bool _touched;
         int _xpDon;
         Strategie *_strat;
+        bool _patateproche;
 };
 
 #endif // ENNEMY_H
