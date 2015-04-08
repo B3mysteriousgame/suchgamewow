@@ -10,6 +10,7 @@ class MyView : public QGraphicsView
     public:
         explicit MyView();
         void keyPressEvent(QKeyEvent* event);
+        void keyReleaseEvent(QKeyEvent* event);
         void mousePressEvent(QMouseEvent *event);
         QPoint getCenter() const;
         QRectF getViewRect() const;

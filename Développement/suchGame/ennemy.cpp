@@ -19,7 +19,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _def = 25;
-    setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
+    setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
     _barre = new Barre();
     _barre->moveBy(-12,-15);
@@ -61,7 +61,7 @@ void Ennemy::advance(int)
     static const qreal maxY = Michel->getView()->height();
     */
 
-    QString spritePAth = ":/images/Sprites/link";
+    QString spritePAth = ":alex/images/Sprites/alex/alex";
     qreal ddx = 0, ddy = 0, offset = 0.9;
 
 

@@ -9,13 +9,13 @@ class Mouse;
 class Perso;
 class Patate;
 
-class GameManager : QObject
+class GameManager : public QObject
 {
     Q_OBJECT
-
     public:
         static GameManager *Instance();
         void keyPressEvent(QKeyEvent* event);
+        void keyReleaseEvent(QKeyEvent* event);
         void mousePressEvent(QMouseEvent *event);
         void scrollView(short sens);
 
@@ -38,6 +38,13 @@ class GameManager : QObject
         static void qSleep(int ms);
         void test();
         void patateLvlUp();
+
+    signals:
+        void downSignal();
+        void rightSignal();
+        void leftSignal();
+        void upSignal();
+        void stopMovinSignal();
 
     public slots:
         void popEnnemy();

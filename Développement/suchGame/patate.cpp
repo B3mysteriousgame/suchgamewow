@@ -7,16 +7,9 @@
 Patate::Patate(QGraphicsItem *parent)
     : Personnage(parent)
 {
-    // ":/images/patate.png"
-    // _sprites = QList<QString>();
-    _sprites.append(":/images/Sprites/linkD1.png");
-    _sprites.append(":/images/Sprites/linkD2.png");
-    _sprites.append(":/images/Sprites/linkD3.png");
-    _sprites.append(":/images/Sprites/linkD2.png");
-
     _imgCpt = 0;
-    _sens = Patate::DROITE;
-    _speed = 3;
+    _sens = Personnage::DROITE; // idle
+    _speed = 2;
     _gm = NULL;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
@@ -25,9 +18,21 @@ Patate::Patate(QGraphicsItem *parent)
     _xpMax = 200;
     _lvl = 1;
     _atk = 48;
+    _movin = false;
 
     setPos(10, 20);
-    setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
+    setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
+    //initStates();
+}
+
+bool Patate::isMovin() const
+{
+    return _movin;
+}
+
+void Patate::setMovin(const bool move)
+{
+    _movin = move;
 }
 
 /**
@@ -54,6 +59,57 @@ int Patate::getImgCpt() const
 }
 
 
+void Patate::initStates()
+{
+    /*
+    GameManager *gm = GameManager::Instance();
+
+    // passe au state quand il recoit un signal du gm
+    sdroite.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    sdroite.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sdroite.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    sdroite.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    sgauche.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    sgauche.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sgauche.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    sgauche.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    shaut.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    shaut.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    shaut.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    shaut.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    sbas.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sbas.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    sbas.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    sbas.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    sidle.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sidle.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    sidle.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    sidle.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    // -----------------------------------------------
+
+    // change the property
+    shaut.assignProperty(this, "_sens", 1);
+    sdroite.assignProperty(this, "_sens", 2);
+    sbas.assignProperty(this, "_sens", 3);
+    sgauche.assignProperty(this, "_sens", 0);
+    // -------------------
+
+    //QObject::connect(&sbas, SIGNAL(entered()), button, SLOT(showMaximized()));
+
+    _stateMachine.addState(&shaut);
+    _stateMachine.addState(&sbas);
+    _stateMachine.addState(&sdroite);
+    _stateMachine.addState(&sgauche);
+    _stateMachine.addState(&sidle);
+
+    _stateMachine.setInitialState(&sidle);
+    */
+}
+
 
 QList<QString> Patate::getSprites() const
 {
@@ -69,14 +125,17 @@ void Patate::test()
     rec.setY( rec.y() - adjust );
 }
 
-void Patate::advance(int){}
+void Patate::advance(int)
+{
+    avancer(_sens);
+}
 
 void Patate::avancer(short sens)
 {
     static short cpt = 1; // va de 1 a maxTour non compris (1 a 3)
-    static const short maxTour = 4, maxSprite = 4;
+    static const short maxTour = 7, maxSprite = 4;
     static MyView *view = GameManager::Instance()->getView();
-    QString spritePAth = ":/images/Sprites/link";
+    QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
 
     static qreal ddx, ddy, offset = 1;
@@ -90,12 +149,6 @@ void Patate::avancer(short sens)
         _imgCpt = 0; // incremente apres, donc img 1 sera affichee
 
         _sens = sens; // on dit qu'on change de sens
-        //offset += 2;
-
-        /*
-        if(_blockinCase != -1)
-            _blockinCase = -1;
-         */
     }
     else // sinon on test le scroll
         offset = 1;
@@ -121,6 +174,13 @@ void Patate::avancer(short sens)
             break;
         default:
             break;
+    }
+
+    if(_movin == false)
+    {
+        ddx = 0;
+        ddy = 0;
+        _imgCpt = 0; // incr apres
     }
 
     if(cpt >= maxTour) // on repasse a 1

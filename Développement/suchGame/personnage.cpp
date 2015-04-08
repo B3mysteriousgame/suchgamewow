@@ -1,6 +1,18 @@
 #include "personnage.hpp"
 #include "gamemanager.hpp"
 #include <QDebug>
+#include <QState>
+
+Personnage::Personnage(QGraphicsItem* parent) :
+    QObject(),
+    QGraphicsPixmapItem(parent)
+{
+    //initStates();
+}
+
+void Personnage::initStates()
+{
+}
 
 int Personnage::getSens() const
 {
@@ -10,10 +22,10 @@ int Personnage::getSens() const
 void Personnage::setSens(const short sens)
 {
 
-    if(sens != 0 && sens != 1 && sens != 2 && sens != 3 )
+    if(sens != 0 && sens != 1 && sens != 2 && sens != 3 && sens != -1 && sens != _sens)
     {
-        qDebug() << "Erreur valeur sens.";
-        throw;
+        /*qDebug() << "Erreur valeur sens.";
+        throw;*/
     }
     else
        this->_sens = sens;
