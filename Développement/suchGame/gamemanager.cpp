@@ -72,7 +72,7 @@ GameManager::GameManager()
         _scene->addItem(mouse);
     }
 
-    popEnnemy();
+    //popEnnemy();
 
     _scene->addItem(_patate);
 //! [3]
@@ -173,7 +173,7 @@ void GameManager::test()
     qWarning() << "In GameManager::test";
 
     oldPoint = _view->getCenter();
-    qWarning() << _patate;
+    //qWarning() << _patate;
 
     if(_patate != NULL)
     {
