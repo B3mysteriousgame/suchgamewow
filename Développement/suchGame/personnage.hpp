@@ -3,17 +3,21 @@
 
 #include <QGraphicsPixmapItem>
 #include <QObject>
+#include <QStateMachine>
+#include <QState>
 
 class GameManager;
 
-class Personnage : public QGraphicsPixmapItem
+class Personnage : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
+
 public:
     enum { GAUCHE, HAUT, DROITE, BAS };
     enum { Type = UserType + 3 };
     virtual int type() const{return Type;}
 
-    Personnage(QGraphicsItem* = 0){}
+    Personnage(QGraphicsItem* parent = 0);
     Personnage(Personnage*){}
     ~Personnage(){}
 
@@ -52,6 +56,14 @@ protected:
     int _mana;
     QList<QString> _sprites;
     GameManager *_gm;
+    QStateMachine _stateMachine;
+    QState shaut;
+    QState sbas;
+    QState sgauche;
+    QState sdroite;
+    QState sidle;
+
+    virtual void initStates();
 
 };
 

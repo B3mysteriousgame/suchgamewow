@@ -57,7 +57,7 @@ GameManager::GameManager()
 //! [0]
 
 //! [1]
-    _scene->setSceneRect(-230, -130, 936, 555);
+    _scene->setSceneRect(0, 0, 1920, 1200);
 //! [1] //! [2]
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 //! [2]
@@ -72,27 +72,15 @@ GameManager::GameManager()
         _scene->addItem(mouse);
     }
 
+    //popEnnemy();
+
     _scene->addItem(_patate);
 //! [3]
-    //_scene->addRect(_perso->boundingRect());
-    //_scene->addRect(mouse->boundingRect());
 
     _textItem = _scene->addText("lol");
 
     _textItem->setPlainText("lol");
     _textItem->setPos(-300, -300);
-    //logCoords();
-
-
-
-    // repere
-    /*
-    _scene->addLine(QLine(QPoint(0,-300), QPoint(0,300)));
-    _scene->addLine(QLine(QPoint(-300, 0), QPoint(300, 0)));
-    */
-
-    // Patate
-    //_scene->addItem(new Patate());
 
 //! [4]
     _view->setScene(_scene);
@@ -101,7 +89,6 @@ GameManager::GameManager()
 //! [4] //! [5]
     _view->setCacheMode(QGraphicsView::CacheBackground);
     _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    //_view->setDragMode(QGraphicsView::ScrollHandDrag);
 //! [5] //! [6]
 
     _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
@@ -118,12 +105,9 @@ GameManager::GameManager()
 
     _view->show();
 
-
     QObject::connect(_timer, SIGNAL(timeout()), _scene, SLOT(advance()));
     QObject::connect(_timerPopEnnemy, SIGNAL(timeout()), this, SLOT(popEnnemy()));
     QObject::connect(_timerLvlUp, SIGNAL(timeout()), this, SLOT(hideLvlUp()));
-    //QObject::connect(_scene, SIGNAL(keyPressEvent()), this, SLOT(changeColors()));
-
 
     _timer->start(1000 / 33);
     _timerPopEnnemy->start(1000 * 5);
@@ -134,8 +118,7 @@ GameManager::~GameManager()
     delete(_scene);
     delete(_view);
     delete(_timer);
-    delete(_timerPopEnnemy);
-    //delete(_perso);
+	delete(_timerPopEnnemy);
     delete(_patate);
     delete(_timerLvlUp);
     delete(_lvlUpTxt);
@@ -194,9 +177,8 @@ void GameManager::test()
     QPointF oldPoint, newPoint; // in scene coord
     qWarning() << "In GameManager::test";
 
-    //oldPoint = _view->mapToScene(_view->getCenter());
-    ;oldPoint = _view->getCenter();
-    qWarning() << _patate;
+    oldPoint = _view->getCenter();
+    //qWarning() << _patate;
 
     if(_patate != NULL)
     {
@@ -208,33 +190,61 @@ void GameManager::test()
 
 void GameManager::keyPressEvent(QKeyEvent* event)
 {
-    //static short angleOffset = 5;
-
     if(_patate != NULL)
         switch (event->key())
         {
             case Qt::Key_Up:
-                _patate->avancer(Patate::HAUT);
+                _patate->setSens(Patate::HAUT);
+                _patate->setMovin(true);
                 break;
             case Qt::Key_Down:
-                _patate->avancer(Patate::BAS);
+                _patate->setSens(Patate::BAS);
+                _patate->setMovin(true);
                 break;
             case Qt::Key_Left:
-                _patate->avancer(Patate::GAUCHE);
+                _patate->setSens(Patate::GAUCHE);
+                _patate->setMovin(true);
                 break;
             case Qt::Key_Right:
-                _patate->avancer(Patate::DROITE);
+                _patate->setSens(Patate::DROITE);
+                _patate->setMovin(true);
                 break;
             case Qt::Key_A :
                 _patate->attaque();
                 break;
             case Qt::Key_Z :
-                //test();
-                scrollView(_patate->getSens());
                 break;
             default:
                 break;
         }
+}
+
+void GameManager::keyReleaseEvent(QKeyEvent* event)
+{
+    static short lastSensReleased = 0;
+
+    if(_patate != NULL)
+    {
+        switch (event->key())
+        {
+            case Qt::Key_Up:
+                lastSensReleased = Patate::HAUT;
+                break;
+            case Qt::Key_Down:
+                lastSensReleased = Patate::BAS;
+                break;
+            case Qt::Key_Left:
+                lastSensReleased = Patate::GAUCHE;
+                break;
+            case Qt::Key_Right:
+                lastSensReleased = Patate::DROITE;
+                break;
+            default:
+                return;
+        }
+        if(_patate->getSens() == lastSensReleased)
+            _patate->setMovin(false); // idle;
+    }
 }
 
 void GameManager::addItemToScene(QGraphicsItem *item)
@@ -355,6 +365,7 @@ void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
     _timerPopEnnemy->start(100 * randInt(1,50));
+
 }
 
 

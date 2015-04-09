@@ -42,7 +42,7 @@ SOURCES += \
 
 RESOURCES += \
     mice.qrc \
-    test.qrc
+    sprites.qrc
 
 # install
 target.path = ./suchGame

@@ -19,7 +19,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _def = 25;
-    setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
+    setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
     _barre = new Barre();
     _barre->moveBy(-12,-15);
@@ -60,7 +60,7 @@ void Ennemy::advance(int)
     QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
     QLineF ligne = QLineF(pointpatate,pointennemy);
 
-    QString spritePAth = ":/images/Sprites/link";
+    QString spritePAth = ":alex/images/Sprites/alex/alex";
     qreal ddx = 0, ddy = 0, offset = 0.9;
     static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
 
@@ -105,43 +105,6 @@ void Ennemy::advance(int)
           _patateproche = false;
       }
 
-
-     /* switch (_sens)
-      {
-          case Ennemy::DROITE:
-              ddx += offset;
-              spritePAth.append("D");
-              break;
-          case Ennemy::GAUCHE:
-              ddx += offset * -1.;
-              spritePAth.append("G");
-              break;
-          case Ennemy::BAS:
-              ddy += offset;
-              spritePAth.append("B");
-              break;
-          case Ennemy::HAUT:
-              ddy += offset * -1.;
-              spritePAth.append("H");
-              break;
-          default:
-              break;
-      }
-
-      if(cpt >= maxTour) // on repasse a 0
-          cpt = 0; // incremente apres donc = 1 la prochaine fois
-      else
-          if(cpt == 1) // on change l'image
-          {
-              _imgCpt += 1;
-
-              if(_imgCpt > maxSprite)
-                  _imgCpt = 1;
-
-              spritePAth.append(QString::number(_imgCpt));
-              setPixmap(QPixmap(spritePAth));
-          }*/
-
     }
     else
     {
@@ -152,7 +115,6 @@ void Ennemy::advance(int)
             while(1)
             {
                 newsens = Michel->randInt(0, 3);
-
                 if(newsens != _sens)
                 {
                     _sens = newsens;
