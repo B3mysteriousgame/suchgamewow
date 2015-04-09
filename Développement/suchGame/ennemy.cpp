@@ -57,40 +57,77 @@ void Ennemy::advance(int)
 {
     static GameManager* const Michel = GameManager::Instance();
     QPointF pointpatate = Michel->getPatatePos();
+    QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
+    QLineF ligne = QLineF(pointpatate,pointennemy);
+
+    QString spritePAth = ":alex/images/Sprites/alex/alex";
+    qreal ddx = 0, ddy = 0, offset = 0.9;
+    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
+
+    handleSceneBounder();
+
 
     if(_patateproche == true)
     {
+      // Calcul nouvel coordonées à parcourir pour rejoindre la patate
+      int dplct_x = abs(pointpatate.x() - this->x());
+      int dplct_y = abs(pointpatate.y() - this->y());
+
+      if(dplct_x > dplct_y){ // Choix deplacement X ou Y en premier
+          if(pointpatate.x() - this->x() > 0) // Choix sens selon negatif ou positif
+          {
+             // ddx = offset;
+              _sens = Ennemy::DROITE;
+          }
+          else
+          {
+              //ddx = offset * -1;
+              _sens = Ennemy::GAUCHE;
+          }
+      }
+      else //idem
+      {
+          if((pointpatate.y() - this->y()) > 0)
+          {
+             // ddy = offset;
+              _sens = Ennemy::BAS;
+          }
+          else
+          {
+             // ddy = offset * -1;
+              _sens = Ennemy::HAUT;
+          }
+
+      }
+
+      if(ligne.length() > 100)
+      {
+          _patateproche = false;
+      }
 
     }
     else
     {
-    // const pointer to GameManager
 
-    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
-    /*
-    static const qreal maxX = Michel->getView()->width();
-    static const qreal maxY = Michel->getView()->height();
-    */
-
-    QString spritePAth = ":alex/images/Sprites/alex/alex";
-    qreal ddx = 0, ddy = 0, offset = 0.9;
-
-
-    // ---- Changement de sens aleatoire ----
-     //1 chance sur changeSensChance de changer de sens
-    if(Michel->randInt(1,changeSensChance)==1)
-        while(1)
-        {
-            newsens = Michel->randInt(0, 3);
-
-            if(newsens != _sens)
+        // ---- Changement de sens aleatoire ----
+         //1 chance sur changeSensChance de changer de sens
+        if(Michel->randInt(1,changeSensChance)==1)
+            while(1)
             {
-                _sens = newsens;
-                break;
+                newsens = Michel->randInt(0, 3);
+                if(newsens != _sens)
+                {
+                    _sens = newsens;
+                    break;
+                }
             }
-        }
 
-    //_sens = Patate::BAS;
+        if(ligne.length() < 100)
+        {
+            _patateproche = true;
+        }
+    }
+
     switch (_sens)
     {
         case Ennemy::DROITE:
@@ -129,31 +166,10 @@ void Ennemy::advance(int)
 
     moveBy(ddx, ddy);
 
-    handleSceneBounder();
-
-    //qWarning() << "pos: " << x() << " - " << y();
-    //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
-
-    // test collision
-
-
     // exécute la strat
-
     _strat->executer();
 
     ++cpt; // compteur de tour
-
-
-    QPointF pointpatate = Michel->getPatatePos();
-    QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
-    QLineF ligne = QLineF(pointpatate,pointennemy);
-
-    if(ligne.length() < 100)
-    {
-        _patateproche = true;
-    }
-
-    }
 }
 
 

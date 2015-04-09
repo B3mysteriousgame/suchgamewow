@@ -15,6 +15,7 @@ public:
     Ennemy getEnnemyAt(int listpos);
     int getNbEnnemy();
     void createEnnemy();
+    void removeEnnemy(Ennemy *it);
 
 
 protected:

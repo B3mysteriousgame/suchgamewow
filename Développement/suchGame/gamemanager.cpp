@@ -132,6 +132,11 @@ GameManager::~GameManager()
  **/
 void GameManager::removeItem(QGraphicsItem *it)
 {
+    if(it->type() == Ennemy::Type)
+    {
+        _ef.removeEnnemy((Ennemy*)it);
+    }
+
     _scene->removeItem(it);
     delete(it);
 }
@@ -359,14 +364,7 @@ void GameManager::scrollView(short sens)
 void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
-
-    /*
-	_ennemyCpt -= 1;
-	    qWarning() << "Total ennemies:" << _ennemyCpt;
-	
-	    _timerPopEnnemy->start( 100 * randInt(1,50) );
-	*/
-
+    _timerPopEnnemy->start(100 * randInt(1,50));
 
 }
 
