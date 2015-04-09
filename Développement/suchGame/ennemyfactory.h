@@ -21,6 +21,10 @@ protected:
 
     QList<Ennemy*> _listeMichels;
     int            _nombreMichels;
+
+private:
+    const int MAXENN = 20;
+
 };
 
 #endif // ENNEMYFACTORY_H

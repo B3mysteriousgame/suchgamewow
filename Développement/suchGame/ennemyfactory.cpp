@@ -17,6 +17,8 @@ EnnemyFactory::~EnnemyFactory()
 
 void EnnemyFactory::createEnnemy()
 {
+    static GameManager* const gm = GameManager::Instance();
+
     Ennemy *ennemy = new Ennemy();
     ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
                    ::cos((1 * 6.28) / 7) * 200);
@@ -24,17 +26,17 @@ void EnnemyFactory::createEnnemy()
     barre->moveBy(-4,0);
     barre->setParentItem(ennemy);
 
-    GameManager::Instance()->addItemToScene(ennemy);
+    gm->addItemToScene(ennemy);
 
     _listeMichels.append(ennemy);
 
-    if( _listeMichels.length() == 10)
+    if( _listeMichels.length() == MAXENN)
     {
-        if(GameManager::Instance()->isTimerActive())
-            GameManager::Instance()->stopTimer();
+        if(gm->isTimerActive())
+            gm->stopTimer();
     }
     else
-        GameManager::Instance()->startTimer(500 * (GameManager::Instance()->randInt(1,50)));
+        gm->startTimer(100 * (gm->randInt(1,50)));
 
 }
 

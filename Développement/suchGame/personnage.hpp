@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QStateMachine>
 #include <QState>
+#include <QPropertyAnimation>
 
 class GameManager;
 
@@ -56,15 +57,18 @@ protected:
     int _mana;
     QList<QString> _sprites;
     GameManager *_gm;
+    /*
     QStateMachine _stateMachine;
     QState shaut;
     QState sbas;
     QState sgauche;
     QState sdroite;
     QState sidle;
+    */
+    QPropertyAnimation _anim;
 
     virtual void initStates();
-
+    void initAnim();
 };
 
 #endif // PERSONNAGE_H

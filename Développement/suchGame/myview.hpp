@@ -15,8 +15,8 @@ class MyView : public QGraphicsView
         QPoint getCenter() const;
         QRectF getViewRect() const;
 
-        static const qreal WIDTH = 467;
-        static const qreal HEIGHT = 277;
+        static const qreal WIDTH = 900;
+        static const qreal HEIGHT = 508;
 
     signals:
 
