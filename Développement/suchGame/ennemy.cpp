@@ -66,30 +66,36 @@ void Ennemy::advance(int)
 
     handleSceneBounder();
 
+
     if(_patateproche == true)
     {
+      // Calcul nouvel coordonées à parcourir pour rejoindre la patate
       int dplct_x = abs(pointpatate.x() - this->x());
       int dplct_y = abs(pointpatate.y() - this->y());
 
-      if(dplct_x > dplct_y){
-          if(pointpatate.x() - this->x() > 0)
+      if(dplct_x > dplct_y){ // Choix deplacement X ou Y en premier
+          if(pointpatate.x() - this->x() > 0) // Choix sens selon negatif ou positif
           {
-          this->moveBy(offset,0);
+             // ddx = offset;
+              _sens = Ennemy::DROITE;
           }
           else
           {
-            this->moveBy(offset * -1,0);
+              //ddx = offset * -1;
+              _sens = Ennemy::GAUCHE;
           }
       }
-      else
+      else //idem
       {
           if((pointpatate.y() - this->y()) > 0)
           {
-          this->moveBy(0,offset);
+             // ddy = offset;
+              _sens = Ennemy::BAS;
           }
           else
           {
-            this->moveBy(0,offset * -1);
+             // ddy = offset * -1;
+              _sens = Ennemy::HAUT;
           }
 
       }
@@ -98,25 +104,68 @@ void Ennemy::advance(int)
       {
           _patateproche = false;
       }
+
+
+     /* switch (_sens)
+      {
+          case Ennemy::DROITE:
+              ddx += offset;
+              spritePAth.append("D");
+              break;
+          case Ennemy::GAUCHE:
+              ddx += offset * -1.;
+              spritePAth.append("G");
+              break;
+          case Ennemy::BAS:
+              ddy += offset;
+              spritePAth.append("B");
+              break;
+          case Ennemy::HAUT:
+              ddy += offset * -1.;
+              spritePAth.append("H");
+              break;
+          default:
+              break;
+      }
+
+      if(cpt >= maxTour) // on repasse a 0
+          cpt = 0; // incremente apres donc = 1 la prochaine fois
+      else
+          if(cpt == 1) // on change l'image
+          {
+              _imgCpt += 1;
+
+              if(_imgCpt > maxSprite)
+                  _imgCpt = 1;
+
+              spritePAth.append(QString::number(_imgCpt));
+              setPixmap(QPixmap(spritePAth));
+          }*/
+
     }
     else
     {
 
-    // ---- Changement de sens aleatoire ----
-     //1 chance sur changeSensChance de changer de sens
-    if(Michel->randInt(1,changeSensChance)==1)
-        while(1)
-        {
-            newsens = Michel->randInt(0, 3);
-
-            if(newsens != _sens)
+        // ---- Changement de sens aleatoire ----
+         //1 chance sur changeSensChance de changer de sens
+        if(Michel->randInt(1,changeSensChance)==1)
+            while(1)
             {
-                _sens = newsens;
-                break;
-            }
-        }
+                newsens = Michel->randInt(0, 3);
 
-    //_sens = Patate::BAS;
+                if(newsens != _sens)
+                {
+                    _sens = newsens;
+                    break;
+                }
+            }
+
+        if(ligne.length() < 100)
+        {
+            _patateproche = true;
+        }
+    }
+
     switch (_sens)
     {
         case Ennemy::DROITE:
@@ -156,16 +205,9 @@ void Ennemy::advance(int)
     moveBy(ddx, ddy);
 
     // exécute la strat
-
     _strat->executer();
 
     ++cpt; // compteur de tour
-
-        if(ligne.length() < 100)
-        {
-            _patateproche = true;
-        }
-    }
 }
 
 

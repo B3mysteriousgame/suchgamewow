@@ -3,6 +3,7 @@
 #include <math.h>
 #include "angleoperation.hpp"
 #include "gamemanager.hpp"
+#include <QtDebug>
 
 EnnemyFactory::EnnemyFactory()
 {
@@ -57,4 +58,5 @@ int EnnemyFactory::getNbEnnemy()
 void EnnemyFactory::removeEnnemy(Ennemy *it)
 {
     _listeMichels.removeOne(it);
+    qWarning() <<"nbmichel_indaListe :" <<  _listeMichels.length() ;
 }

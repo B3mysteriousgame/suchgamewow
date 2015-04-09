@@ -354,8 +354,7 @@ void GameManager::scrollView(short sens)
 void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
-
-
+    _timerPopEnnemy->start(100 * randInt(1,50));
 }
 
 
