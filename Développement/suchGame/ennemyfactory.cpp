@@ -34,7 +34,7 @@ void EnnemyFactory::createEnnemy()
             GameManager::Instance()->stopTimer();
     }
     else
-        GameManager::Instance()->startTimer(500 * (GameManager::Instance()->randInt(1,50)));
+        GameManager::Instance()->startTimer(100 * (GameManager::Instance()->randInt(1,50)));
 
 }
 
@@ -52,4 +52,9 @@ Ennemy EnnemyFactory::getEnnemyAt(int listpos)
 int EnnemyFactory::getNbEnnemy()
 {
     return _listeMichels.length();
+}
+
+void EnnemyFactory::removeEnnemy(Ennemy *it)
+{
+    _listeMichels.removeOne(it);
 }

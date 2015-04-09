@@ -149,6 +149,11 @@ GameManager::~GameManager()
  **/
 void GameManager::removeItem(QGraphicsItem *it)
 {
+    if(it->type() == Ennemy::Type)
+    {
+        _ef.removeEnnemy((Ennemy*)it);
+    }
+
     _scene->removeItem(it);
     delete(it);
 }

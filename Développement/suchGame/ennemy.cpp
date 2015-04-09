@@ -57,24 +57,50 @@ void Ennemy::advance(int)
 {
     static GameManager* const Michel = GameManager::Instance();
     QPointF pointpatate = Michel->getPatatePos();
-
-    if(_patateproche == true)
-    {
-
-    }
-    else
-    {
-    // const pointer to GameManager
-
-    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
-    /*
-    static const qreal maxX = Michel->getView()->width();
-    static const qreal maxY = Michel->getView()->height();
-    */
+    QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
+    QLineF ligne = QLineF(pointpatate,pointennemy);
 
     QString spritePAth = ":/images/Sprites/link";
     qreal ddx = 0, ddy = 0, offset = 0.9;
+    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
 
+    handleSceneBounder();
+
+    if(_patateproche == true)
+    {
+      int dplct_x = abs(pointpatate.x() - this->x());
+      int dplct_y = abs(pointpatate.y() - this->y());
+
+      if(dplct_x > dplct_y){
+          if(pointpatate.x() - this->x() > 0)
+          {
+          this->moveBy(offset,0);
+          }
+          else
+          {
+            this->moveBy(offset * -1,0);
+          }
+      }
+      else
+      {
+          if((pointpatate.y() - this->y()) > 0)
+          {
+          this->moveBy(0,offset);
+          }
+          else
+          {
+            this->moveBy(0,offset * -1);
+          }
+
+      }
+
+      if(ligne.length() > 100)
+      {
+          _patateproche = false;
+      }
+    }
+    else
+    {
 
     // ---- Changement de sens aleatoire ----
      //1 chance sur changeSensChance de changer de sens
@@ -129,30 +155,16 @@ void Ennemy::advance(int)
 
     moveBy(ddx, ddy);
 
-    handleSceneBounder();
-
-    //qWarning() << "pos: " << x() << " - " << y();
-    //GameManager.Instance()->setText(QString("pos: ").append(QString::number(x())).append(" - ").append(QString::number(y())));
-
-    // test collision
-
-
     // exécute la strat
 
     _strat->executer();
 
     ++cpt; // compteur de tour
 
-
-    QPointF pointpatate = Michel->getPatatePos();
-    QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
-    QLineF ligne = QLineF(pointpatate,pointennemy);
-
-    if(ligne.length() < 100)
-    {
-        _patateproche = true;
-    }
-
+        if(ligne.length() < 100)
+        {
+            _patateproche = true;
+        }
     }
 }
 
