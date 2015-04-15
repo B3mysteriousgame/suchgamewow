@@ -21,7 +21,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _def = 25;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
-    _barre = new Barre();
+    _barre = new Barre(false);
     _barre->moveBy(-12,-15);
     _barre->setParentItem(this);
 
@@ -100,7 +100,7 @@ void Ennemy::advance(int)
 
       }
 
-      if(ligne.length() > 100)
+      if(ligne.length() > 200)
       {
           _patateproche = false;
       }
@@ -122,7 +122,7 @@ void Ennemy::advance(int)
                 }
             }
 
-        if(ligne.length() < 100)
+        if(ligne.length() < 200)
         {
             _patateproche = true;
         }

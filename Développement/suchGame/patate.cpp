@@ -2,6 +2,7 @@
 #include "gamemanager.hpp"
 #include "mouse.h"
 #include "ball.hpp"
+#include "barre.hpp"
 #include <QDebug>
 
 Patate::Patate(QGraphicsItem *parent)
@@ -19,6 +20,10 @@ Patate::Patate(QGraphicsItem *parent)
     _lvl = 1;
     _atk = 48;
     _movin = false;
+
+  /*  _barre = new Barre(true);
+    QPointF lepoint = QPointF(GameManager::Instance()->getView()->getViewRect().width(),(0 + _barre->getHauteur()));
+    _barre->setPos(lepoint); */
 
     setPos(10, 20);
     setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
