@@ -44,6 +44,7 @@ public:
 
     virtual void test(){}
     virtual void attaque() = 0;
+    void ChangeSensEtDeplacement(bool isPatate, int compteur, int maxTour, int maxSprite, QString path);
 
 protected:
     qreal _speed;

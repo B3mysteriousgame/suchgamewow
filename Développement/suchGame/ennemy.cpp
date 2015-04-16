@@ -2,6 +2,7 @@
 #include "gamemanager.hpp"
 #include "mouse.h"
 #include "movefreelystrat.hpp"
+#include "strat1.hpp"
 #include<QDebug>
 #include "barre.hpp"
 #include <QList>
@@ -19,6 +20,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _fullhealth = 100;
     _actualhealth = _fullhealth;
     _def = 25;
+    _speed = 1;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
     _barre = new Barre(false);
@@ -61,14 +63,13 @@ void Ennemy::advance(int)
     QLineF ligne = QLineF(pointpatate,pointennemy);
 
     QString spritePAth = ":alex/images/Sprites/alex/alex";
-    qreal ddx = 0, ddy = 0, offset = 0.9;
     static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
 
     handleSceneBounder();
 
-
     if(_patateproche == true)
     {
+        _strat = new Strat1(this);
       // Calcul nouvel coordonées à parcourir pour rejoindre la patate
       int dplct_x = abs(pointpatate.x() - this->x());
       int dplct_y = abs(pointpatate.y() - this->y());
@@ -76,12 +77,10 @@ void Ennemy::advance(int)
       if(dplct_x > dplct_y){ // Choix deplacement X ou Y en premier
           if(pointpatate.x() - this->x() > 0) // Choix sens selon negatif ou positif
           {
-             // ddx = offset;
               _sens = Ennemy::DROITE;
           }
           else
           {
-              //ddx = offset * -1;
               _sens = Ennemy::GAUCHE;
           }
       }
@@ -89,15 +88,12 @@ void Ennemy::advance(int)
       {
           if((pointpatate.y() - this->y()) > 0)
           {
-             // ddy = offset;
               _sens = Ennemy::BAS;
           }
           else
           {
-             // ddy = offset * -1;
               _sens = Ennemy::HAUT;
           }
-
       }
 
       if(ligne.length() > 200)
@@ -108,7 +104,6 @@ void Ennemy::advance(int)
     }
     else
     {
-
         // ---- Changement de sens aleatoire ----
          //1 chance sur changeSensChance de changer de sens
         if(Michel->randInt(1,changeSensChance)==1)
@@ -121,57 +116,23 @@ void Ennemy::advance(int)
                     break;
                 }
             }
-
         if(ligne.length() < 200)
         {
             _patateproche = true;
         }
+        _strat = new MoveFreelyStrat(this);
     }
 
-    switch (_sens)
-    {
-        case Ennemy::DROITE:
-            ddx += offset;
-            spritePAth.append("D");
-            break;
-        case Ennemy::GAUCHE:
-            ddx += offset * -1.;
-            spritePAth.append("G");
-            break;
-        case Ennemy::BAS:
-            ddy += offset;
-            spritePAth.append("B");
-            break;
-        case Ennemy::HAUT:
-            ddy += offset * -1.;
-            spritePAth.append("H");
-            break;
-        default:
-            break;
-    }
+    ChangeSensEtDeplacement(0,cpt,maxTour,maxSprite,spritePAth);
 
     if(cpt >= maxTour) // on repasse a 0
         cpt = 0; // incremente apres donc = 1 la prochaine fois
-    else
-        if(cpt == 1) // on change l'image
-        {
-            _imgCpt += 1;
-
-            if(_imgCpt > maxSprite)
-                _imgCpt = 1;
-
-            spritePAth.append(QString::number(_imgCpt));
-            setPixmap(QPixmap(spritePAth));
-        }
-
-    moveBy(ddx, ddy);
 
     // exécute la strat
     _strat->executer();
 
     ++cpt; // compteur de tour
 }
-
 
 
 void Ennemy::handleSceneBounder()
