@@ -111,6 +111,9 @@ GameManager::GameManager()
 
     _timer->start(1000 / 33);
     _timerPopEnnemy->start(1000 * 5);
+
+    // Ajout barre de vie patate
+
 }
 
 GameManager::~GameManager()

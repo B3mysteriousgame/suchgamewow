@@ -2,6 +2,7 @@
 #include "gamemanager.hpp"
 #include "mouse.h"
 #include "ball.hpp"
+#include "barre.hpp"
 #include <QDebug>
 
 Patate::Patate(QGraphicsItem *parent)
@@ -19,6 +20,10 @@ Patate::Patate(QGraphicsItem *parent)
     _lvl = 1;
     _atk = 48;
     _movin = false;
+
+  /*  _barre = new Barre(true);
+    QPointF lepoint = QPointF(GameManager::Instance()->getView()->getViewRect().width(),(0 + _barre->getHauteur()));
+    _barre->setPos(lepoint); */
 
     setPos(10, 20);
     setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
@@ -138,67 +143,21 @@ void Patate::avancer(short sens)
     QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
 
-    static qreal ddx, ddy, offset = 1;
-    ddx = 0;
-    ddy = 0;
-
-
     if(sens != _sens) // si on change de sens
     {
         cpt = 1; // pour changer d'image apres
         _imgCpt = 0; // incremente apres, donc img 1 sera affichee
-
         _sens = sens; // on dit qu'on change de sens
-    }
-    else // sinon on test le scroll
-        offset = 1;
-
-    // on calcule la nouvelle valeur de x ou y en fonction du sens
-    switch (_sens)
-    {
-        case Patate::DROITE:
-            ddx += _speed * offset;
-            spritePAth.append("D");
-            break;
-        case Patate::GAUCHE:
-            ddx += _speed * offset * -1.;
-            spritePAth.append("G");
-            break;
-        case Patate::BAS:
-            ddy += _speed * offset;
-            spritePAth.append("B");
-            break;
-        case Patate::HAUT:
-            ddy += _speed * offset * -1.;
-            spritePAth.append("H");
-            break;
-        default:
-            break;
     }
 
     if(_movin == false)
     {
-        ddx = 0;
-        ddy = 0;
         _imgCpt = 0; // incr apres
     }
-
-    if(cpt >= maxTour) // on repasse a 1
-        cpt = 1;
-
-    if(cpt == 1) // on change l'image
+    else
     {
-        _imgCpt += 1;
-
-        if(_imgCpt > maxSprite)
-            _imgCpt = 1;
-
-        spritePAth.append(QString::number(_imgCpt));
-        setPixmap(QPixmap(spritePAth));
+        ChangeSensEtDeplacement(1,cpt,maxTour,maxSprite,spritePAth);
     }
-
-    moveBy(ddx, ddy);
-    view->centerOn(this);
 
     /*
     if(_blockinBorder != _sens)
@@ -211,6 +170,11 @@ void Patate::avancer(short sens)
     */
 
     //qWarning() << "pos: " << x() << " - " << y();
+
+    if(cpt >= maxTour) // on repasse a 1
+        cpt = 0;
+
+    view->centerOn(this);
 
     ++cpt;
 }

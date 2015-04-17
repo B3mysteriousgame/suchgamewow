@@ -3,12 +3,17 @@
 
 #include "strategie.hpp"
 
+class Ennemy;
+class Patate;
+
 class Strat1 : public Strategie
 {
     public:
+        Strat1(Ennemy *parent);
         ~Strat1();
     private:
         void analyser ();
         void appliquer ();
+        Ennemy *_parent;
 };
 #endif // STRAT1_H

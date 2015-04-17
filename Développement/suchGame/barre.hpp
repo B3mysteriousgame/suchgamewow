@@ -11,7 +11,7 @@
 class Barre : public QGraphicsItem
 {
 public:
-    Barre();
+    Barre(bool estPatate);
     ~Barre();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -21,12 +21,16 @@ public:
     QColor getColor() const;
     QRectF boundingRect() const;
 
-    void setLargeur(qreal largeur){
-        _largeur = largeur;
-    }
+    void setLargeur(qreal largeur);
+    qreal getLargeur();
+    void setHauteur(qreal hauteur);
+    qreal getHauteur();
 
 protected:
     QColor _color;
     qreal  _largeur;
+    qreal  _hauteur;
+    qreal  _largeurInit;
+    qreal  _hauteurInit;
 };
 #endif // BARRE_H
