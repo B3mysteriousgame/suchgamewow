@@ -31,7 +31,7 @@ void EnnemyFactory::createEnnemy()
 
     _listeMichels.append(ennemy);
 
-    if( _listeMichels.length() == MAXENN)
+    if( _listeMichels.length() == EnnemyFactory::MAXENN)
     {
         if(gm->isTimerActive())
             gm->stopTimer();

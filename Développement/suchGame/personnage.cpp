@@ -12,17 +12,17 @@ Personnage::Personnage(QGraphicsItem* parent) :
 }
 
 void Personnage::initAnim()
-{
+{/*
     _anim.setParent(this);
-    _anim->setDuration(1000);
+    _anim.setDuration(1000);
     _anim.setPropertyName(QByteArray("visible"));
 
-    _anim->setStartValue(QRect(0, 0, 100, 30));
-    _anim->setEndValue(QRect(250, 250, 100, 30));
+    _anim.setStartValue(QRect(0, 0, 100, 30));
+    _anim.setEndValue(QRect(250, 250, 100, 30));
 
 
-    _anim->start();
-}
+    _anim.start();
+*/}
 
 void Personnage::initStates()
 {

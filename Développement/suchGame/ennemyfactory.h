@@ -24,7 +24,7 @@ protected:
     int            _nombreMichels;
 
 private:
-    const int MAXENN = 20;
+    static const int MAXENN = 20;
 
 };
 
