@@ -1,5 +1,6 @@
 #include "personnage.hpp"
 #include "gamemanager.hpp"
+#include "patate.hpp"
 #include <QDebug>
 #include <QState>
 
@@ -8,7 +9,14 @@ Personnage::Personnage(QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent)
 {
     //initStates();
+    _sm = NULL;
     initAnim();
+}
+
+Personnage::~Personnage()
+{
+    if(_sm != NULL)
+        delete(_sm);
 }
 
 void Personnage::initAnim()
@@ -33,6 +41,7 @@ int Personnage::getSens() const
     return _sens;
 }
 
+
 void Personnage::setSens(const short sens)
 {
 
@@ -42,7 +51,13 @@ void Personnage::setSens(const short sens)
         throw;*/
     }
     else
-       this->_sens = sens;
+        this->_sens = sens;
+
+    if(_sm != NULL)
+    {
+        if(sens != sens)
+            _sm->razCpt();
+    }
 }
 
 qreal Personnage::getPourcentageVie()
@@ -100,7 +115,7 @@ void Personnage::loseHealth(const int degats)
         if(_actualhealth < 0)
             _actualhealth = 0;
 
-        qWarning() << "saucisse" << _actualhealth;
+        //  qWarning() << "saucisse" << _actualhealth;
     }
 }
 
@@ -115,14 +130,13 @@ QPointF Personnage::center() const
     return QPointF(x, y);
 }
 
-void Personnage::ChangeSensEtDeplacement(bool isPatate, int compteur, int maxTour, int maxSprite, QString path)
+void Personnage::ChangeSensEtDeplacement(int compteur, int maxTour, int maxSprite, QString path)
 {
     qreal ddx = 0, ddy = 0, offset = 1;
 
-    if(isPatate == false)
-    {
-       offset = 0.9;
-    }
+    if(this->type() == Patate::Type)
+        offset = 0.9;
+
     switch (_sens)
     {
         case Personnage::DROITE:
@@ -145,16 +159,6 @@ void Personnage::ChangeSensEtDeplacement(bool isPatate, int compteur, int maxTou
             break;
     }
 
- /*   if(isPatate == true)
-    {
-        if(GameManager::Instance()->getPatate()->isMovin == false)
-        {
-            ddx = 0;
-            ddy = 0;
-            _imgCpt = 0; // incr apres
-        }
-    } */
-
     if(compteur >= maxTour) // on repasse a 0
         compteur = 0; // incremente apres donc = 1 la prochaine fois
     else
@@ -166,8 +170,62 @@ void Personnage::ChangeSensEtDeplacement(bool isPatate, int compteur, int maxTou
                 _imgCpt = 1;
 
             path.append(QString::number(_imgCpt));
-            setPixmap(QPixmap(path));
+
+            /*
+            if(this->type() != Patate::Type) // si pas une patate
+                setPixmap(QPixmap(path));
+            */
         }
 
     moveBy(ddx, ddy);
+}
+
+QString Personnage::getStrSens() const
+{
+    QString sens;
+    switch (_sens)
+    {
+        case Personnage::BAS:
+            sens = "Bas";
+            break;
+        case Personnage::GAUCHE:
+            sens = "Gauche";
+            break;
+        case Personnage::HAUT:
+            sens = "Haut";
+            break;
+        case Personnage::DROITE:
+            sens = "Droite";
+            break;
+        default:
+            break;
+    }
+    return sens;
+}
+
+bool Personnage::isMovin() const
+{
+    return _movin;
+}
+
+void Personnage::setMovin(const bool move)
+{
+    _movin = move;
+
+    if(_sm != NULL)
+    {
+        /*
+        if(move)
+        {
+            if(!_sm->isRunning())
+                _sm->start();
+        }
+        else
+        {
+            if(_sm->isRunning())
+                _sm->stop();
+        }
+        */
+        //emit moveChanged();
+    }
 }

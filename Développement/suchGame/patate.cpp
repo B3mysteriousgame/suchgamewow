@@ -28,16 +28,8 @@ Patate::Patate(QGraphicsItem *parent)
     setPos(10, 20);
     setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
     //initStates();
-}
 
-bool Patate::isMovin() const
-{
-    return _movin;
-}
-
-void Patate::setMovin(const bool move)
-{
-    _movin = move;
+    _sm = new SpriteManager(this, "link", 4);
 }
 
 /**
@@ -151,13 +143,9 @@ void Patate::avancer(short sens)
     }
 
     if(_movin == false)
-    {
         _imgCpt = 0; // incr apres
-    }
     else
-    {
-        ChangeSensEtDeplacement(1,cpt,maxTour,maxSprite,spritePAth);
-    }
+        ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
 
     /*
     if(_blockinBorder != _sens)
@@ -269,7 +257,7 @@ bool Patate::scrollView()
         if(isNearSceneBorder()) // proche du bord
         {
             _blockinBorder = _sens; // on empeche de continuer par la
-            qWarning() << "Patate near border" << _sens;
+            //qWarning() << "Patate near border" << _sens;
         }
         else // ailleurs
         {
@@ -281,7 +269,7 @@ bool Patate::scrollView()
             if(_blockinBorder != -1)
                 _blockinBorder = -1;
 
-            qWarning() << "Scrolled towards" << _sens;
+            //qWarning() << "Scrolled towards" << _sens;
             GameManager::qSleep(250);
         }
     }
@@ -354,11 +342,11 @@ bool Patate::isNearSceneBorder() const
     if(cpt)
     {
         cpt = false;
-        qWarning() << "Patate::isNearSceneBorder ---> Rectangle:" << smallSceneRect;
+        //qWarning() << "Patate::isNearSceneBorder ---> Rectangle:" << smallSceneRect;
     }
     else
     {
-        qWarning() << "Patate::isNearSceneBorder ---> Not close to bordas";
+        //qWarning() << "Patate::isNearSceneBorder ---> Not close to bordas";
     }
 
     return !smallSceneRect.contains(this->boundingRect());
@@ -372,7 +360,7 @@ void Patate::setXp(const int xp)
 void Patate::addXp(const int xp)
 {
     _xp += xp;
-    qWarning() << "XP now at" << _xp;
+    //qWarning() << "XP now at" << _xp;
 
     if(_xp > _xpMax)
     {
@@ -395,5 +383,5 @@ void Patate::lvlUp()
         _mana += 24;
 
     _gm->patateLvlUp();
-    qWarning() << "Level up! Now lvl" << _lvl;
+    //qWarning() << "Level up! Now lvl" << _lvl;
 }

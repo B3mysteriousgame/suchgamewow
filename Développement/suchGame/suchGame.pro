@@ -18,7 +18,8 @@ HEADERS += \
     strat1.hpp \
     strat2.hpp \
     ennemyfactory.h \
-    strategie.hpp
+    strategie.hpp \
+    spritemanager.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -38,7 +39,8 @@ SOURCES += \
     perso.cpp \
     personnage.cpp \
     strat1.cpp \
-    strat2.cpp
+    strat2.cpp \
+    spritemanager.cpp
 
 RESOURCES += \
     mice.qrc \

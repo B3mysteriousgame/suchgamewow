@@ -6,6 +6,7 @@
 #include <QStateMachine>
 #include <QState>
 #include <QPropertyAnimation>
+#include "spritemanager.hpp"
 
 class GameManager;
 
@@ -20,7 +21,7 @@ public:
 
     Personnage(QGraphicsItem* parent = 0);
     Personnage(Personnage*){}
-    ~Personnage(){}
+    ~Personnage();
 
     virtual QList<QString> getSprites() const{ return QList<QString>(); }
     virtual int getImgCpt() const{ return _imgCpt; }
@@ -35,17 +36,25 @@ public:
     void setFullHealth(const int health);
     int getActualHealth() const;
     void setActualHealth(const int health);
+    QString getStrSens() const;
     QPointF center() const;
 
     void loseHealth(int degats);
     qreal getPourcentageVie();
     void calculResistance();
 
+    bool isMovin() const;
+    void setMovin(const bool move);
+
+
     virtual void advance(int step) = 0;
 
     virtual void test(){}
     virtual void attaque() = 0;
-    void ChangeSensEtDeplacement(bool isPatate, int compteur, int maxTour, int maxSprite, QString path);
+    void ChangeSensEtDeplacement(int compteur, int maxTour, int maxSprite, QString path);
+
+signals:
+    void moveChanged();
 
 protected:
     qreal _speed;
@@ -58,6 +67,9 @@ protected:
     int _mana;
     QList<QString> _sprites;
     GameManager *_gm;
+    bool _movin;
+    SpriteManager *_sm;
+
     /*
     QStateMachine _stateMachine;
     QState shaut;

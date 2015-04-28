@@ -28,8 +28,7 @@ class Patate : public Personnage
         void addXp(const int xp);
         void lvlUp();
         void initStates();
-        bool isMovin() const;
-        void setMovin(const bool move);
+        QString getStrSens() const;
 
     private:
         void stayInScene();
@@ -45,6 +44,5 @@ class Patate : public Personnage
         int _xp;
         int _xpMax;
         int _lvl;
-        bool _movin;
 };
 #endif // PATATE_HPP

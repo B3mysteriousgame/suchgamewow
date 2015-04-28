@@ -28,6 +28,9 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _barre->setParentItem(this);
 
     _patateproche = false;
+    _movin = true;
+
+    _sm = new SpriteManager(this, "alex", 4);
 }
 
 int Ennemy::getXpDon() const
@@ -123,7 +126,7 @@ void Ennemy::advance(int)
         _strat = new MoveFreelyStrat(this);
     }
 
-    ChangeSensEtDeplacement(0,cpt,maxTour,maxSprite,spritePAth);
+    ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
 
     if(cpt >= maxTour) // on repasse a 0
         cpt = 0; // incremente apres donc = 1 la prochaine fois

@@ -3,15 +3,15 @@
 
 Strat2::~Strat2()
 {
-    qWarning() << "Strat2 deleted.";
+    //qWarning() << "Strat2 deleted.";
 }
 
 void Strat2::analyser ()
 {
-    qWarning() << "Strat2 analysed.";
+    //qWarning() << "Strat2 analysed.";
 }
 
 void Strat2::appliquer ()
 {
-    qWarning() << "Strat2 applied.";
+    //qWarning() << "Strat2 applied.";
 }

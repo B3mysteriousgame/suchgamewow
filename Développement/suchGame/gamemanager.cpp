@@ -98,7 +98,7 @@ GameManager::GameManager()
     _view->resize(qs);
     //_view->setFixedSize();
 
-    qWarning() << "Scene's at" << _scene->sceneRect().center();
+    //qWarning() << "Scene's at" << _scene->sceneRect().center();
 
     _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -173,15 +173,15 @@ void GameManager::mousePressEvent(QMouseEvent*)
 void GameManager::test()
 {
    //jose.attaque(manuel);
-   //qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
+   ////qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
 
 
-    //qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
+    ////qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
     QPointF oldPoint, newPoint; // in scene coord
-    qWarning() << "In GameManager::test";
+    //qWarning() << "In GameManager::test";
 
     oldPoint = _view->getCenter();
-    //qWarning() << _patate;
+    ////qWarning() << _patate;
 
     if(_patate != NULL)
     {
@@ -275,7 +275,7 @@ void GameManager::logCoords(const QGraphicsItem *item)
     coord.append(QString().number(_perso->y()));
 
     setText(coord);
-    qWarning() << "GameManager::logCoords --> Type:" << item->type() << "-" << coord;
+    //qWarning() << "GameManager::logCoords --> Type:" << item->type() << "-" << coord;
 }
 
 void GameManager::addItemToScene(QRectF &rect)
@@ -361,7 +361,7 @@ void GameManager::scrollView(short sens)
     }
     _view->centerOn(point);
 
-    //qWarning() << oldPoint << "-----------" << point;
+    ////qWarning() << oldPoint << "-----------" << point;
 }
 
 void GameManager::ennemyGotKilled(const int xp)
@@ -376,7 +376,7 @@ void GameManager::pauseItems()
 {
     QRectF sceneRect(_view->mapToScene(0,0), _view->mapToScene(QPoint(_view->width(), _view->height())));
 
-    //qWarning() << sceneRect;
+    ////qWarning() << sceneRect;
 }
 
 void GameManager::popEnnemy()
@@ -392,7 +392,7 @@ void GameManager::patateLvlUp()
         _lvlUpTxt = new QGraphicsPixmapItem(QPixmap(":/images/Sprites/lvlUpTxt.png"));
         _lvlUpTxt->setParentItem(_patate);
         _scene->addItem(_lvlUpTxt);
-        qWarning() << "GameManager::patateLvlUp() txt added";
+        //qWarning() << "GameManager::patateLvlUp() txt added";
     }
 
     _lvlUpTxt->setActive(true);

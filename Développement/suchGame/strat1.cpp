@@ -13,12 +13,12 @@ Strat1::Strat1(Ennemy *parent) :
 
 Strat1::~Strat1()
 {
-    qWarning() << "Strat1 deleted.";
+    //qWarning() << "Strat1 deleted.";
 }
 
 void Strat1::analyser ()
 {
-    //qWarning() << "Strat1 analysed.";
+    ////qWarning() << "Strat1 analysed.";
 }
 
 void Strat1::appliquer ()
@@ -46,7 +46,7 @@ void Strat1::appliquer ()
                     case Patate::Type:
                         _parent->setTouched(true);
                         GameManager::Instance()->getPatate()->loseHealth(51);
-                        qWarning() << "Strat1 analysed.---" << GameManager::Instance()->getPatate()->getActualHealth();
+                        //qWarning() << "Strat1 analysed.---" << GameManager::Instance()->getPatate()->getActualHealth();
 
                 }
             }

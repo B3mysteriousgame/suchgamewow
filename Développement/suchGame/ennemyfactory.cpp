@@ -59,5 +59,5 @@ int EnnemyFactory::getNbEnnemy()
 void EnnemyFactory::removeEnnemy(Ennemy *it)
 {
     _listeMichels.removeOne(it);
-    qWarning() <<"nbmichel_indaListe :" <<  _listeMichels.length() ;
+    //qWarning() <<"nbmichel_indaListe :" <<  _listeMichels.length() ;
 }
