@@ -47,6 +47,7 @@ void Ennemy::loseHealth(int degats)
     Personnage::loseHealth(degats);
     pourcentage = Ennemy::getPourcentageVie();
     _barre->setLargeur(pourcentage/2);
+    qWarning() << "jose chibre bonchour" << this->_actualhealth;
 }
 
 

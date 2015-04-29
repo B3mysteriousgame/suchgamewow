@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include "myview.hpp"
 #include <QTimer>
+#include <QGraphicsPixmapItem>
 
 class Mouse;
 class Perso;
@@ -46,12 +47,16 @@ class GameManager : QObject
 
     private:
         Q_DISABLE_COPY(GameManager)
+        QGraphicsRectItem *rectangle;
+        QGraphicsPixmapItem *_grass;
+        QGraphicsPixmapItem *_background;
 
         //GameManager& operator= (const GameManager&){}
         //GameManager (const GameManager& g);
         GameManager();
         ~GameManager();
         void avancerPerso();
+        void setPixmap(QPixmap);
 
         static GameManager *m_instance;
 

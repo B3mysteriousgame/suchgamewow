@@ -10,7 +10,7 @@ MyScene::MyScene(QObject *parent) :
 
 void MyScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
-    QPixmap bckground(":/images/map.png");
+    QPixmap bckground(":/images/MapTest.png");
     painter->drawPixmap(rect, bckground, rect );
     QGraphicsScene::drawBackground(painter,rect);
 }

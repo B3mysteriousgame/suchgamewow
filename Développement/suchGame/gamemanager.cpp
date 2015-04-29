@@ -9,6 +9,7 @@
 #include "ennemy.hpp"
 #include "barre.hpp"
 #include <iostream>
+#include <QGraphicsPixmapItem>
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -49,6 +50,8 @@ GameManager::GameManager()
     _patate = new Patate();
      _ennemyCpt = 0;
      _lvlUpTxt = NULL;
+     _grass = new QGraphicsPixmapItem(QPixmap(":/images/grass.jpg"));
+     _background = new QGraphicsPixmapItem(QPixmap(":/images/MapTest.png"));
 
     _timer = new QTimer();
     _timerPopEnnemy = new QTimer();
@@ -58,12 +61,19 @@ GameManager::GameManager()
 //! [0]
 
 //! [1]
-    _scene->setSceneRect(-230, -130, 936, 555);
+    _scene->setSceneRect(-230, -130, 468, 277);
 //! [1] //! [2]
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 //! [2]
 
 //! [3]
+    //_scene->addItem(_grass);
+    _scene->addItem(_background);
+    //_grass->setPos(_view->getCenter());
+    _background->setPos(-956, -492);
+    //_grass->show();
+    _background->show();
+    _scene->addItem(_patate);
     // Souris
     for (int i = 0; i < MouseCount; ++i)
     {
@@ -86,15 +96,10 @@ GameManager::GameManager()
     _scene->addItem(mouse);*/
 
     //_scene->addItem(_perso);
-    _scene->addItem(_patate);
 //! [3]
     //_scene->addRect(_perso->boundingRect());
     //_scene->addRect(mouse->boundingRect());
 
-    _textItem = _scene->addText("lol");
-
-    _textItem->setPlainText("lol");
-    _textItem->setPos(-300, -300);
     //logCoords();
 
 
@@ -111,7 +116,7 @@ GameManager::GameManager()
 //! [4]
     _view->setScene(_scene);
     _view->setRenderHint(QPainter::Antialiasing);
-    _view->setBackgroundBrush(QPixmap(":/images/map.png"));
+    //_view->setBackgroundBrush(QPixmap(":/images/MapTest.png"));
 //! [4] //! [5]
     _view->setCacheMode(QGraphicsView::CacheBackground);
     _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
@@ -152,6 +157,8 @@ GameManager::~GameManager()
     delete(_patate);
     delete(_timerLvlUp);
     delete(_lvlUpTxt);
+    delete(_grass);
+    delete(_background);
     GameManager::m_instance = NULL;
 }
 
@@ -202,7 +209,7 @@ void GameManager::test()
     qWarning() << "In GameManager::test";
 
     //oldPoint = _view->mapToScene(_view->getCenter());
-    ;oldPoint = _view->getCenter();
+    oldPoint = _view->getCenter();
     qWarning() << _patate;
 
     if(_patate != NULL)
