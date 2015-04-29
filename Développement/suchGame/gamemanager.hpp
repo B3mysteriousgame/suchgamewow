@@ -4,29 +4,37 @@
 #include <QGraphicsScene>
 #include "myview.hpp"
 #include <QTimer>
+<<<<<<< HEAD
 #include <QGraphicsPixmapItem>
+=======
+#include "ennemyfactory.h"
+>>>>>>> 1d47666e67a70f4761bfc05d02bfc95c4eae9037
 
 class Mouse;
 class Perso;
 class Patate;
+class Ennemy;
 
-class GameManager : QObject
+class GameManager : public QObject
 {
     Q_OBJECT
-
     public:
         static GameManager *Instance();
         void keyPressEvent(QKeyEvent* event);
+        void keyReleaseEvent(QKeyEvent* event);
         void mousePressEvent(QMouseEvent *event);
         void scrollView(short sens);
 
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
-        QTimer* getTimer() const;
-        Perso* getPerso() const;
+        QTimer* getPopTimer() const;
+        Patate* getPatate() const;
         QList<Mouse*> getSceneMice();
-        QPointF getPersoPos() const;
+        QPointF getPatatePos() const;
 
+        bool isTimerActive();
+        void stopTimer();
+        void startTimer(int ms);
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem *item);
         void setText(const QString& txt);
@@ -39,6 +47,13 @@ class GameManager : QObject
         static void qSleep(int ms);
         void test();
         void patateLvlUp();
+
+    signals:
+        void downSignal();
+        void rightSignal();
+        void leftSignal();
+        void upSignal();
+        void stopMovinSignal();
 
     public slots:
         void popEnnemy();
@@ -63,8 +78,10 @@ class GameManager : QObject
         QGraphicsScene *_scene;
         MyView *_view;
         QTimer *_timer;
-        QTimer *_timerLvlUp;
         QTimer *_timerPopEnnemy;
+        QTimer *_timerLvlUp;
+        EnnemyFactory _ef;
+
         Perso *_perso;
         Patate *_patate;
         QGraphicsTextItem *_textItem;

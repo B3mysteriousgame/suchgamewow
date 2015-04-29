@@ -27,6 +27,8 @@ class Patate : public Personnage
         void setXp(const int xp);
         void addXp(const int xp);
         void lvlUp();
+        void initStates();
+        QString getStrSens() const;
 
     private:
         void stayInScene();

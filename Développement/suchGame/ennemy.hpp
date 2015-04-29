@@ -27,6 +27,7 @@ class Ennemy : public Personnage
         void setTouched(bool t){ _touched = t; }
         Barre* getBarre();
         void handleSceneBounder();
+        QString changeSens(QString lepath);
 
     private:
         void doStrat();
@@ -34,6 +35,7 @@ class Ennemy : public Personnage
         bool _touched;
         int _xpDon;
         Strategie *_strat;
+        bool _patateproche;
 };
 
 #endif // ENNEMY_H

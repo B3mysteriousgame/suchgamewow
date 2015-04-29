@@ -17,8 +17,9 @@ HEADERS += \
     personnage.hpp \
     strat1.hpp \
     strat2.hpp \
-    strategie.hpp
-
+    ennemyfactory.h \
+    strategie.hpp \
+    spritemanager.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
     ball.cpp \
     barre.cpp \
     ennemy.cpp \
+    ennemyfactory.cpp \
     gamemanager.cpp \
     main.cpp \
     map.cpp \
@@ -37,11 +39,12 @@ SOURCES += \
     perso.cpp \
     personnage.cpp \
     strat1.cpp \
-    strat2.cpp
+    strat2.cpp \
+    spritemanager.cpp
 
 RESOURCES += \
     mice.qrc \
-    test.qrc
+    sprites.qrc
 
 # install
 target.path = ./suchGame

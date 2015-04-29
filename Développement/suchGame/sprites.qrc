@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/alex">
+        <file>images/Sprites/alex/alexB1.png</file>
+        <file>images/Sprites/alex/alexB2.png</file>
+        <file>images/Sprites/alex/alexB3.png</file>
+        <file>images/Sprites/alex/alexB4.png</file>
+        <file>images/Sprites/alex/alexD1.png</file>
+        <file>images/Sprites/alex/alexD2.png</file>
+        <file>images/Sprites/alex/alexD3.png</file>
+        <file>images/Sprites/alex/alexD4.png</file>
+        <file>images/Sprites/alex/alexG1.png</file>
+        <file>images/Sprites/alex/alexG2.png</file>
+        <file>images/Sprites/alex/alexG3.png</file>
+        <file>images/Sprites/alex/alexG4.png</file>
+        <file>images/Sprites/alex/alexH1.png</file>
+        <file>images/Sprites/alex/alexH2.png</file>
+        <file>images/Sprites/alex/alexH3.png</file>
+        <file>images/Sprites/alex/alexH4.png</file>
+    </qresource>
+    <qresource prefix="/link">
+        <file>images/Sprites/link/linkB1.png</file>
+        <file>images/Sprites/link/linkB2.png</file>
+        <file>images/Sprites/link/linkB3.png</file>
+        <file>images/Sprites/link/linkB4.png</file>
+        <file>images/Sprites/link/linkD1.png</file>
+        <file>images/Sprites/link/linkD2.png</file>
+        <file>images/Sprites/link/linkD3.png</file>
+        <file>images/Sprites/link/linkD4.png</file>
+        <file>images/Sprites/link/linkG1.png</file>
+        <file>images/Sprites/link/linkG2.png</file>
+        <file>images/Sprites/link/linkG3.png</file>
+        <file>images/Sprites/link/linkG4.png</file>
+        <file>images/Sprites/link/linkH1.png</file>
+        <file>images/Sprites/link/linkH2.png</file>
+        <file>images/Sprites/link/linkH3.png</file>
+        <file>images/Sprites/link/linkH4.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>images/map.png</file>
+        <file>images/Sprites/lvlUpTxt.png</file>
+    </qresource>
+</RCC>

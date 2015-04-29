@@ -12,12 +12,12 @@ MoveFreelyStrat::MoveFreelyStrat(Ennemy *parent) :
 
 MoveFreelyStrat::~MoveFreelyStrat()
 {
-    qWarning() << "MoveFreelyStrat deleted.";
+    //qWarning() << "MoveFreelyStrat deleted.";
 }
 
 void MoveFreelyStrat::analyser ()
 {
-    //qWarning() << "MoveFreelyStrat analysed.";
+    ////qWarning() << "MoveFreelyStrat analysed.";
 }
 
 /**
@@ -25,7 +25,7 @@ void MoveFreelyStrat::analyser ()
  */
 void MoveFreelyStrat::appliquer ()
 {
-    //qWarning() << "MoveFreelyStrat applied.";
+    ////qWarning() << "MoveFreelyStrat applied.";
 
     // ------- test collision ------- //
     QList<QGraphicsItem*> listCollides = _parent->collidingItems();
@@ -79,8 +79,4 @@ void MoveFreelyStrat::doBallStrat(Ball *item)
 {
     _parent->loseHealth(item->getDegats());
 
-    qWarning() << "Biaretour"
-                  "atch!";
-    //delete(_parent);
-    //delete(item);
 }

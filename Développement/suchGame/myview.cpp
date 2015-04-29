@@ -13,6 +13,12 @@ void MyView::keyPressEvent(QKeyEvent* event)
     g->keyPressEvent(event);
 }
 
+void MyView::keyReleaseEvent(QKeyEvent* event)
+{
+    GameManager *g = GameManager::Instance();
+    g->keyReleaseEvent(event);
+}
+
 void MyView::mousePressEvent(QMouseEvent *event)
 {
     GameManager::Instance()->mousePressEvent(event);

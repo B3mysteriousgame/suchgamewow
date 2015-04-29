@@ -2,27 +2,34 @@
 #include "gamemanager.hpp"
 #include "mouse.h"
 #include "ball.hpp"
+#include "barre.hpp"
 #include <QDebug>
 
 Patate::Patate(QGraphicsItem *parent)
     : Personnage(parent)
-
 {
-    // ":/images/patate.png"
-    // _sprites = QList<QString>();
-    _sprites.append(":/images/Sprites/linkD1.png");
-    _sprites.append(":/images/Sprites/linkD2.png");
-    _sprites.append(":/images/Sprites/linkD3.png");
-    _sprites.append(":/images/Sprites/linkD2.png");
     _imgCpt = 0;
-    _sens = Patate::DROITE;
-    _speed = 3;
+    _sens = Personnage::DROITE; // idle
+    _speed = 2;
     _gm = NULL;
     _fullhealth = 100;
     _actualhealth = _fullhealth;
+    _def = 50;
+    _xp = 0;
+    _xpMax = 200;
+    _lvl = 1;
+    _atk = 48;
+    _movin = false;
+
+  /*  _barre = new Barre(true);
+    QPointF lepoint = QPointF(GameManager::Instance()->getView()->getViewRect().width(),(0 + _barre->getHauteur()));
+    _barre->setPos(lepoint); */
 
     setPos(10, 20);
-    setPixmap(QPixmap(":/images/Sprites/linkD1.png"));
+    setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
+    //initStates();
+
+    _sm = new SpriteManager(this, "link", 4);
 }
 
 /**
@@ -49,6 +56,57 @@ int Patate::getImgCpt() const
 }
 
 
+void Patate::initStates()
+{
+    /*
+    GameManager *gm = GameManager::Instance();
+
+    // passe au state quand il recoit un signal du gm
+    sdroite.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    sdroite.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sdroite.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    sdroite.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    sgauche.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    sgauche.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sgauche.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    sgauche.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    shaut.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    shaut.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    shaut.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    shaut.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    sbas.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sbas.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    sbas.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    sbas.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
+
+    sidle.addTransition(gm, SIGNAL(upSignal()), &shaut);
+    sidle.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
+    sidle.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
+    sidle.addTransition(gm, SIGNAL(downSignal()), &sbas);
+    // -----------------------------------------------
+
+    // change the property
+    shaut.assignProperty(this, "_sens", 1);
+    sdroite.assignProperty(this, "_sens", 2);
+    sbas.assignProperty(this, "_sens", 3);
+    sgauche.assignProperty(this, "_sens", 0);
+    // -------------------
+
+    //QObject::connect(&sbas, SIGNAL(entered()), button, SLOT(showMaximized()));
+
+    _stateMachine.addState(&shaut);
+    _stateMachine.addState(&sbas);
+    _stateMachine.addState(&sdroite);
+    _stateMachine.addState(&sgauche);
+    _stateMachine.addState(&sidle);
+
+    _stateMachine.setInitialState(&sidle);
+    */
+}
+
 
 QList<QString> Patate::getSprites() const
 {
@@ -64,76 +122,30 @@ void Patate::test()
     rec.setY( rec.y() - adjust );
 }
 
-void Patate::advance(int){}
+void Patate::advance(int)
+{
+    avancer(_sens);
+}
 
 void Patate::avancer(short sens)
 {
     static short cpt = 1; // va de 1 a maxTour non compris (1 a 3)
-    static const short maxTour = 4, maxSprite = 4;
+    static const short maxTour = 7, maxSprite = 4;
     static MyView *view = GameManager::Instance()->getView();
-    QString spritePAth = ":/images/Sprites/link";
+    QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
-
-    static qreal ddx, ddy, offset = 1;
-    ddx = 0;
-    ddy = 0;
-
 
     if(sens != _sens) // si on change de sens
     {
         cpt = 1; // pour changer d'image apres
         _imgCpt = 0; // incremente apres, donc img 1 sera affichee
-
         _sens = sens; // on dit qu'on change de sens
-        //offset += 2;
-
-        /*
-        if(_blockinCase != -1)
-            _blockinCase = -1;
-         */
-    }
-    else // sinon on test le scroll
-        offset = 1;
-
-    // on calcule la nouvelle valeur de x ou y en fonction du sens
-    switch (_sens)
-    {
-        case Patate::DROITE:
-            ddx += _speed * offset;
-            spritePAth.append("D");
-            break;
-        case Patate::GAUCHE:
-            ddx += _speed * offset * -1.;
-            spritePAth.append("G");
-            break;
-        case Patate::BAS:
-            ddy += _speed * offset;
-            spritePAth.append("B");
-            break;
-        case Patate::HAUT:
-            ddy += _speed * offset * -1.;
-            spritePAth.append("H");
-            break;
-        default:
-            break;
     }
 
-    if(cpt >= maxTour) // on repasse a 1
-        cpt = 1;
-
-    if(cpt == 1) // on change l'image
-    {
-        _imgCpt += 1;
-
-        if(_imgCpt > maxSprite)
-            _imgCpt = 1;
-
-        spritePAth.append(QString::number(_imgCpt));
-        setPixmap(QPixmap(spritePAth));
-    }
-
-    moveBy(ddx, ddy);
-    view->centerOn(this);
+    if(_movin == false)
+        _imgCpt = 0; // incr apres
+    else
+        ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
 
     /*
     if(_blockinBorder != _sens)
@@ -146,6 +158,11 @@ void Patate::avancer(short sens)
     */
 
     //qWarning() << "pos: " << x() << " - " << y();
+
+    if(cpt >= maxTour) // on repasse a 1
+        cpt = 0;
+
+    view->centerOn(this);
 
     ++cpt;
 }
@@ -240,7 +257,7 @@ bool Patate::scrollView()
         if(isNearSceneBorder()) // proche du bord
         {
             _blockinBorder = _sens; // on empeche de continuer par la
-            qWarning() << "Patate near border" << _sens;
+            //qWarning() << "Patate near border" << _sens;
         }
         else // ailleurs
         {
@@ -252,7 +269,7 @@ bool Patate::scrollView()
             if(_blockinBorder != -1)
                 _blockinBorder = -1;
 
-            qWarning() << "Scrolled towards" << _sens;
+            //qWarning() << "Scrolled towards" << _sens;
             GameManager::qSleep(250);
         }
     }
@@ -325,11 +342,11 @@ bool Patate::isNearSceneBorder() const
     if(cpt)
     {
         cpt = false;
-        qWarning() << "Patate::isNearSceneBorder ---> Rectangle:" << smallSceneRect;
+        //qWarning() << "Patate::isNearSceneBorder ---> Rectangle:" << smallSceneRect;
     }
     else
     {
-        qWarning() << "Patate::isNearSceneBorder ---> Not close to bordas";
+        //qWarning() << "Patate::isNearSceneBorder ---> Not close to bordas";
     }
 
     return !smallSceneRect.contains(this->boundingRect());
@@ -343,7 +360,7 @@ void Patate::setXp(const int xp)
 void Patate::addXp(const int xp)
 {
     _xp += xp;
-    qWarning() << "XP now at" << _xp;
+    //qWarning() << "XP now at" << _xp;
 
     if(_xp > _xpMax)
     {
@@ -366,5 +383,5 @@ void Patate::lvlUp()
         _mana += 24;
 
     _gm->patateLvlUp();
-    qWarning() << "Level up! Now lvl" << _lvl;
+    //qWarning() << "Level up! Now lvl" << _lvl;
 }

@@ -1,26 +1,43 @@
 <RCC>
     <qresource prefix="/">
         <file>images/patateSaiyen.png</file>
-        <file>images/Sprites/linkD1.png</file>
-        <file>images/Sprites/linkD2.png</file>
-        <file>images/Sprites/linkD3.png</file>
-        <file>images/Sprites/linkD4.png</file>
-        <file>images/Sprites/linkH1.png</file>
-        <file>images/Sprites/linkH2.png</file>
-        <file>images/Sprites/linkH3.png</file>
-        <file>images/Sprites/linkH4.png</file>
-        <file>images/Sprites/linkB1.png</file>
-        <file>images/Sprites/linkB2.png</file>
-        <file>images/Sprites/linkB3.png</file>
-        <file>images/Sprites/linkB4.png</file>
-        <file>images/Sprites/linkG1.png</file>
-        <file>images/Sprites/linkG2.png</file>
-        <file>images/Sprites/linkG3.png</file>
-        <file>images/Sprites/linkG4.png</file>
         <file>images/map.png</file>
         <file>images/Sprites/lvlUpTxt.png</file>
         <file>images/grass.jpg</file>
         <file>images/MapTest.png</file>
         <file>images/MapTest1.png</file>
+        <file>angleoperation.cpp</file>
+        <file>angleoperation.hpp</file>
+        <file>arme.cpp</file>
+        <file>arme.h</file>
+        <file>ball.cpp</file>
+        <file>ball.hpp</file>
+        <file>balltester.hpp</file>
+        <file>barre.cpp</file>
+        <file>barre.hpp</file>
+        <file>ennemy.cpp</file>
+        <file>ennemy.hpp</file>
+        <file>gamemanager.cpp</file>
+        <file>gamemanager.hpp</file>
+        <file>main.cpp</file>
+        <file>mouse.cpp</file>
+        <file>mouse.h</file>
+        <file>movefreelystrat.cpp</file>
+        <file>movefreelystrat.hpp</file>
+        <file>myscene.cpp</file>
+        <file>myscene.hpp</file>
+        <file>myview.cpp</file>
+        <file>myview.hpp</file>
+        <file>patate.cpp</file>
+        <file>patate.hpp</file>
+        <file>perso.cpp</file>
+        <file>perso.hpp</file>
+        <file>personnage.cpp</file>
+        <file>personnage.hpp</file>
+        <file>strat1.cpp</file>
+        <file>Strat1.hpp</file>
+        <file>strat2.cpp</file>
+        <file>Strat2.hpp</file>
+        <file>Strategie.hpp</file>
     </qresource>
 </RCC>

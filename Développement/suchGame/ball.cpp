@@ -22,7 +22,7 @@ Ball::Ball(QPointF ballScenePos, QGraphicsItem *parent) :
 
     _degats = 5 + ((Personnage*)parent)->getAtk();
 
-    //qWarning() << "ballScenePos:" << ballScenePos;
+    ////qWarning() << "ballScenePos:" << ballScenePos;
 }
 
 Ball::Ball(const Ball&) :
@@ -48,7 +48,7 @@ Ball::Ball(Patate *parent) :
     if(parent != NULL)
     {
         setPos(parent->pos());
-        //qWarning() << pos();
+        ////qWarning() << pos();
 
         _sens = parent->getSens();
 
@@ -76,7 +76,7 @@ Ball::Ball(Patate *parent) :
 
         setRotation(angle);
         moveBy(dx, dy);
-        //qWarning() << pos();
+        ////qWarning() << pos();
     }
 }
 
@@ -190,11 +190,11 @@ void Ball::doEffect(QGraphicsItem *item)
     {
         Ennemy *leEnnemy = (Ennemy*) item;
         leEnnemy->loseHealth(_degats);
-        qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
+        //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
 
         if(leEnnemy->getActualHealth() <= 0) // si mort
         {
-            qWarning() << "Ennemy killed";
+            //qWarning() << "Ennemy killed";
             gm->ennemyGotKilled(leEnnemy->getXpDon());
             gm->removeItem(leEnnemy);
         }
