@@ -12,13 +12,13 @@ Patate::Patate(QGraphicsItem *parent)
     _sens = Personnage::DROITE; // idle
     _speed = 2;
     _gm = NULL;
-    _fullhealth = 100;
+    _fullhealth = 420;
     _actualhealth = _fullhealth;
     _def = 50;
     _xp = 0;
     _xpMax = 200;
     _lvl = 1;
-    _atk = 48;
+    _atk = 100;
     _movin = false;
 
   /*  _barre = new Barre(true);
@@ -374,7 +374,7 @@ void Patate::lvlUp()
 {
     _lvl += 1;
     _xpMax += 200;
-    _atk += 20;
+    _atk += 6;
     _def += 4;
 
     if(_lvl % 2 == 0) // lvl paire

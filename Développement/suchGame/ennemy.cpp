@@ -7,19 +7,21 @@
 #include "barre.hpp"
 #include <QList>
 
-Ennemy::Ennemy(QGraphicsItem *parent) :
+Ennemy::Ennemy(int lvl, QGraphicsItem *parent) :
     Personnage(parent)
 {
-    _sprites.append(":/images/patateSaiyen.png");
+    //_sprites.append(":/images/patateSaiyen.png");
     _imgCpt = 0;
     _sens = Ennemy::DROITE;
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = 70;
-    _fullhealth = 100;
+    _lvl = lvl;
+    _xpDon = 20 + (9 * (_lvl - 1));
+    _fullhealth = 500 + (12 * (_lvl - 1));
     _actualhealth = _fullhealth;
-    _def = 25;
+    _atk = 80 + (15 * (_lvl - 1));
+    _def = 30 + (11 * (_lvl - 1));
     _speed = 1;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
@@ -30,6 +32,7 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _patateproche = false;
     _movin = true;
 
+    _targetable = true;
     _sm = new SpriteManager(this, "alex", 4);
 }
 

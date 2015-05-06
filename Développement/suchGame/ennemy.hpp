@@ -15,7 +15,7 @@ class Ennemy : public Personnage
         enum { Type = UserType + 5 };
         virtual int type() const{return Type;}
 
-        Ennemy(QGraphicsItem *parent = 0);
+        Ennemy(int lvl, QGraphicsItem *parent = 0);
         Ennemy(const Ennemy& e);
         ~Ennemy();
 

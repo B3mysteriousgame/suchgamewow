@@ -12,7 +12,7 @@ public:
     EnnemyFactory();
     ~EnnemyFactory();
 
-    Ennemy getEnnemyAt(int listpos);
+    Ennemy *getEnnemyAt(int listpos);
     int getNbEnnemy();
     void createEnnemy();
     void removeEnnemy(Ennemy *it);

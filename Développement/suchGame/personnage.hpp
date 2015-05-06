@@ -6,6 +6,7 @@
 #include <QStateMachine>
 #include <QState>
 #include <QPropertyAnimation>
+#include <QTimer>
 #include "spritemanager.hpp"
 
 class GameManager;
@@ -15,9 +16,12 @@ class Personnage : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 
 public:
+    static const short TIMOUT_TARGETABLE = 1000;
+
     enum { GAUCHE, HAUT, DROITE, BAS };
     enum { Type = UserType + 3 };
     virtual int type() const{return Type;}
+
 
     Personnage(QGraphicsItem* parent = 0);
     Personnage(Personnage*){}
@@ -36,8 +40,10 @@ public:
     void setFullHealth(const int health);
     int getActualHealth() const;
     void setActualHealth(const int health);
+    bool isTargetable() const { return _targetable; }
     QString getStrSens() const;
     QPointF center() const;
+    int getLvl() const { return _lvl; }
 
     void loseHealth(int degats);
     qreal getPourcentageVie();
@@ -45,6 +51,8 @@ public:
 
     bool isMovin() const;
     void setMovin(const bool move);
+    inline bool operator==(const Personnage &p) const;
+    inline bool operator!=(const Personnage &p) const;
 
 
     virtual void advance(int step) = 0;
@@ -69,6 +77,9 @@ protected:
     GameManager *_gm;
     bool _movin;
     SpriteManager *_sm;
+    int _lvl;
+    bool _targetable;
+    QTimer *_timerTargetable;
 
     /*
     QStateMachine _stateMachine;
@@ -82,6 +93,12 @@ protected:
 
     virtual void initStates();
     void initAnim();
+    void setTargetable(bool targetable);
+
+protected slots:
+    void setUntargetable() { setTargetable(false); }
+
+
 };
 
 #endif // PERSONNAGE_H

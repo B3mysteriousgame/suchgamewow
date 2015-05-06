@@ -17,7 +17,7 @@ MoveFreelyStrat::~MoveFreelyStrat()
 
 void MoveFreelyStrat::analyser ()
 {
-    ////qWarning() << "MoveFreelyStrat analysed.";
+    //qWarning() << "MoveFreelyStrat analysed.";
 }
 
 /**
@@ -25,7 +25,7 @@ void MoveFreelyStrat::analyser ()
  */
 void MoveFreelyStrat::appliquer ()
 {
-    ////qWarning() << "MoveFreelyStrat applied.";
+    //qWarning() << "MoveFreelyStrat applied.";
 
     // ------- test collision ------- //
     QList<QGraphicsItem*> listCollides = _parent->collidingItems();

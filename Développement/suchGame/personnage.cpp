@@ -10,13 +10,29 @@ Personnage::Personnage(QGraphicsItem* parent) :
 {
     //initStates();
     _sm = NULL;
+    _targetable = true;
+    _timerTargetable = new QTimer();
     initAnim();
+
+    connect(_timerTargetable, SIGNAL(timeout()), this, SLOT(setTargetable()));
 }
 
 Personnage::~Personnage()
 {
     if(_sm != NULL)
         delete(_sm);
+
+    delete(_timerTargetable);
+}
+
+void Personnage::setTargetable(bool targetable)
+{
+    if(targetable == false) // was targetable
+        _timerTargetable->start(Personnage::TIMOUT_TARGETABLE);
+    else // wasn't targetable
+        _timerTargetable->stop();
+
+    _targetable = targetable;
 }
 
 void Personnage::initAnim()
@@ -106,16 +122,20 @@ void Personnage::loseHealth(const int degats)
 {
     int vraiDegats;
 
-    vraiDegats = degats - _def;
-
-    if(vraiDegats >= 1)
+    if(this->isTargetable())
     {
-        _actualhealth -= vraiDegats;
+        vraiDegats = degats - _def;
 
-        if(_actualhealth < 0)
-            _actualhealth = 0;
+        if(vraiDegats >= 1)
+        {
+            _actualhealth -= vraiDegats;
 
-        //  qWarning() << "saucisse" << _actualhealth;
+            if(_actualhealth < 0)
+                _actualhealth = 0;
+
+            //  qWarning() << "saucisse" << _actualhealth;
+        }
+        this->setTargetable(false);
     }
 }
 
@@ -228,4 +248,23 @@ void Personnage::setMovin(const bool move)
         */
         //emit moveChanged();
     }
+}
+
+bool Personnage::operator==(const Personnage &p) const
+{
+    if(this->_actualhealth != p.getActualHealth()
+            || this->_atk != p.getAtk()
+            || this->_fullhealth != p.getFullHealth()
+            || this->_movin != p.isMovin()
+            || this->_sens != p.getSens()
+            || this->_speed != p.getSpeed()
+            || this->type() != p.type())
+        return false;
+    else
+        return true;
+}
+
+bool Personnage::operator!=(const Personnage &p) const
+{
+    return !(*this == p);
 }

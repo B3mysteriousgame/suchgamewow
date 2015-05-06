@@ -43,6 +43,5 @@ class Patate : public Personnage
         short _blockinBorder;
         int _xp;
         int _xpMax;
-        int _lvl;
 };
 #endif // PATATE_HPP
