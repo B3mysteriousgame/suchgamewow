@@ -4,7 +4,11 @@
 #include <QGraphicsScene>
 #include "myview.hpp"
 #include <QTimer>
+<<<<<<< HEAD
+#include <QGraphicsPixmapItem>
+=======
 #include "ennemyfactory.h"
+>>>>>>> 1d47666e67a70f4761bfc05d02bfc95c4eae9037
 
 class Mouse;
 class Perso;
@@ -58,12 +62,16 @@ class GameManager : public QObject
 
     private:
         Q_DISABLE_COPY(GameManager)
+        QGraphicsRectItem *rectangle;
+        QGraphicsPixmapItem *_grass;
+        QGraphicsPixmapItem *_background;
 
         //GameManager& operator= (const GameManager&){}
         //GameManager (const GameManager& g);
         GameManager();
         ~GameManager();
         void avancerPerso();
+        void setPixmap(QPixmap);
 
         static GameManager *m_instance;
 

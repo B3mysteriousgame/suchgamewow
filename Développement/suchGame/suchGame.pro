@@ -49,3 +49,7 @@ RESOURCES += \
 # install
 target.path = ./suchGame
 INSTALLS += target
+
+OTHER_FILES += \
+    images/MapTest.png \
+    images/MapTest1.png
