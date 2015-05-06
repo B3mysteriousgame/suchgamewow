@@ -16,7 +16,7 @@ class Personnage : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 
 public:
-    static const short TIMOUT_TARGETABLE = 1000;
+    static const short TIMOUT_TARGETABLE = 500;
 
     enum { GAUCHE, HAUT, DROITE, BAS };
     enum { Type = UserType + 3 };
@@ -96,7 +96,7 @@ protected:
     void setTargetable(bool targetable);
 
 protected slots:
-    void setUntargetable() { setTargetable(false); }
+    void setTargetable() { setTargetable(true); }
 
 
 };

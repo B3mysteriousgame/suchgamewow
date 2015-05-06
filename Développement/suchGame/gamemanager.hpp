@@ -4,11 +4,8 @@
 #include <QGraphicsScene>
 #include "myview.hpp"
 #include <QTimer>
-<<<<<<< HEAD
 #include <QGraphicsPixmapItem>
-=======
 #include "ennemyfactory.h"
->>>>>>> 1d47666e67a70f4761bfc05d02bfc95c4eae9037
 
 class Mouse;
 class Perso;
