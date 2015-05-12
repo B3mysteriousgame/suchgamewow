@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QGraphicsPixmapItem>
 #include "ennemyfactory.h"
+#include "statsframe.hpp"
 
 class Mouse;
 class Perso;
@@ -62,6 +63,7 @@ class GameManager : public QObject
         QGraphicsRectItem *rectangle;
         QGraphicsPixmapItem *_grass;
         QGraphicsPixmapItem *_background;
+        QString _backgroundImgPath;
 
         //GameManager& operator= (const GameManager&){}
         //GameManager (const GameManager& g);
@@ -84,6 +86,7 @@ class GameManager : public QObject
         QGraphicsTextItem *_textItem;
         QGraphicsPixmapItem *_lvlUpTxt;
         int _ennemyCpt;
+        StatsManager *_statsMan;
 
         void pauseItems();
 

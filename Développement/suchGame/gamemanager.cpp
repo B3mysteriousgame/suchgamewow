@@ -51,7 +51,8 @@ GameManager::GameManager()
      _ennemyCpt = 0;
      _lvlUpTxt = NULL;
      _grass = new QGraphicsPixmapItem(QPixmap(":/images/grass.jpg"));
-     _background = new QGraphicsPixmapItem(QPixmap(":/images/MapTest.png"));
+     //_background = new QGraphicsPixmapItem(QPixmap(":/images/MapTest.png"));
+    _backgroundImgPath = ":/images/MapTest.png";
 
     _timer = new QTimer();
     _timerPopEnnemy = new QTimer();
@@ -68,13 +69,17 @@ GameManager::GameManager()
 //! [2]
 
 //! [3]
+    /* nope
     //_scene->addItem(_grass);
-    _scene->addItem(_background);
+    //_scene->addItem(_background);
     //_grass->setPos(_view->getCenter());
-    _background->setPos(-956, -492);
+    //_background->setPos(-956, -492);
     //_grass->show();
-    _background->show();
+    //_background->show();
+    */
+
     _scene->addItem(_patate);
+
     // Souris
     for (int i = 0; i < MouseCount; ++i)
     {
@@ -85,6 +90,15 @@ GameManager::GameManager()
     }
 
     _scene->addItem(_patate);
+
+
+    // ajout de la frame avec les barres de stats
+    _statsMan = new StatsManager(_scene);
+
+
+
+    _scene->setBackgroundBrush(QBrush(QPixmap(_backgroundImgPath)));
+    //_scene->setSceneRect(0, 0, 1920, 1080);
 
 
 
@@ -117,9 +131,6 @@ GameManager::GameManager()
 
     _timer->start(1000 / 33);
     _timerPopEnnemy->start(1000 * 5);
-
-    // Ajout barre de vie patate
-
 }
 
 GameManager::~GameManager()
@@ -133,6 +144,7 @@ GameManager::~GameManager()
     delete(_lvlUpTxt);
     delete(_grass);
     delete(_background);
+    delete(_statsMan);
     GameManager::m_instance = NULL;
 }
 

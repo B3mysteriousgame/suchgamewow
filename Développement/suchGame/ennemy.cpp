@@ -34,6 +34,36 @@ Ennemy::Ennemy(int lvl, QGraphicsItem *parent) :
 
     _targetable = true;
     _sm = new SpriteManager(this, "alex", 4);
+
+    initAnimation();
+}
+
+void Ennemy::setTargetable(bool targetable)
+{
+    if(_animation != NULL)
+    {
+        if(targetable == false) // was targetable
+        {
+            qWarning() << "anim started";
+            _animation->start();
+        }
+        else                    // was not targetable
+        {
+            //qWarning() << "anim stopped";
+            //_animation->stop();
+        }
+    }
+
+    Personnage::setTargetable(targetable);
+}
+
+void Ennemy::initAnimation()
+{
+    _animation = new QPropertyAnimation(this, "visible");
+    _animation->setDuration(500);
+    _animation->setStartValue(true);
+    _animation->setEndValue(false);
+    _animation->setLoopCount(-1); // endless loop biatch
 }
 
 int Ennemy::getXpDon() const

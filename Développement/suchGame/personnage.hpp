@@ -1,4 +1,4 @@
- #ifndef PERSONNAGE_H
+#ifndef PERSONNAGE_H
 #define PERSONNAGE_H
 
 #include <QGraphicsPixmapItem>
@@ -14,10 +14,9 @@ class GameManager;
 class Personnage : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
-public:
-    static const short TIMOUT_TARGETABLE = 500;
-
+public:    
     enum { GAUCHE, HAUT, DROITE, BAS };
     enum { Type = UserType + 3 };
     virtual int type() const{return Type;}
@@ -27,8 +26,8 @@ public:
     Personnage(Personnage*){}
     ~Personnage();
 
-    virtual QList<QString> getSprites() const{ return QList<QString>(); }
-    virtual int getImgCpt() const{ return _imgCpt; }
+    QList<QString> getSprites() const{ return QList<QString>(); }
+    int getImgCpt() const{ return _imgCpt; }
     int getSens() const;
     void setSens(const short sens);
     qreal getSpeed() const;
@@ -60,6 +59,7 @@ public:
     virtual void test(){}
     virtual void attaque() = 0;
     void ChangeSensEtDeplacement(int compteur, int maxTour, int maxSprite, QString path);
+    void setVisible(bool vis);
 
 signals:
     void moveChanged();
@@ -80,20 +80,12 @@ protected:
     int _lvl;
     bool _targetable;
     QTimer *_timerTargetable;
-
-    /*
-    QStateMachine _stateMachine;
-    QState shaut;
-    QState sbas;
-    QState sgauche;
-    QState sdroite;
-    QState sidle;
-    */
-    QPropertyAnimation _anim;
+    short _timout;
+    QPropertyAnimation *_animation;
 
     virtual void initStates();
     void initAnim();
-    void setTargetable(bool targetable);
+    virtual void setTargetable(bool targetable);
 
 protected slots:
     void setTargetable() { setTargetable(true); }

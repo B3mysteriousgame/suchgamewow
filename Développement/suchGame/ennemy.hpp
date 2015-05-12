@@ -29,8 +29,12 @@ class Ennemy : public Personnage
         void handleSceneBounder();
         QString changeSens(QString lepath);
 
+    protected:
+        void setTargetable(bool targetable);
+
     private:
         void doStrat();
+        void initAnimation();
         Barre *_barre;
         bool _touched;
         int _xpDon;

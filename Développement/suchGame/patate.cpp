@@ -20,6 +20,7 @@ Patate::Patate(QGraphicsItem *parent)
     _lvl = 1;
     _atk = 100;
     _movin = false;
+    _timout = 500;
 
   /*  _barre = new Barre(true);
     QPointF lepoint = QPointF(GameManager::Instance()->getView()->getViewRect().width(),(0 + _barre->getHauteur()));

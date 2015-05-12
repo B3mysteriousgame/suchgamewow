@@ -12,6 +12,7 @@ Personnage::Personnage(QGraphicsItem* parent) :
     _sm = NULL;
     _targetable = true;
     _timerTargetable = new QTimer();
+    _timout = 100;
     initAnim();
 
     connect(_timerTargetable, SIGNAL(timeout()), this, SLOT(setTargetable()));
@@ -23,16 +24,25 @@ Personnage::~Personnage()
         delete(_sm);
 
     delete(_timerTargetable);
+
+    if(_animation != NULL)
+        delete(_animation);
 }
 
 void Personnage::setTargetable(bool targetable)
 {
     if(targetable == false) // was targetable
-        _timerTargetable->start(Personnage::TIMOUT_TARGETABLE);
+        _timerTargetable->start(_timout);
     else // wasn't targetable
         _timerTargetable->stop();
 
     _targetable = targetable;
+}
+
+void Personnage::setVisible(bool vis)
+{
+    qWarning() << "VISIBLE CHANGED";
+    QGraphicsPixmapItem::setVisible(vis);
 }
 
 void Personnage::initAnim()
