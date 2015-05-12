@@ -456,3 +456,13 @@ void GameManager::centerOnPatate()
     // deplacer barres
     _statsMan->moveBarresBy(dp);
 }
+
+void GameManager::setViePatate(int pvie)
+{
+    _statsMan->setLargeurVie(pvie);
+}
+
+void GameManager::setManaPatate(int pmana)
+{
+    _statsMan->setLargeurMana(pmana);
+}

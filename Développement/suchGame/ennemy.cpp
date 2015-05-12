@@ -40,6 +40,7 @@ Ennemy::Ennemy(int lvl, QGraphicsItem *parent) :
 
 void Ennemy::setTargetable(bool targetable)
 {
+    /* Pour l'animation, semnle fonctionner
     if(_animation != NULL)
     {
         if(targetable == false) // was targetable
@@ -53,6 +54,7 @@ void Ennemy::setTargetable(bool targetable)
             //_animation->stop();
         }
     }
+    */
 
     Personnage::setTargetable(targetable);
 }
@@ -85,10 +87,11 @@ Barre *Ennemy::getBarre()
 void Ennemy::loseHealth(int degats)
 {
     qreal pourcentage;
-    Personnage::loseHealth(degats);
-    pourcentage = Ennemy::getPourcentageVie();
+    Personnage::loseHealth(degats); // personnage test si targetable
+    //pourcentage = Ennemy::getPourcentageVie();
+    pourcentage = getPourcentageVie();
     _barre->setLargeur(pourcentage/2);
-    qWarning() << "jose chibre bonchour" << this->_actualhealth;
+    //qWarning() << "loseHealth:" << this->_actualhealth;
 }
 
 

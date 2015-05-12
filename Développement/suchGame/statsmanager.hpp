@@ -9,15 +9,18 @@ class StatsManager
 {
 public:
     StatsManager(QGraphicsScene *scene);
+    ~StatsManager();
     void moveBarresBy(const QPointF &dp);
+    void setLargeurVie(int lvie);
+    void setLargeurMana(int lmana);
 
 signals:
 
 public slots:
 
 private:
-    Barre _vie;
-    Barre _mana;
+    Barre *_vie;
+    Barre *_mana;
 };
 
 #endif // STATSFRAME_HPP

@@ -29,6 +29,7 @@ class Patate : public Personnage
         void lvlUp();
         void initStates();
         QString getStrSens() const;
+        void loseHealth(int degats);
 
     private:
         void stayInScene();

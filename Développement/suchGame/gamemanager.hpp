@@ -46,6 +46,8 @@ class GameManager : public QObject
         void test();
         void patateLvlUp();
         void centerOnPatate();
+        void setViePatate(int pvie);
+        void setManaPatate(int pmana);
 
     signals:
         void downSignal();

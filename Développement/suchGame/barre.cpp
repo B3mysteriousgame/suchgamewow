@@ -28,10 +28,10 @@ void Barre::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
 {
 
     //painter->setBrush(Qt::black); Plus jolie avec la transparence
-    painter->drawRect(0,0,_largeurInit + 2,_hauteurInit + 2);
+    painter->drawRect(0, 0, _largeurInit + 2, _hauteurInit + 2);
 
     painter->setBrush(_color);
-    painter->drawRect(1,1,_largeur,_hauteur);  // (Posx,Posy,largeur,hauteur)
+    painter->drawRect(1, 1, _largeur, _hauteurInit);  // (Posx,Posy,largeur,hauteur)
 
 }
 
@@ -52,7 +52,15 @@ QRectF Barre::boundingRect() const
 
 void Barre::setLargeur(qreal largeur)
 {
-    _largeur = largeur;
+    if(largeur > _largeurInit)
+        _largeur = _largeurInit;
+    else
+    {
+        if(largeur < 0)
+            _largeur = 0;
+        else
+            _largeur = largeur;
+    }
 }
 
 qreal Barre::getLargeur()
@@ -62,7 +70,15 @@ qreal Barre::getLargeur()
 
 void Barre::setHauteur(qreal hauteur)
 {
-    _hauteur = hauteur;
+    if(hauteur > _hauteurInit)
+        _hauteur = _hauteurInit;
+    else
+    {
+        if(hauteur < 0)
+            _hauteur = 0;
+        else
+            _hauteur = hauteur;
+    }
 }
 
 qreal Barre::getHauteur()
