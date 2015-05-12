@@ -446,3 +446,13 @@ void GameManager::startTimer(int ms)
     _timerPopEnnemy->start(ms);
 }
 
+void GameManager::centerOnPatate()
+{
+    QPointF dp = _view->getCenter();
+
+    _view->centerOn(_patate);
+
+    dp -= _view->getCenter();
+    // deplacer barres
+    _statsMan->moveBarresBy(dp);
+}

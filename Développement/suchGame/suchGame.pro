@@ -21,7 +21,7 @@ HEADERS += \
     strategie.hpp \
     spritemanager.hpp \
     simpleanim.hpp \
-    statsframe.hpp
+    statsmanager.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -44,7 +44,7 @@ SOURCES += \
     strat2.cpp \
     spritemanager.cpp \
     simpleanim.cpp \
-    statsframe.cpp
+    statsmanager.cpp
 
 RESOURCES += \
     mice.qrc \

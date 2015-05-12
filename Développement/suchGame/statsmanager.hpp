@@ -9,6 +9,7 @@ class StatsManager
 {
 public:
     StatsManager(QGraphicsScene *scene);
+    void moveBarresBy(const QPointF &dp);
 
 signals:
 

@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QGraphicsPixmapItem>
 #include "ennemyfactory.h"
-#include "statsframe.hpp"
+#include "statsmanager.hpp"
 
 class Mouse;
 class Perso;
@@ -45,6 +45,7 @@ class GameManager : public QObject
         static void qSleep(int ms);
         void test();
         void patateLvlUp();
+        void centerOnPatate();
 
     signals:
         void downSignal();

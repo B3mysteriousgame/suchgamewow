@@ -136,6 +136,9 @@ void Patate::avancer(short sens)
     QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
 
+    if(_gm == NULL)
+        _gm = GameManager::Instance();
+
     if(sens != _sens) // si on change de sens
     {
         cpt = 1; // pour changer d'image apres
@@ -148,22 +151,10 @@ void Patate::avancer(short sens)
     else
         ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
 
-    /*
-    if(_blockinBorder != _sens)
-    {
-        moveBy(ddx, ddy);
-
-        if(_blockinCase != lastBlockinDir)
-            _blockinCase = -1; // pour pas rebloquer   
-    }
-    */
-
-    //qWarning() << "pos: " << x() << " - " << y();
-
     if(cpt >= maxTour) // on repasse a 1
         cpt = 0;
 
-    view->centerOn(this);
+    _gm->centerOnPatate();
 
     ++cpt;
 }
