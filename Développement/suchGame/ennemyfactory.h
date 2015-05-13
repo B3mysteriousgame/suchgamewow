@@ -4,6 +4,7 @@
 #include <Qlist>
 
 class Ennemy;
+class EnnemyLopette;
 class GameManager;
 
 class EnnemyFactory

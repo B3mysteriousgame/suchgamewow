@@ -34,12 +34,12 @@ void SpriteManager::triggerRunning()
     if(_spriteTimer->isActive())
     {
         _spriteTimer->stop();
-        qWarning() << methodName + " : Timer stopped";
+        //qwarning() << methodName + " : Timer stopped";
     }
     else
     {
         _spriteTimer->start(_timout);
-        qWarning() << methodName + " : Timer started";
+        //qwarning() << methodName + " : Timer started";
     }
 }
 
@@ -51,7 +51,7 @@ void SpriteManager::razCpt()
     _cpt = 0; // 0 car surement ++ avec le nextImg
 
     //_spriteTimer->start(_timout);
-    qWarning() << "sprite timer RaZed";
+    //qwarning() << "sprite timer RaZed";
 }
 
 bool SpriteManager::isRunning()
@@ -63,13 +63,13 @@ bool SpriteManager::isRunning()
 void SpriteManager::start()
 {
     _spriteTimer->start(_timout);
-    qWarning() << "SpriteManager::start";
+    ing() << "SpriteManager::start";
 }
 
 void SpriteManager::stop()
 {
     _spriteTimer->stop();
-    qWarning() << "SpriteManager::stop";
+    //qwarning() << "SpriteManager::stop";
 }
 */
 
@@ -112,5 +112,5 @@ void SpriteManager::setSprite()
     _spriteFileName = (_parent->getStrSens()).at(0) + QString::number(_cpt) + ".png";
 
     _parent->setPixmap(QPixmap(_spritePath + _spriteFileName));
-    qWarning() << "SpriteManager::nextImg: QPixmap('" + _spritePath + _spriteFileName + "')";
+    //qwarning() << "SpriteManager::nextImg: QPixmap('" + _spritePath + _spriteFileName + "')";
 }

@@ -30,6 +30,9 @@ class Patate : public Personnage
         void initStates();
         QString getStrSens() const;
 
+protected slots:
+    void hidePointAggro(){}
+
     private:
         void stayInScene();
         void stayInView();
@@ -44,5 +47,6 @@ class Patate : public Personnage
         int _xp;
         int _xpMax;
         int _lvl;
+
 };
 #endif // PATATE_HPP

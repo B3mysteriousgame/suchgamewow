@@ -145,7 +145,7 @@ void Patate::avancer(short sens)
     if(_movin == false)
         _imgCpt = 0; // incr apres
     else
-        ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
+        ChangeSensEtDeplacement();
 
     /*
     if(_blockinBorder != _sens)

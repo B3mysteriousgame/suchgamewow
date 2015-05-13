@@ -130,54 +130,64 @@ QPointF Personnage::center() const
     return QPointF(x, y);
 }
 
-void Personnage::ChangeSensEtDeplacement(int compteur, int maxTour, int maxSprite, QString path)
+void Personnage::ChangeSensEtDeplacement()
 {
-    qreal ddx = 0, ddy = 0, offset = 1;
+    qreal ddx = 0, ddy = 0, offset = 0.9;
 
     if(this->type() == Patate::Type)
-        offset = 0.9;
+        offset = 1.1;
 
     switch (_sens)
     {
         case Personnage::DROITE:
             ddx += _speed * offset;
-            path.append("D");
             break;
         case Personnage::GAUCHE:
             ddx += _speed * offset * -1.;
-            path.append("G");
             break;
         case Personnage::BAS:
             ddy += _speed * offset;
-            path.append("B");
             break;
         case Personnage::HAUT:
             ddy += _speed * offset * -1.;
-            path.append("H");
             break;
         default:
             break;
     }
 
-    if(compteur >= maxTour) // on repasse a 0
-        compteur = 0; // incremente apres donc = 1 la prochaine fois
-    else
-        if(compteur == 1) // on change l'image
-        {
-            _imgCpt += 1;
-
-            if(_imgCpt > maxSprite)
-                _imgCpt = 1;
-
-            path.append(QString::number(_imgCpt));
-
-            /*
-            if(this->type() != Patate::Type) // si pas une patate
-                setPixmap(QPixmap(path));
-            */
-        }
-
     moveBy(ddx, ddy);
+}
+
+void Personnage::MoveToDest(QPointF pointDest)
+{
+    int dplct_x = abs(pointDest.x() - this->x());
+    int dplct_y = abs(pointDest.y() - this->y());
+
+if( abs(dplct_x - dplct_y) > 5 )
+{
+    if(dplct_x > dplct_y ){ // Choix deplacement X ou Y en premier
+        if(pointDest.x() - this->x() > 0) // Choix sens selon negatif ou positif
+        {
+            _sens = Personnage::DROITE;
+        }
+        else
+        {
+            _sens = Personnage::GAUCHE;
+        }
+    }
+    else //idem
+    {
+        if((pointDest.y() - this->y()) > 0)
+        {
+            _sens = Personnage::BAS;
+        }
+        else
+        {
+            _sens = Personnage::HAUT;
+        }
+    }
+    ChangeSensEtDeplacement();
+   }
 }
 
 QString Personnage::getStrSens() const

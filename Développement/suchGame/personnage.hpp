@@ -51,7 +51,8 @@ public:
 
     virtual void test(){}
     virtual void attaque() = 0;
-    void ChangeSensEtDeplacement(int compteur, int maxTour, int maxSprite, QString path);
+    void ChangeSensEtDeplacement();
+    void MoveToDest(QPointF pointDest);
 
 signals:
     void moveChanged();

@@ -4,12 +4,16 @@
 
 #include <QGraphicsItem>
 #include "personnage.hpp"
+#include <QGraphicsPixmapItem>
+#include "barre.hpp"
+#include "strategie.hpp"
 
 class Barre;
 
 class Strategie;
 class Ennemy : public Personnage
 {
+
     public:
         /* Définition du type d'objet */
         enum { Type = UserType + 5 };
@@ -28,14 +32,19 @@ class Ennemy : public Personnage
         Barre* getBarre();
         void handleSceneBounder();
         QString changeSens(QString lepath);
+        void hidePointAggro();
+        void showPointAggro();
 
-    private:
+    protected:
         void doStrat();
         Barre *_barre;
         bool _touched;
         int _xpDon;
         Strategie *_strat;
         bool _patateproche;
+        QGraphicsPixmapItem *_pointAggro;
+
+
 };
 
 #endif // ENNEMY_H

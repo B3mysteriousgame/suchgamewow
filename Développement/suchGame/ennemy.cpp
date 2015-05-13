@@ -3,6 +3,7 @@
 #include "mouse.h"
 #include "movefreelystrat.hpp"
 #include "strat1.hpp"
+#include "strat2.hpp"
 #include<QDebug>
 #include "barre.hpp"
 #include <QList>
@@ -23,6 +24,12 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _speed = 1;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
+    _pointAggro = new QGraphicsPixmapItem(QPixmap(":/images/Sprites/pointAggro.png"));
+    _pointAggro->setParentItem(this);
+    //GameManager::Instance()->getScene()->addItem(_pointAggro);
+    _pointAggro->setActive(true);
+   // _timerPointAggro = new QTimer();
+
     _barre = new Barre(false);
     _barre->moveBy(-12,-15);
     _barre->setParentItem(this);
@@ -42,6 +49,8 @@ Ennemy::~Ennemy()
 {
     delete(_strat);
     delete(_barre);
+    //delete(_timerPointAggro);
+    delete(_pointAggro);
 }
 
 Barre *Ennemy::getBarre()
@@ -65,44 +74,30 @@ void Ennemy::advance(int)
     QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
     QLineF ligne = QLineF(pointpatate,pointennemy);
 
-    QString spritePAth = ":alex/images/Sprites/alex/alex";
-    static short cpt = 1, maxTour = 4, maxSprite = 4, changeSensChance = 100, newsens = -1;
+    static short changeSensChance = 100, newsens = -1;
 
     handleSceneBounder();
+
+    hidePointAggro();
 
     if(_patateproche == true)
     {
         _strat = new Strat1(this);
       // Calcul nouvel coordonées à parcourir pour rejoindre la patate
-      int dplct_x = abs(pointpatate.x() - this->x());
-      int dplct_y = abs(pointpatate.y() - this->y());
 
-      if(dplct_x > dplct_y){ // Choix deplacement X ou Y en premier
-          if(pointpatate.x() - this->x() > 0) // Choix sens selon negatif ou positif
-          {
-              _sens = Ennemy::DROITE;
-          }
-          else
-          {
-              _sens = Ennemy::GAUCHE;
-          }
-      }
-      else //idem
-      {
-          if((pointpatate.y() - this->y()) > 0)
-          {
-              _sens = Ennemy::BAS;
-          }
-          else
-          {
-              _sens = Ennemy::HAUT;
-          }
-      }
+      MoveToDest(pointpatate);
+
+      showPointAggro();
 
       if(ligne.length() > 200)
       {
           _patateproche = false;
       }
+     /* if(ligne.length() < 3) // 3 à remplacer par portée attaque
+      {
+          /* static QPointF pointcloche = new QPointF(0,0);
+          _strat = new Strat2(this,pointcloche);
+      }*/
 
     }
     else
@@ -126,17 +121,9 @@ void Ennemy::advance(int)
         _strat = new MoveFreelyStrat(this);
     }
 
-    ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
-
-    if(cpt >= maxTour) // on repasse a 0
-        cpt = 0; // incremente apres donc = 1 la prochaine fois
-
-    // exécute la strat
+    ChangeSensEtDeplacement();
     _strat->executer();
-
-    ++cpt; // compteur de tour
 }
-
 
 void Ennemy::handleSceneBounder()
 {
@@ -157,4 +144,19 @@ void Ennemy::handleSceneBounder()
                     setPos(bounder.topRight().x(), y());
         }
     }
+}
+
+void Ennemy::hidePointAggro()
+{
+    //_timerPointAggro->stop();
+    _pointAggro->hide();
+    _pointAggro->setActive(false);
+}
+
+void Ennemy::showPointAggro()
+{
+    if (!_pointAggro->isActive())
+          _pointAggro->setActive(true);
+
+    _pointAggro->show();
 }

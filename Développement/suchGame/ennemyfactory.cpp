@@ -4,6 +4,7 @@
 #include "angleoperation.hpp"
 #include "gamemanager.hpp"
 #include <QtDebug>
+#include <ennemylopette.h>
 
 EnnemyFactory::EnnemyFactory()
 {
@@ -19,13 +20,18 @@ EnnemyFactory::~EnnemyFactory()
 void EnnemyFactory::createEnnemy()
 {
     static GameManager* const gm = GameManager::Instance();
+    //Ennemy *ennemy = new Ennemy();
 
-    Ennemy *ennemy = new Ennemy();
+    //if(gm->randInt(1,1) == 1)
+       EnnemyLopette *ennemy = new EnnemyLopette();
+    /*else
+        Ennemy *ennemy = new Ennemy();*/
+
     ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
                    ::cos((1 * 6.28) / 7) * 200);
-    Barre *barre = ennemy->getBarre();
-    barre->moveBy(-4,0);
-    barre->setParentItem(ennemy);
+    //Barre *barre = ennemy->getBarre();
+    //barre->moveBy(-4,0);
+    //barre->setParentItem(ennemy);
 
     gm->addItemToScene(ennemy);
 

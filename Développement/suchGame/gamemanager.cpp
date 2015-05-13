@@ -75,12 +75,6 @@ GameManager::GameManager()
     //popEnnemy();
 
     _scene->addItem(_patate);
-//! [3]
-
-    _textItem = _scene->addText("lol");
-
-    _textItem->setPlainText("lol");
-    _textItem->setPos(-300, -300);
 
 //! [4]
     _view->setScene(_scene);

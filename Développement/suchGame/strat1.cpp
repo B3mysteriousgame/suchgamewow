@@ -24,36 +24,65 @@ void Strat1::analyser ()
 void Strat1::appliquer ()
 {
     QList<QGraphicsItem*> listCollides = _parent->collidingItems();
-
+    QList<QGraphicsItem*> ennemyCollided;
+    QPointF dest;
     // si on touche qqch
     if(listCollides.length() > 0) // le texte touche toujours
     {
-        if(!_parent->touched()) // si on a pas deja gere le cas
-            foreach(QGraphicsItem *item, listCollides)
-            {
-                switch (item->type())
-                {
-                    case QGraphicsTextItem::Type:
-                        _parent->setTouched(false);
-
-                    case Barre::Type:
-                        _parent->setTouched(false);
-
-                    case Ennemy::Type: // test déplacer ennemy en contact avec ennemy ( Fonctionne tant qu'il n'entre pas en collision avec patate )
-                        _parent->setTouched(true);
-                        _parent->moveBy(GameManager::Instance()->randInt(3,20),GameManager::Instance()->randInt(3,20));
-
-                    case Patate::Type:
-                        _parent->setTouched(true);
-                        GameManager::Instance()->getPatate()->loseHealth(51);
-                        //qWarning() << "Strat1 analysed.---" << GameManager::Instance()->getPatate()->getActualHealth();
-
-                }
-            }
+        foreach(QGraphicsItem *item, listCollides)
+        {
+            if(item->type() == Ennemy::Type)
+               {
+                 ennemyCollided.append(item);
+               }
+        }
     }
-    else // sinon (si on touche rien)
-        if(_parent->touched())
-            _parent->setTouched(false);
+    if(ennemyCollided.length() > 0)
+    {
+       if(!_parent->touched()) // si on a pas deja gere le cas
+       {
+            foreach(QGraphicsItem *item, ennemyCollided)
+            {
+                Ennemy* michel = (Ennemy*)item;
+                _parent->setTouched(true);
+                int sens = michel->getSens();
+                switch(sens)
+                {
+                    case Ennemy::BAS:
+                        dest = QPointF(michel->x(),michel->y() + (10*_parent->getSpeed()));
 
+                    case Ennemy::HAUT:
+                        dest = QPointF(michel->x(),michel->y() + (-10*_parent->getSpeed()));
+
+                    case Ennemy::DROITE:
+                        dest = QPointF(michel->x() + (-10*_parent->getSpeed()),michel->y());
+
+                    case Ennemy::GAUCHE:
+                        dest = QPointF(michel->x() + (10*_parent->getSpeed()),michel->y());
+                }
+
+                    _parent->MoveToDest(dest);
+
+        /*                while (x == false)
+                {
+                    if((_parent->pos().x() < 5+dest.x() || _parent->pos().x() > 5 - dest.x()) && (_parent->pos().y()< 5+dest.y() || _parent->pos().y() > 5-dest.y()))
+                    {
+                        _parent->MoveToDest(dest);
+                    }
+                    else
+                       x = true;
+                }*/
+
+
+                /*case Patate::Type:
+                    _parent->setTouched(true);
+                    GameManager::Instance()->getPatate()->loseHealth(51);
+                    //qWarning() << "Strat1 analysed.---" << GameManager::Instance()->getPatate()->getActualHealth();*/
+            }
+        }
+}
+else // sinon (si on touche rien)
+    if(_parent->touched())
+        _parent->setTouched(false);
 
 }
