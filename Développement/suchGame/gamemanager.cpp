@@ -10,6 +10,7 @@
 #include "barre.hpp"
 #include <iostream>
 #include <QGraphicsPixmapItem>
+#include <QFrame>
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -43,15 +44,8 @@ GameManager* GameManager::Instance()
 GameManager::GameManager()
     :QObject()
 {
-    _view = new MyView();
-    _scene = new QGraphicsScene();
-    //_perso = new Perso();
-    _perso = NULL;
-    _patate = new Patate();
-     _ennemyCpt = 0;
-     _lvlUpTxt = NULL;
-     _grass = new QGraphicsPixmapItem(QPixmap(":/images/grass.jpg"));
-     //_background = new QGraphicsPixmapItem(QPixmap(":/images/MapTest.png"));
+    _ennemyCpt = 0;
+    _lvlUpTxt = NULL;
     _backgroundImgPath = ":/images/MapTest.png";
 
     _timer = new QTimer();
@@ -59,76 +53,29 @@ GameManager::GameManager()
     _timer = new QTimer();
     _timerLvlUp = new QTimer();
 
+    _kiChargStartTimestamp = 0;
+    _kiChargStopTimestamp = 0;
+}
+
+void GameManager::startGame()
+{
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
-//! [0]
 
-//! [1]
-    _scene->setSceneRect(0, 0, 1920, 1200);
-//! [1] //! [2]
-    _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-//! [2]
-
-//! [3]
-    /* nope
-    //_scene->addItem(_grass);
-    //_scene->addItem(_background);
-    //_grass->setPos(_view->getCenter());
-    //_background->setPos(-956, -492);
-    //_grass->show();
-    //_background->show();
-    */
-
-    _scene->addItem(_patate);
-
-    // Souris
-    for (int i = 0; i < MouseCount; ++i)
-    {
-        Mouse *mouse = new Mouse();
-        mouse->setPos(::sin((i * 6.28) / MouseCount) * 200 + (_scene->width() / 2),
-                      ::cos((i * 6.28) / MouseCount) * 200 + (_scene->height() / 2));
-        _scene->addItem(mouse);
-    }
-
-    _scene->addItem(_patate);
+    initScene();
 
 
     // ajout de la frame avec les barres de stats
     _statsMan = new StatsManager(_scene);
 
+    initView();
 
-
-    _scene->setBackgroundBrush(QBrush(QPixmap(_backgroundImgPath)));
-    //_scene->setSceneRect(0, 0, 1920, 1080);
-
-
-
-//! [4]
-    _view->setScene(_scene);
-    _view->setRenderHint(QPainter::Antialiasing);
-    //_view->setBackgroundBrush(QPixmap(":/images/MapTest.png"));
-//! [4] //! [5]
-    _view->setCacheMode(QGraphicsView::CacheBackground);
-    _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-//! [5] //! [6]
-
-    _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
-    _view->setAutoFillBackground(false);
-
-    QSize qs(MyView::WIDTH, MyView::HEIGHT);
-    _view->resize(qs);
-    //_view->setFixedSize();
-
-    //qWarning() << "Scene's at" << _scene->sceneRect().center();
-
-    _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    _view->show();
-
+    // init connections
     QObject::connect(_timer, SIGNAL(timeout()), _scene, SLOT(advance()));
     QObject::connect(_timerPopEnnemy, SIGNAL(timeout()), this, SLOT(popEnnemy()));
     QObject::connect(_timerLvlUp, SIGNAL(timeout()), this, SLOT(hideLvlUp()));
+    QObject::connect(_patate, SIGNAL(statChanged(const int, const QString&)), this, SLOT(setBarrePatate(const int, const QString&)));
 
+    // start timers
     _timer->start(1000 / 33);
     _timerPopEnnemy->start(1000 * 5);
 }
@@ -192,26 +139,14 @@ void GameManager::mousePressEvent(QMouseEvent*)
 
 void GameManager::test()
 {
-   //jose.attaque(manuel);
-   ////qWarning() << "Manuel a:" << QString().number(manuel.getActualHealth()) << "pv";
+    // _scene->setActivePanel(0);
+    /*
+    QFrame *testWidget = new QGraphicsWidget((QWidget)*_view);
+    testWidget->setGeometry(QRect(10, 10, 400, 300));
+    testWidget->setVisible(true);
+    */
+    qWarning() << "fram added";
 
-
-    ////qWarning() << p.x() << "/" << p.y() << " - " << e->rotation();
-    QPointF oldPoint, newPoint; // in scene coord
-    //qWarning() << "In GameManager::test";
-
-    //oldPoint = _view->mapToScene(_view->getCenter());
-    oldPoint = _view->getCenter();
-    //qWarning() << _patate;
-
-
-
-    if(_patate != NULL)
-    {
-        //_view->centerOn(_patate);
-        newPoint =  _patate->mapToScene(_patate->center());
-    }
-    _view->centerOn( newPoint ); // demande un point en coord de scene
 }
 
 void GameManager::keyPressEvent(QKeyEvent* event)
@@ -238,10 +173,23 @@ void GameManager::keyPressEvent(QKeyEvent* event)
             case Qt::Key_A :
                 _patate->attaque();
                 break;
+            case Qt::Key_E :
+                { // accolades sinn la declaration du ulong chie
+                    ulong tt = event->timestamp();
+                    if(tt - _kiChargStopTimestamp > 200)
+                    {
+                        _kiChargStartTimestamp = tt;
+
+                        if(!_patate->isCharginKi())
+                            _patate->setCharginKi(true);
+                    }
+                }
+                break;
             case Qt::Key_Z :
+                test();
                 break;
-            default:
-                break;
+            /*default:
+                break;*/
         }
 }
 
@@ -264,6 +212,20 @@ void GameManager::keyReleaseEvent(QKeyEvent* event)
                 break;
             case Qt::Key_Right:
                 lastSensReleased = Patate::DROITE;
+                break;
+            case Qt::Key_E :
+            /*
+                { // accolades sinn la declaration du ulong chie
+                    ulong tt = event->timestamp();
+                    if(tt - _kiChargStartTimestamp > 200)
+                    {
+                        _kiChargStopTimestamp = tt;
+
+                        if(_patate->isCharginKi())
+                            emit chargeKiStopped();
+                    }
+                }
+            */
                 break;
             default:
                 return;
@@ -290,7 +252,7 @@ void GameManager::avancerPerso()
     //logCoords();
 }
 
-void GameManager::logCoords(const QGraphicsItem *item)
+void GameManager::logCoords(const QGraphicsItem* /*item*/)
 {
     QString coord("Pos: ");
     coord.append(QString().number(_perso->x()));
@@ -418,6 +380,7 @@ void GameManager::patateLvlUp()
         //qWarning() << "GameManager::patateLvlUp() txt added";
     }
 
+    // on affiche le test
     _lvlUpTxt->setActive(true);
     _lvlUpTxt->show();
     _timerLvlUp->start(1000); // 1sec
@@ -453,16 +416,63 @@ void GameManager::centerOnPatate()
     _view->centerOn(_patate);
 
     dp -= _view->getCenter();
+
+
     // deplacer barres
     _statsMan->moveBarresBy(dp);
 }
 
-void GameManager::setViePatate(int pvie)
+void GameManager::setBarrePatate(const int pki, const QString &cible)
 {
-    _statsMan->setLargeurVie(pvie);
+    _statsMan->setLargeur(pki, cible);
+
+    _scene->update();
 }
 
-void GameManager::setManaPatate(int pmana)
+void GameManager::addMice()
 {
-    _statsMan->setLargeurMana(pmana);
+    // Souris
+    for (int i = 0; i < MouseCount; ++i)
+    {
+        Mouse *mouse = new Mouse();
+        mouse->setPos(::sin((i * 6.28) / MouseCount) * 200 + (_scene->width() / 2),
+                      ::cos((i * 6.28) / MouseCount) * 200 + (_scene->height() / 2));
+        _scene->addItem(mouse);
+    }
+}
+
+void GameManager::initScene()
+{
+    _scene = new QGraphicsScene();
+    _patate = new Patate();
+
+    _scene->setSceneRect(0, 0, 1920, 1200);
+    _scene->setBackgroundBrush(QBrush(QPixmap(_backgroundImgPath)));
+    _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
+    _scene->addItem(_patate);
+    addMice();
+}
+
+void GameManager::initView()
+{
+    _view = new MyView();
+
+    _view->setScene(_scene);
+    _view->setRenderHint(QPainter::Antialiasing);
+
+    _view->setCacheMode(QGraphicsView::CacheBackground);
+    _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
+
+    _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
+    _view->setAutoFillBackground(false);
+
+    QSize qs(MyView::WIDTH, MyView::HEIGHT);
+    _view->resize(qs);
+
+    _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    _view->show();
 }

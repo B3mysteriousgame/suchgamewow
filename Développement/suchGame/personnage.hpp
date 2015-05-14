@@ -62,6 +62,7 @@ public:
     void setVisible(bool vis);
 
 signals:
+    void statChanged(const int, const QString&);
     void moveChanged();
 
 protected:
@@ -73,6 +74,7 @@ protected:
     int _def;
     int _atk;
     int _mana;
+    int _fullmana;
     QList<QString> _sprites;
     GameManager *_gm;
     bool _movin;
@@ -89,6 +91,9 @@ protected:
 
 protected slots:
     void setTargetable() { setTargetable(true); }
+    virtual void startKiCharge(){}
+    virtual void stopKiCharge(){}
+    virtual void rechargKi(){}
 
 
 };

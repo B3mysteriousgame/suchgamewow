@@ -11,8 +11,7 @@ public:
     StatsManager(QGraphicsScene *scene);
     ~StatsManager();
     void moveBarresBy(const QPointF &dp);
-    void setLargeurVie(int lvie);
-    void setLargeurMana(int lmana);
+    void setLargeur(const int largeur, const QString &cible);
 
 signals:
 
@@ -21,6 +20,10 @@ public slots:
 private:
     Barre *_vie;
     Barre *_mana;
+    Barre *_ki;
+    QHash<QString, Barre*> _barreDico;
+
+    void initBarres(QGraphicsScene *scene);
 };
 
 #endif // STATSFRAME_HPP

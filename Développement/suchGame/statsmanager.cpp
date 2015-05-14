@@ -1,5 +1,6 @@
 #include "statsmanager.hpp"
 #include "myview.hpp"
+#include "highlighteffect.hpp"
 #include "gamemanager.hpp"
 #include <QGraphicsScene>
 #include <QDebug>
@@ -7,38 +8,48 @@
 StatsManager::StatsManager(QGraphicsScene *scene)
 {
     QPointF p(25,25);
-    int marginBetween = 20;
+    const int marginBetween = 15;
+    Barre *joeBarre;
+    /*
+    QPointF p(25,25);
+    int marginBetween = 15;
     const short largeur = 100, hauteur = 10;
+    */
 
     _vie = new Barre(true);
     _mana = new Barre(true);
+    _ki = new Barre(true);
 
-    _vie->setColor(QColor(Qt::red));
-    _vie->setPos(p);
-    _vie->setHauteur(hauteur);
-    _vie->setLargeur(largeur);
-    _vie->setZValue(20000);
+    _barreDico.insert("vie", new Barre(true));
+    _barreDico.insert("mana", new Barre(true));
+    _barreDico.insert("ki", new Barre(true));
+
+    joeBarre = _barreDico["vie"];
+    joeBarre->setColor(QColor(Qt::red));
+    joeBarre->setPos(p);
 
     p.ry() += marginBetween;
 
-    _mana->setColor(QColor(Qt::blue));
-    _mana->setPos(p);
-    _mana->setHauteur(hauteur);
-    _mana->setLargeur(largeur);
-    _mana->setZValue(20000);
-    /*
-    _vie->show();
-    _mana->show();
-    */
 
-    scene->addItem(_vie);
-    scene->addItem(_mana);
+    joeBarre = _barreDico["mana"];
+    joeBarre->setColor(QColor(Qt::blue));
+    joeBarre->setPos(p);
+
+    p.ry() += marginBetween;
+
+
+    joeBarre = _barreDico["ki"];
+    joeBarre->setColor(QColor(255, 137, 0));
+    joeBarre->setPos(p);
+
+    initBarres(scene);
 }
 
 StatsManager::~StatsManager()
 {
     delete(_vie);
     delete(_mana);
+    delete(_ki);
 }
 
 void StatsManager::moveBarresBy(const QPointF &dp)
@@ -56,18 +67,38 @@ void StatsManager::moveBarresBy(const QPointF &dp)
         if(dx != 0 || dy != 0)
         {
             //qWarning() << "dpos:" << dx << dy << dp;
+            /*
             _vie->moveBy(dx, dy);
             _mana->moveBy(dx, dy);
+            _ki->moveBy(dx, dy);
+            */
+            for(QHash<QString, Barre*>::iterator i = _barreDico.begin(); i != _barreDico.end(); ++i)
+                (i.value())->moveBy(dx, dy);
         }
     }
 }
 
-void StatsManager::setLargeurVie(int lvie)
+void StatsManager::setLargeur(const int largeur, const QString &cible)
 {
-    _vie->setLargeur(lvie);
+    Barre *joebar = _barreDico[cible];
+
+    joebar->setLargeur(largeur);
+    //joebar->s
 }
 
-void StatsManager::setLargeurMana(int lmana)
+void StatsManager::initBarres(QGraphicsScene *scene)
 {
-    _mana->setLargeur(lmana);
+    const short largeur = 100, hauteur = 10;
+
+    for(QHash<QString, Barre*>::iterator i = _barreDico.begin(); i != _barreDico.end(); ++i)
+    {
+        Barre *b = i.value();
+        b->setHauteur(hauteur);
+        b->setLargeur(largeur);
+        b->setZValue(20000);
+        b->setGraphicsEffect(new HighlightEffect(0.5, b));
+
+        scene->addItem(b);
+    }
+
 }

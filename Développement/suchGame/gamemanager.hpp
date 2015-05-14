@@ -5,6 +5,7 @@
 #include "myview.hpp"
 #include <QTimer>
 #include <QGraphicsPixmapItem>
+#include<QtGlobal>
 #include "ennemyfactory.h"
 #include "statsmanager.hpp"
 
@@ -34,7 +35,7 @@ class GameManager : public QObject
         void stopTimer();
         void startTimer(int ms);
         void addItemToScene(QGraphicsItem *item);
-        void logCoords(const QGraphicsItem *item);
+        void logCoords(const QGraphicsItem*);
         void setText(const QString& txt);
         void addItemToScene(QLineF &line);
         void addItemToScene(QRectF& rect);
@@ -46,8 +47,7 @@ class GameManager : public QObject
         void test();
         void patateLvlUp();
         void centerOnPatate();
-        void setViePatate(int pvie);
-        void setManaPatate(int pmana);
+        void startGame();
 
     signals:
         void downSignal();
@@ -55,11 +55,16 @@ class GameManager : public QObject
         void leftSignal();
         void upSignal();
         void stopMovinSignal();
+        void chargeKiStarted();
+        void chargeKiStopped();
 
     public slots:
         void popEnnemy();
         void removeItem(QGraphicsItem *it);
         void hideLvlUp();
+
+   private slots:
+        void setBarrePatate(const int pki, const QString &cible);
 
     private:
         Q_DISABLE_COPY(GameManager)
@@ -74,6 +79,9 @@ class GameManager : public QObject
         ~GameManager();
         void avancerPerso();
         void setPixmap(QPixmap);
+        void addMice();
+        void initScene();
+        void initView();
 
         static GameManager *m_instance;
 
@@ -90,6 +98,8 @@ class GameManager : public QObject
         QGraphicsPixmapItem *_lvlUpTxt;
         int _ennemyCpt;
         StatsManager *_statsMan;
+        ulong _kiChargStartTimestamp;
+        ulong _kiChargStopTimestamp;
 
         void pauseItems();
 

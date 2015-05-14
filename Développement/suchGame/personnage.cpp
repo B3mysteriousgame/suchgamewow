@@ -1,6 +1,7 @@
 #include "personnage.hpp"
 #include "gamemanager.hpp"
 #include "patate.hpp"
+#include "highlighteffect.hpp"
 #include <QDebug>
 #include <QState>
 
@@ -13,6 +14,11 @@ Personnage::Personnage(QGraphicsItem* parent) :
     _targetable = true;
     _timerTargetable = new QTimer();
     _timout = 100;
+
+    //setGraphicsEffect(new HighlightEffect(0.3, this));
+    setGraphicsEffect(new QGraphicsOpacityEffect(this));
+    graphicsEffect()->setEnabled(false);
+
     initAnim();
 
     connect(_timerTargetable, SIGNAL(timeout()), this, SLOT(setTargetable()));
@@ -31,12 +37,13 @@ Personnage::~Personnage()
 
 void Personnage::setTargetable(bool targetable)
 {
-    if(targetable == false) // was targetable
+    if(targetable == false) // was targetable, now isn't
         _timerTargetable->start(_timout);
-    else // wasn't targetable
+    else // wasn't targetable, now is
         _timerTargetable->stop();
 
     _targetable = targetable;
+    this->graphicsEffect()->setEnabled(!targetable);
 }
 
 void Personnage::setVisible(bool vis)

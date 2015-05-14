@@ -46,6 +46,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 
     GameManager* g = GameManager::Instance();
+    g->startGame();
 
     return app.exec();
 }

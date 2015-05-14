@@ -17,7 +17,7 @@ Ennemy::Ennemy(int lvl, QGraphicsItem *parent) :
     _touched = false;
     _strat = new MoveFreelyStrat(this);
     _lvl = lvl;
-    _xpDon = 20 + (9 * (_lvl - 1));
+    _xpDon = 30 + (9 * (_lvl - 1));
     _fullhealth = 500 + (12 * (_lvl - 1));
     _actualhealth = _fullhealth;
     _atk = 80 + (15 * (_lvl - 1));
@@ -90,7 +90,7 @@ void Ennemy::loseHealth(int degats)
     Personnage::loseHealth(degats); // personnage test si targetable
     //pourcentage = Ennemy::getPourcentageVie();
     pourcentage = getPourcentageVie();
-    _barre->setLargeur(pourcentage/2);
+    _barre->setLargeur(pourcentage);
     //qWarning() << "loseHealth:" << this->_actualhealth;
 }
 
