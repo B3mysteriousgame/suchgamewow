@@ -3,6 +3,9 @@
         <file>images/patateSaiyen.png</file>
         <file>images/map.png</file>
         <file>images/Sprites/lvlUpTxt.png</file>
+        <file>images/grass.jpg</file>
+        <file>images/MapTest.png</file>
+        <file>images/MapTest1.png</file>
         <file>angleoperation.cpp</file>
         <file>angleoperation.hpp</file>
         <file>arme.cpp</file>

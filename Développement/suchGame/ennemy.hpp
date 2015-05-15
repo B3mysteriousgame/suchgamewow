@@ -34,15 +34,19 @@ class Ennemy : public Personnage
         QString changeSens(QString lepath);
         void hidePointAggro();
         void showPointAggro();
+        void setLevel(int lvl);
+
 
     protected:
         void doStrat();
+        void initAnimation();
         Barre *_barre;
         bool _touched;
         int _xpDon;
         Strategie *_strat;
         bool _patateproche;
         QGraphicsPixmapItem *_pointAggro;
+        void setTargetable(bool targetable);
 
 
 };

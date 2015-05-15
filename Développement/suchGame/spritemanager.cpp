@@ -34,12 +34,10 @@ void SpriteManager::triggerRunning()
     if(_spriteTimer->isActive())
     {
         _spriteTimer->stop();
-        //qwarning() << methodName + " : Timer stopped";
     }
     else
     {
         _spriteTimer->start(_timout);
-        //qwarning() << methodName + " : Timer started";
     }
 }
 
@@ -49,9 +47,6 @@ void SpriteManager::triggerRunning()
 void SpriteManager::razCpt()
 {
     _cpt = 0; // 0 car surement ++ avec le nextImg
-
-    //_spriteTimer->start(_timout);
-    //qwarning() << "sprite timer RaZed";
 }
 
 bool SpriteManager::isRunning()
@@ -112,5 +107,4 @@ void SpriteManager::setSprite()
     _spriteFileName = (_parent->getStrSens()).at(0) + QString::number(_cpt) + ".png";
 
     _parent->setPixmap(QPixmap(_spritePath + _spriteFileName));
-    //qwarning() << "SpriteManager::nextImg: QPixmap('" + _spritePath + _spriteFileName + "')";
 }

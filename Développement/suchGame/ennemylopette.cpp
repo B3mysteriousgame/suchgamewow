@@ -10,6 +10,7 @@
 #include <QList>
 
 EnnemyLopette::EnnemyLopette()
+    //Ennemy(parent)
 {
     _enfuite = false;
     _vitessefuite = _speed * 1,5;

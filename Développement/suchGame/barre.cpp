@@ -10,13 +10,13 @@ Barre::Barre(bool estPatate) :
      _hauteurInit = _hauteur;
 
      if(estPatate == true)
-     {
+     {/*
          _largeur = 5;
          _hauteur = 50;
          _largeurInit = _largeur;
          _hauteurInit = _hauteur;
 
-     }
+     */}
 }
 
 Barre::~Barre()

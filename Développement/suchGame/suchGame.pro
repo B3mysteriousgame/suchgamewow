@@ -20,7 +20,9 @@ HEADERS += \
     ennemyfactory.h \
     strategie.hpp \
     spritemanager.hpp \
-    ennemylopette.h
+    ennemylopette.h \
+    simpleanim.hpp \
+    statsframe.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -42,12 +44,17 @@ SOURCES += \
     strat1.cpp \
     strat2.cpp \
     spritemanager.cpp \
-    ennemylopette.cpp
+    ennemylopette.cpp \
+    simpleanim.cpp \
+    statsframe.cpp
 
 RESOURCES += \
-    mice.qrc \
     sprites.qrc
 
 # install
 target.path = ./suchGame
 INSTALLS += target
+
+OTHER_FILES += \
+    images/MapTest.png \
+    images/MapTest1.png

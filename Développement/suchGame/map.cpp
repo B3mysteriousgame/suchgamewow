@@ -3,6 +3,7 @@
 Map::Map() :
     QGraphicsScene()
 {
-    //_grass = QPixmap(":/images/Sprites/grass.jpg");
-    //map1->addItem(_grass);
+    _scene = new QGraphicsScene();
+    _scene->setSceneRect(-230, -130, 936, 555);
+    _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 }

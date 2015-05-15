@@ -11,24 +11,24 @@
 Ennemy::Ennemy(QGraphicsItem *parent) :
     Personnage(parent)
 {
-    _sprites.append(":/images/patateSaiyen.png");
+    //_sprites.append(":/images/patateSaiyen.png");
     _imgCpt = 0;
     _sens = Ennemy::DROITE;
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = 70;
-    _fullhealth = 100;
+    _lvl = 1;
+    _xpDon = 20 + (9 * (_lvl - 1));
+    _fullhealth = 500 + (12 * (_lvl - 1));
     _actualhealth = _fullhealth;
-    _def = 25;
+    _atk = 80 + (15 * (_lvl - 1));
+    _def = 30 + (11 * (_lvl - 1));
     _speed = 1;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
     _pointAggro = new QGraphicsPixmapItem(QPixmap(":/images/Sprites/pointAggro.png"));
     _pointAggro->setParentItem(this);
-    //GameManager::Instance()->getScene()->addItem(_pointAggro);
     _pointAggro->setActive(true);
-   // _timerPointAggro = new QTimer();
 
     _barre = new Barre(false);
     _barre->moveBy(-12,-15);
@@ -37,7 +37,38 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _patateproche = false;
     _movin = true;
 
+    _targetable = true;
     _sm = new SpriteManager(this, "alex", 4);
+
+    initAnimation();
+}
+
+void Ennemy::setTargetable(bool targetable)
+{
+    if(_animation != NULL)
+    {
+        if(targetable == false) // was targetable
+        {
+            qWarning() << "anim started";
+            _animation->start();
+        }
+        else                    // was not targetable
+        {
+            //qWarning() << "anim stopped";
+            //_animation->stop();
+        }
+    }
+
+    Personnage::setTargetable(targetable);
+}
+
+void Ennemy::initAnimation()
+{
+    _animation = new QPropertyAnimation(this, "visible");
+    _animation->setDuration(500);
+    _animation->setStartValue(true);
+    _animation->setEndValue(false);
+    _animation->setLoopCount(-1); // endless loop biatch
 }
 
 int Ennemy::getXpDon() const
@@ -49,7 +80,6 @@ Ennemy::~Ennemy()
 {
     delete(_strat);
     delete(_barre);
-    //delete(_timerPointAggro);
     delete(_pointAggro);
 }
 
@@ -64,6 +94,7 @@ void Ennemy::loseHealth(int degats)
     Personnage::loseHealth(degats);
     pourcentage = Ennemy::getPourcentageVie();
     _barre->setLargeur(pourcentage/2);
+    qWarning() << "jose chibre bonchour" << this->_actualhealth;
 }
 
 
@@ -159,4 +190,9 @@ void Ennemy::showPointAggro()
           _pointAggro->setActive(true);
 
     _pointAggro->show();
+}
+
+void Ennemy::setLevel(int lvl)
+{
+    _lvl = lvl;
 }

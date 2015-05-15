@@ -36,8 +36,8 @@
         <file>images/Sprites/link/linkH4.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>images/map.png</file>
         <file>images/Sprites/lvlUpTxt.png</file>
         <file>images/Sprites/pointAggro.png</file>
+        <file>images/MapTest.png</file>
     </qresource>
 </RCC>

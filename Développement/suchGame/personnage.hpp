@@ -1,4 +1,4 @@
- #ifndef PERSONNAGE_H
+#ifndef PERSONNAGE_H
 #define PERSONNAGE_H
 
 #include <QGraphicsPixmapItem>
@@ -6,6 +6,7 @@
 #include <QStateMachine>
 #include <QState>
 #include <QPropertyAnimation>
+#include <QTimer>
 #include "spritemanager.hpp"
 
 class GameManager;
@@ -13,18 +14,20 @@ class GameManager;
 class Personnage : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
-public:
+public:    
     enum { GAUCHE, HAUT, DROITE, BAS };
     enum { Type = UserType + 3 };
     virtual int type() const{return Type;}
+
 
     Personnage(QGraphicsItem* parent = 0);
     Personnage(Personnage*){}
     ~Personnage();
 
-    virtual QList<QString> getSprites() const{ return QList<QString>(); }
-    virtual int getImgCpt() const{ return _imgCpt; }
+    QList<QString> getSprites() const{ return QList<QString>(); }
+    int getImgCpt() const{ return _imgCpt; }
     int getSens() const;
     void setSens(const short sens);
     qreal getSpeed() const;
@@ -36,8 +39,10 @@ public:
     void setFullHealth(const int health);
     int getActualHealth() const;
     void setActualHealth(const int health);
+    bool isTargetable() const { return _targetable; }
     QString getStrSens() const;
     QPointF center() const;
+    int getLvl() const { return _lvl; }
 
     void loseHealth(int degats);
     qreal getPourcentageVie();
@@ -45,6 +50,8 @@ public:
 
     bool isMovin() const;
     void setMovin(const bool move);
+    inline bool operator==(const Personnage &p) const;
+    inline bool operator!=(const Personnage &p) const;
 
 
     virtual void advance(int step) = 0;
@@ -53,7 +60,7 @@ public:
     virtual void attaque() = 0;
     void ChangeSensEtDeplacement();
     void MoveToDest(QPointF pointDest);
-
+    void setVisible(bool vis);
 signals:
     void moveChanged();
 
@@ -70,19 +77,20 @@ protected:
     GameManager *_gm;
     bool _movin;
     SpriteManager *_sm;
-
-    /*
-    QStateMachine _stateMachine;
-    QState shaut;
-    QState sbas;
-    QState sgauche;
-    QState sdroite;
-    QState sidle;
-    */
-    QPropertyAnimation _anim;
+    int _lvl;
+    bool _targetable;
+    QTimer *_timerTargetable;
+    short _timout;
+    QPropertyAnimation *_animation;
 
     virtual void initStates();
     void initAnim();
+    virtual void setTargetable(bool targetable);
+
+protected slots:
+    void setTargetable() { setTargetable(true); }
+
+
 };
 
 #endif // PERSONNAGE_H

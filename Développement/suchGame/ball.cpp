@@ -189,7 +189,8 @@ void Ball::doEffect(QGraphicsItem *item)
     if(item->type() == Ennemy::Type)
     {
         Ennemy *leEnnemy = (Ennemy*) item;
-        leEnnemy->loseHealth(_degats);
+        if(leEnnemy->isTargetable())
+            leEnnemy->loseHealth(_degats);
         //qWarning() << "Ennemy touched" << leEnnemy->getActualHealth();
 
         if(leEnnemy->getActualHealth() <= 0) // si mort
