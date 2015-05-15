@@ -65,36 +65,13 @@ void Strat1::appliquer ()
                 }
             }
        }
-        else // si on a deja gere le cas
-        {
-            // oncheck si on collide avec la patate
-            if(_parent->collidesWithItem(michel)) // probablement lourd...
-            {
-                // on la marave !
-                michel->loseHealth( _parent->getAtk() );
-            }
-        }
+       else // sinon (si on touche rien)
+       {
+           if(_parent->touched())
+               _parent->setTouched(false);
+       }
+
+       _parent->MoveToDest(dest);
     }
-    else // sinon (si on touche rien)
-        if(_parent->touched())
-            _parent->setTouched(false);
-
-                    _parent->MoveToDest(dest);
-
-        /*                while (x == false)
-                {
-                    if((_parent->pos().x() < 5+dest.x() || _parent->pos().x() > 5 - dest.x()) && (_parent->pos().y()< 5+dest.y() || _parent->pos().y() > 5-dest.y()))
-                    {
-                        _parent->MoveToDest(dest);
-                    }
-                    else
-                       x = true;
-                }*/
-
-
-                /*case Patate::Type:
-                    _parent->setTouched(true);
-                    GameManager::Instance()->getPatate()->loseHealth(51);
-                    //qWarning() << "Strat1 analysed.---" << GameManager::Instance()->getPatate()->getActualHealth();*/
-            }
+}
 

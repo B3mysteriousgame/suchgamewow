@@ -38,37 +38,51 @@ void EnnemyFactory::createEnnemy()
 
     if(diffNiv == 0)
         diffNiv = 1;
-    Ennemy *ennemy = new Ennemy();
 
-    if(gm->randInt(1,10) == 1)
+    if(gm->randInt(1,6) == 1)
     {
-       EnnemyLopette *ennemy = new EnnemyLopette();
-       ennemy->setLevel(diffNiv);
+       EnnemyLopette *ennemyl = new EnnemyLopette();
+       ennemyl->setLevel(diffNiv);
+       qWarning() << "An ennemylopette popped lvl" << diffNiv;
+
+       ennemyl->setPos(::sin((1 * 6.28) / 7) * 200,
+                      ::cos((1 * 6.28) / 7) * 200);
+
+
+       gm->addItemToScene(ennemyl);
+
+       _listeMichels.append(ennemyl);
+
+       if( _listeMichels.length() == EnnemyFactory::MAXENN)
+       {
+           if(gm->isTimerActive())
+               gm->stopTimer();
+       }
+       else
+           gm->startTimer(100 * (gm->randInt(1,50)));
     }
     else
     {
        Ennemy *ennemy = new Ennemy();
        ennemy->setLevel(diffNiv);
+       qWarning() << "An ennemy popped lvl" << diffNiv;
+
+       ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
+                      ::cos((1 * 6.28) / 7) * 200);
+
+
+       gm->addItemToScene(ennemy);
+
+       _listeMichels.append(ennemy);
+
+       if( _listeMichels.length() == EnnemyFactory::MAXENN)
+       {
+           if(gm->isTimerActive())
+               gm->stopTimer();
+       }
+       else
+           gm->startTimer(100 * (gm->randInt(1,50)));
     }
-
-
-    ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
-                   ::cos((1 * 6.28) / 7) * 200);
-
-
-    gm->addItemToScene(ennemy);
-
-    _listeMichels.append(ennemy);
-
-    if( _listeMichels.length() == EnnemyFactory::MAXENN)
-    {
-        if(gm->isTimerActive())
-            gm->stopTimer();
-    }
-    else
-        gm->startTimer(100 * (gm->randInt(1,50)));
-
-    qWarning() << "An ennemy popped lvl" << diffNiv;
 }
 
 
