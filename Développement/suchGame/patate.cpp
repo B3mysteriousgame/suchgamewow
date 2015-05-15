@@ -11,7 +11,7 @@ Patate::Patate(QGraphicsItem *parent)
     _imgCpt = 0;
     _sens = Personnage::DROITE; // idle
     _speed = 2;
-    _gm = NULL;
+    _gm = GameManager::Instance();
     _fullhealth = 420;
     _actualhealth = _fullhealth;
     _def = 50;
@@ -19,18 +19,23 @@ Patate::Patate(QGraphicsItem *parent)
     _xpMax = 200;
     _lvl = 1;
     _atk = 100;
+    _fullki = 100;
+    _ki = _fullki;
+    _fullmana = 240;
+    _mana = _fullmana;
     _movin = false;
     _timout = 500;
-
-  /*  _barre = new Barre(true);
-    QPointF lepoint = QPointF(GameManager::Instance()->getView()->getViewRect().width(),(0 + _barre->getHauteur()));
-    _barre->setPos(lepoint); */
+    _timerKiCharg = new QTimer();
+    _charginKi = false;
 
     setPos(10, 20);
     setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
-    //initStates();
 
     _sm = new SpriteManager(this, "link", 4);
+
+    QObject::connect(_gm, SIGNAL(chargeKiStarted()), this, SLOT(startKiCharge()));
+    QObject::connect(_gm, SIGNAL(chargeKiStopped()), this, SLOT(stopKiCharge()));
+    QObject::connect(_timerKiCharg, SIGNAL(timeout()), this, SLOT(rechargKi()));
 }
 
 /**
@@ -59,53 +64,6 @@ int Patate::getImgCpt() const
 
 void Patate::initStates()
 {
-    /*
-    GameManager *gm = GameManager::Instance();
-
-    // passe au state quand il recoit un signal du gm
-    sdroite.addTransition(gm, SIGNAL(downSignal()), &sbas);
-    sdroite.addTransition(gm, SIGNAL(upSignal()), &shaut);
-    sdroite.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
-    sdroite.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
-
-    sgauche.addTransition(gm, SIGNAL(downSignal()), &sbas);
-    sgauche.addTransition(gm, SIGNAL(upSignal()), &shaut);
-    sgauche.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
-    sgauche.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
-
-    shaut.addTransition(gm, SIGNAL(downSignal()), &sbas);
-    shaut.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
-    shaut.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
-    shaut.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
-
-    sbas.addTransition(gm, SIGNAL(upSignal()), &shaut);
-    sbas.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
-    sbas.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
-    sbas.addTransition(gm, SIGNAL(stopMovinSignal()), &sidle);
-
-    sidle.addTransition(gm, SIGNAL(upSignal()), &shaut);
-    sidle.addTransition(gm, SIGNAL(rightSignal()), &sdroite);
-    sidle.addTransition(gm, SIGNAL(leftSignal()), &sgauche);
-    sidle.addTransition(gm, SIGNAL(downSignal()), &sbas);
-    // -----------------------------------------------
-
-    // change the property
-    shaut.assignProperty(this, "_sens", 1);
-    sdroite.assignProperty(this, "_sens", 2);
-    sbas.assignProperty(this, "_sens", 3);
-    sgauche.assignProperty(this, "_sens", 0);
-    // -------------------
-
-    //QObject::connect(&sbas, SIGNAL(entered()), button, SLOT(showMaximized()));
-
-    _stateMachine.addState(&shaut);
-    _stateMachine.addState(&sbas);
-    _stateMachine.addState(&sdroite);
-    _stateMachine.addState(&sgauche);
-    _stateMachine.addState(&sidle);
-
-    _stateMachine.setInitialState(&sidle);
-    */
 }
 
 
@@ -136,6 +94,9 @@ void Patate::avancer(short sens)
     QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
 
+    if(_gm == NULL)
+        _gm = GameManager::Instance();
+
     if(sens != _sens) // si on change de sens
     {
         cpt = 1; // pour changer d'image apres
@@ -148,57 +109,38 @@ void Patate::avancer(short sens)
     else
         ChangeSensEtDeplacement();
 
-    /*
-    if(_blockinBorder != _sens)
-    {
-        moveBy(ddx, ddy);
-
-        if(_blockinCase != lastBlockinDir)
-            _blockinCase = -1; // pour pas rebloquer   
-    }
-    */
-
-    //qWarning() << "pos: " << x() << " - " << y();
-
     if(cpt >= maxTour) // on repasse a 1
         cpt = 0;
 
-    view->centerOn(this);
+    _gm->centerOnPatate();
 
     ++cpt;
 }
 
-/*
-QRectF Patate::boundingRect() const
+void Patate::loseHealth(int degats)
 {
-    qreal adjust = 0.5;
-    return QRectF(x() - adjust, y() - adjust,
-                  pixmap().width() + adjust * 2, pixmap().height() + adjust * 2);
+    qreal pourcentage;
+    Personnage::loseHealth(degats); // personnage test si targetable
+    pourcentage = getPourcentageVie();
+    //_gm->setViePatate(pourcentage/2);
+    emit statChanged(pourcentage/2, "vie");
 }
-QPainterPath Patate::shape() const
-{
-    QPainterPath path;
-    path.addRect(boundingRect());
-
-    return path;
-}
-void Patate::paint(QPainter *painter, const QStyleOptionGraphicsItem *sogi,
-           QWidget *wid)
-{
-
-}
-*/
 
 Patate::~Patate(){}
 
 void Patate::attaque()
 {
-    if(_gm == NULL)
-        _gm = GameManager::Instance();
+    if(_ki > 0)
+    {
+        if(_gm == NULL)
+            _gm = GameManager::Instance();
 
-    Ball *b = new Ball(this);
+        Ball *b = new Ball(this);
 
-    _gm->addItemToScene(b);
+        _gm->addItemToScene(b);
+
+        loseKi(5);
+    }
 }
 
 /**
@@ -274,22 +216,6 @@ bool Patate::scrollView()
             GameManager::qSleep(250);
         }
     }
-
-    /*
-    // Verifie si on s'apprete a sortir de la scene
-    // en testant si scrollView() a marcher ou non
-    if(lastViewRect != viewRect)
-    {
-        lastViewRect = viewRect;
-    }
-    else if(lastViewRect == viewRect && viewScrolled == true)
-    { // la patate s'apprete a sortir de la scene
-        viewScrolled = false; // pour pas le retraiter la fois suivante
-        return _sens;
-    }
-    */
-
-    //viewScrolled = false;
 
     return -1;
 }
@@ -371,18 +297,104 @@ void Patate::addXp(const int xp)
     }
 }
 
+/**
+ * @brief Patate::rechargKi Remonte le ki de 1.
+ *  Doit etre appellee toutes les 10eme de seconde tant que la touche
+ *  de recharge est appuyee
+ */
+void Patate::rechargKi()
+{
+    //qWarning() << "Patate::rechargKi()";
+    loseKi(-2. - 0.12 * _lvl);
+
+    if(_charginKi)
+    {
+        _timerKiCharg->start(100);
+        _charginKi = false;
+    }
+    else
+    {
+        _timerKiCharg->stop();
+    }
+}
+
+void Patate::setCharginKi(bool is)
+{
+    _charginKi = is;
+
+    if(is == true) // if now is chargin
+    {
+        //qWarning() << "ki charge STARTED";
+        if(!_timerKiCharg->isActive())
+            _timerKiCharg->start(100);
+    }
+    else // if ain't chargin no more
+    {
+        //qWarning() << "ki charge STOPPED";
+        if(_timerKiCharg->isActive())
+            _timerKiCharg->stop();
+    }
+}
+
 void Patate::lvlUp()
 {
     _lvl += 1;
     _xpMax += 200;
     _atk += 6;
     _def += 4;
+    _fullki += 2 * _lvl;
 
     if(_lvl % 2 == 0) // lvl paire
         _fullhealth += 28;
     else
-        _mana += 24;
+        _fullmana += 24;
 
     _gm->patateLvlUp();
     //qWarning() << "Level up! Now lvl" << _lvl;
+}
+
+void Patate::loseMana(int mana)
+{
+   //qWarning() << "looseMana: manaToLose:mana:fullmana:" << mana << ":" << _mana << ":" << _fullmana;
+    _mana -= mana;
+
+    if(_mana < 0)
+        _mana = 0;
+
+    //qWarning() << "looseMana: pourcentage:mana:fullmana:" << _mana * 100 / _fullmana << ":" << _mana << ":" << _fullmana;
+    //_gm->setManaPatate(_mana * 100 / _fullmana);
+    emit statChanged(_mana * 100 / _fullmana, "mana");
+}
+
+void Patate::loseKi(qreal ki)
+{
+    //qWarning() << "KI" << ki;
+    _ki -= ki;
+
+    if(_ki < 0)
+        _ki = 0;
+    else if (_ki > _fullki)
+        _ki = _fullki;
+
+    //_gm->setKiPatate(_ki * 100 / _fullki);
+    emit statChanged(_ki * 100 / _fullki, "ki");
+}
+
+void Patate::startKiCharge()
+{
+    if(!_timerKiCharg->isActive())
+        _timerKiCharg->start(100);
+
+    _charginKi = true;
+    //qWarning() << "ki charge started";
+}
+
+void Patate::stopKiCharge()
+{
+    if(_timerKiCharg->isActive())
+        _timerKiCharg->stop();
+
+    _charginKi = false;
+
+    //qWarning() << "ki charge stopped";
 }

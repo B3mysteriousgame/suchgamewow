@@ -29,6 +29,17 @@ class Patate : public Personnage
         void lvlUp();
         void initStates();
         QString getStrSens() const;
+        void loseHealth(int degats);
+        bool isCharginKi() const { return _charginKi; }
+        void setCharginKi(bool is);
+
+    signals:
+        //void kiChanged(int);
+
+    private slots:
+        void startKiCharge();
+        void stopKiCharge();
+        void rechargKi();
 
 protected slots:
     void hidePointAggro(){}
@@ -38,6 +49,8 @@ protected slots:
         void stayInView();
         bool scrollView();
         bool isNearSceneBorder() const;
+        void loseMana(int mana);
+        void loseKi(qreal ki);
 
         // permet de savoir de quel cote est le bord
         //  si on est dans une "case bordure"
@@ -48,5 +61,9 @@ protected slots:
         int _xpMax;
         int _lvl;
 
+        int _fullki;
+        int _ki;
+        bool _charginKi;
+        QTimer *_timerKiCharg;
 };
 #endif // PATATE_HPP

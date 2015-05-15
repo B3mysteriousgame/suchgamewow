@@ -22,7 +22,8 @@ HEADERS += \
     spritemanager.hpp \
     ennemylopette.h \
     simpleanim.hpp \
-    statsframe.hpp
+    statsmanager.hpp \
+    highlighteffect.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -46,7 +47,8 @@ SOURCES += \
     spritemanager.cpp \
     ennemylopette.cpp \
     simpleanim.cpp \
-    statsframe.cpp
+    statsmanager.cpp \
+    highlighteffect.cpp
 
 RESOURCES += \
     sprites.qrc

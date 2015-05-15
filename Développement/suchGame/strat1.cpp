@@ -26,8 +26,11 @@ void Strat1::appliquer ()
     QList<QGraphicsItem*> listCollides = _parent->collidingItems();
     QList<QGraphicsItem*> ennemyCollided;
     QPointF dest;
+    static GameManager* const jose = GameManager::Instance();
+    static Patate* const michel = jose->getPatate();
+
     // si on touche qqch
-    if(listCollides.length() > 0) // le texte touche toujours
+    if(listCollides.length() > 0)
     {
         foreach(QGraphicsItem *item, listCollides)
         {
@@ -60,6 +63,21 @@ void Strat1::appliquer ()
                     case Ennemy::GAUCHE:
                         dest = QPointF(michel->x() + (10*_parent->getSpeed()),michel->y());
                 }
+            }
+       }
+        else // si on a deja gere le cas
+        {
+            // oncheck si on collide avec la patate
+            if(_parent->collidesWithItem(michel)) // probablement lourd...
+            {
+                // on la marave !
+                michel->loseHealth( _parent->getAtk() );
+            }
+        }
+    }
+    else // sinon (si on touche rien)
+        if(_parent->touched())
+            _parent->setTouched(false);
 
                     _parent->MoveToDest(dest);
 
@@ -79,10 +97,4 @@ void Strat1::appliquer ()
                     GameManager::Instance()->getPatate()->loseHealth(51);
                     //qWarning() << "Strat1 analysed.---" << GameManager::Instance()->getPatate()->getActualHealth();*/
             }
-        }
-}
-else // sinon (si on touche rien)
-    if(_parent->touched())
-        _parent->setTouched(false);
 
-}

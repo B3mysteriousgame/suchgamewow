@@ -6,10 +6,13 @@
 #include <QPainter>
 #include <personnage.hpp>
 #include <ennemy.hpp>
+#include <QObject>
 
 
-class Barre : public QGraphicsItem
+class Barre : public QObject, public QGraphicsItem
 {
+    Q_OBJECT
+
 public:
     Barre(bool estPatate);
     ~Barre();
@@ -19,18 +22,24 @@ public:
 
     void setColor(QColor color);
     QColor getColor() const;
+    void setAlpha(int a);
     QRectF boundingRect() const;
 
-    void setLargeur(qreal largeur);
+    void setLargeur(qreal plargeur);
     qreal getLargeur();
     void setHauteur(qreal hauteur);
     qreal getHauteur();
 
 protected:
     QColor _color;
+    QColor _bkColor;
     qreal  _largeur;
     qreal  _hauteur;
     qreal  _largeurInit;
     qreal  _hauteurInit;
+    QTimer    _effectTimer;
+
+private slots:
+    void stopEffect();
 };
 #endif // BARRE_H
