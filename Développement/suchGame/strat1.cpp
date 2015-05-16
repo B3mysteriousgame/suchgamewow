@@ -4,11 +4,9 @@
 #include "patate.hpp"
 #include "barre.hpp"
 
-Strat1::Strat1(Ennemy *parent) :
-      _parent(parent)
+Strat1::Strat1(Ennemy *parent)
 {
-    // Utilisation de cette strat pour lancer l'attaque lorsque les ennemis sont proche de la patate
-
+    _parent = parent;
 }
 
 Strat1::~Strat1()
@@ -40,29 +38,39 @@ void Strat1::appliquer ()
                }
         }
     }
+
+    // Tentative de changement de sens si collide avec un ennemy, mais pas de résultat vraiment ouf
     if(ennemyCollided.length() > 0)
     {
-       if(!_parent->touched()) // si on a pas deja gere le cas
+       if(_parent->touched()) // si on a pas deja gere le cas
        {
             foreach(QGraphicsItem *item, ennemyCollided)
             {
                 Ennemy* michel = (Ennemy*)item;
-                _parent->setTouched(true);
+                //_parent->setTouched(true);
                 int sens = michel->getSens();
                 switch(sens)
                 {
                     case Ennemy::BAS:
                         dest = QPointF(michel->x(),michel->y() + (10*_parent->getSpeed()));
+                        michel->setSens(Ennemy::HAUT);
 
                     case Ennemy::HAUT:
                         dest = QPointF(michel->x(),michel->y() + (-10*_parent->getSpeed()));
+                        michel->setSens(Ennemy::BAS);
+
 
                     case Ennemy::DROITE:
                         dest = QPointF(michel->x() + (-10*_parent->getSpeed()),michel->y());
+                        michel->setSens(Ennemy::GAUCHE);
+
 
                     case Ennemy::GAUCHE:
                         dest = QPointF(michel->x() + (10*_parent->getSpeed()),michel->y());
+                        michel->setSens(Ennemy::DROITE);
+
                 }
+                _parent->MoveToDest(dest);
             }
        }
        else // sinon (si on touche rien)
@@ -70,8 +78,8 @@ void Strat1::appliquer ()
            if(_parent->touched())
                _parent->setTouched(false);
        }
-
-       _parent->MoveToDest(dest);
     }
+    else
+        _parent->MoveToDest(michel->pos());
 }
 

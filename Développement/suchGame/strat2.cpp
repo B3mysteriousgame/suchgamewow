@@ -33,6 +33,7 @@ void Strat2::appliquer ()
     if(_clocheproche)
     {
         //taper la cloche
+
     }
     else
     {

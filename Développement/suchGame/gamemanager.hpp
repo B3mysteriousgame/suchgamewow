@@ -13,6 +13,7 @@ class Mouse;
 class Perso;
 class Patate;
 class Ennemy;
+class Coffre;
 
 class GameManager : public QObject
 {
@@ -30,6 +31,7 @@ class GameManager : public QObject
         Patate* getPatate() const;
         QList<Mouse*> getSceneMice();
         QPointF getPatatePos() const;
+        EnnemyFactory getEnnemyFactory();
 
         bool isTimerActive();
         void stopTimer();
@@ -91,6 +93,7 @@ class GameManager : public QObject
         QTimer *_timerPopEnnemy;
         QTimer *_timerLvlUp;
         EnnemyFactory _ef;
+        Coffre *_coffre;
 
         Perso *_perso;
         Patate *_patate;

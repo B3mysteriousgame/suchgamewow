@@ -23,7 +23,10 @@ HEADERS += \
     ennemylopette.h \
     simpleanim.hpp \
     statsmanager.hpp \
-    highlighteffect.hpp
+    highlighteffect.hpp \
+    coffre.hpp \
+    longsword.h \
+    dragonsword.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -48,7 +51,10 @@ SOURCES += \
     ennemylopette.cpp \
     simpleanim.cpp \
     statsmanager.cpp \
-    highlighteffect.cpp
+    highlighteffect.cpp \
+    coffre.cpp \
+    longsword.cpp \
+    dragonsword.cpp
 
 RESOURCES += \
     sprites.qrc

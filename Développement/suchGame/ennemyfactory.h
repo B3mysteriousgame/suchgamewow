@@ -17,6 +17,7 @@ public:
     int getNbEnnemy();
     void createEnnemy();
     void removeEnnemy(Ennemy *it);
+    QList<Ennemy*> getListMichel();
 
 
 protected:
@@ -25,7 +26,7 @@ protected:
     int            _nombreMichels;
 
 private:
-    static const int MAXENN = 1;
+    static const int MAXENN = 20;
 
 };
 

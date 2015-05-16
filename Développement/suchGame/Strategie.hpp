@@ -10,6 +10,6 @@ class Strategie // interface
     protected:
         virtual void analyser () = 0;
         virtual void appliquer () = 0;
-        void eviteCollision();
+        //virtual void eviteCollision();
 };
 #endif // STRATEGIE_H

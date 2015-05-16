@@ -1,8 +1,8 @@
 #include "arme.h"
 #include "personnage.hpp"
 
-Arme::Arme()
 
+Arme::Arme()
 {
 
 }

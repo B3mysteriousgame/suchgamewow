@@ -32,6 +32,7 @@ class Patate : public Personnage
         void loseHealth(int degats);
         bool isCharginKi() const { return _charginKi; }
         void setCharginKi(bool is);
+        void quickPunch();
 
     signals:
         //void kiChanged(int);

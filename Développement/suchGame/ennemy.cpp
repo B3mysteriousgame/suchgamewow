@@ -109,30 +109,18 @@ void Ennemy::advance(int)
     QLineF ligne = QLineF(pointpatate,pointennemy);
 
     static short changeSensChance = 100, newsens = -1;
-
     handleSceneBounder();
-
     hidePointAggro();
 
     if(_patateproche == true)
     {
-        _strat = new Strat1(this);
-      // Calcul nouvel coordonées à parcourir pour rejoindre la patate
-
-      MoveToDest(pointpatate);
-
+      _strat = new Strat1(this);
       showPointAggro();
 
       if(ligne.length() > 200)
       {
           _patateproche = false;
       }
-     /* if(ligne.length() < 3) // 3 à remplacer par portée attaque
-      {
-          /* static QPointF pointcloche = new QPointF(0,0);
-          _strat = new Strat2(this,pointcloche);
-      }*/
-
     }
     else
     {

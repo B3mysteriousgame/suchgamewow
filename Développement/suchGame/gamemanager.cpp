@@ -8,6 +8,7 @@
 #include <math.h>
 #include "ennemy.hpp"
 #include "barre.hpp"
+#include "coffre.hpp"
 #include <iostream>
 #include <QGraphicsPixmapItem>
 #include <QFrame>
@@ -105,6 +106,13 @@ void GameManager::startGame()
     // start timers
     _timer->start(1000 / 33);
     _timerPopEnnemy->start(1000 * 5);
+
+
+        _coffre = new Coffre();
+        _coffre->setActive(true);
+        addItemToScene(_coffre);
+        _coffre->setPos(50,50);
+
 }
 
 GameManager::~GameManager()
@@ -212,9 +220,16 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                     }
                 }
                 break;
+            case Qt::Key_R :
+                _patate->quickPunch();
+                break;
+            case Qt::Key_F :
+                _coffre->ouvrir();
+                break;
             case Qt::Key_Z :
                 test();
                 break;
+
             /*default:
                 break;*/
         }
@@ -502,4 +517,9 @@ void GameManager::initView()
     _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     _view->show();
+}
+
+EnnemyFactory GameManager::getEnnemyFactory()
+{
+    return _ef;
 }

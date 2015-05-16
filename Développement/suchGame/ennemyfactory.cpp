@@ -107,3 +107,8 @@ void EnnemyFactory::removeEnnemy(Ennemy *it)
 
     //qWarning() <<"nbmichel_indaListe :" <<  _listeMichels.length() ;
 }
+
+QList<Ennemy*> EnnemyFactory::getListMichel()
+{
+    return _listeMichels;
+}
