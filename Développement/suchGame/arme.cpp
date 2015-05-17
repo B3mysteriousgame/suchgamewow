@@ -11,6 +11,10 @@ Arme::Arme()
 //{
 //    personnage->_actualhealth = personnage->_actualhealth - this->_atq;
 //}
+QPixmap Arme::get_pixmap()
+{
+    return _pixmap;
+}
 
 int Arme::get_atq() const
 {
@@ -40,4 +44,14 @@ void Arme::set_def(int def)
 void Arme::set_portee(int portee)
 {
     _portee = portee;
+}
+
+void Arme::set_nom(QString nom)
+{
+    _nom = nom;
+}
+
+QString Arme::get_nom()
+{
+    return _nom ;
 }

@@ -5,9 +5,10 @@
 #include "myview.hpp"
 #include <QTimer>
 #include <QGraphicsPixmapItem>
-#include<QtGlobal>
+#include <QtGlobal>
 #include "ennemyfactory.h"
 #include "statsmanager.hpp"
+#include "inventaire.hpp"
 
 class Mouse;
 class Perso;
@@ -50,6 +51,7 @@ class GameManager : public QObject
         void patateLvlUp();
         void centerOnPatate();
         void startGame();
+        void AfficheInventaire();
 
     signals:
         void downSignal();
@@ -94,6 +96,8 @@ class GameManager : public QObject
         QTimer *_timerLvlUp;
         EnnemyFactory _ef;
         Coffre *_coffre;
+        Inventaire *_inventaire;
+
 
         Perso *_perso;
         Patate *_patate;

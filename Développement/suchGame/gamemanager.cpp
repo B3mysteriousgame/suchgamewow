@@ -107,13 +107,23 @@ void GameManager::startGame()
     _timer->start(1000 / 33);
     _timerPopEnnemy->start(1000 * 5);
 
-
+    //test coffre
         _coffre = new Coffre();
         _coffre->setActive(true);
         addItemToScene(_coffre);
         _coffre->setPos(50,50);
 
+        // test inventaire
+        _inventaire = new Inventaire();
+
+        }
+// test inventaire
+void GameManager::AfficheInventaire()
+{
+        _inventaire->show();
+        //_inventaire.setParent(_patate);
 }
+
 
 GameManager::~GameManager()
 {
@@ -225,6 +235,9 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 break;
             case Qt::Key_F :
                 _coffre->ouvrir();
+                break;
+            case Qt::Key_I :
+                this->AfficheInventaire();
                 break;
             case Qt::Key_Z :
                 test();
