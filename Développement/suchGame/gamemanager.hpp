@@ -10,6 +10,7 @@
 #include "statsmanager.hpp"
 #include "inventaire.hpp"
 
+
 class Mouse;
 class Perso;
 class Patate;
