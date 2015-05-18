@@ -110,7 +110,7 @@ void GameManager::startGame()
         _coffre = new Coffre();
         _coffre->setActive(true);
         addItemToScene(_coffre);
-        _coffre->setPos(50,50);
+        _coffre->setPos(150,150);
 
         // test inventaire
         _inventaire = new Inventaire();

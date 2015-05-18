@@ -6,6 +6,7 @@
 #include <QGraphicsPixmapItem>
 #include "arme.h"
 #include "gamemanager.hpp"
+#include <popup.hpp>
 
 
 class Coffre : public QObject, public QGraphicsPixmapItem
@@ -18,10 +19,13 @@ public:
     ~Coffre();
 
     void ouvrir();
+    void advance(int phase);
 
 private:
     bool _isOpen;
     Arme* _arme;
+    bool _ouvrable;
+    Popup *_popup;
 };
 
 #endif // COFFRE_H
