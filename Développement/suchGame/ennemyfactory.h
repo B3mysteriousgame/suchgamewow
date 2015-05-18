@@ -5,6 +5,7 @@
 #include <QObject>
 
 class Ennemy;
+class EnnemyLopette;
 class GameManager;
 class QTimer;
 
@@ -19,6 +20,7 @@ public:
     Ennemy *getEnnemyAt(int listpos);
     int getNbEnnemy();
     void removeEnnemy(Ennemy *it);
+    QList<Ennemy*> getListMichel();
     bool isTimerActive();
     void stopTimer();
     void startTimer(int ms);

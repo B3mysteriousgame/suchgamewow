@@ -32,6 +32,7 @@ class Patate : public Personnage
         void loseHealth(int degats);
         bool isCharginKi() const { return _charginKi; }
         void setCharginKi(bool is);
+        void quickPunch();
 
     signals:
         //void deadPerso();
@@ -41,6 +42,9 @@ class Patate : public Personnage
         void startKiCharge();
         void stopKiCharge();
         void rechargKi();
+
+protected slots:
+    void hidePointAggro(){}
 
     private:
         void stayInScene();
@@ -57,6 +61,8 @@ class Patate : public Personnage
         short _blockinBorder;
         int _xp;
         int _xpMax;
+        int _lvl;
+
         int _fullki;
         int _ki;
         bool _charginKi;

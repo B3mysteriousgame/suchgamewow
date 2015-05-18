@@ -2,6 +2,7 @@
 #define STRAT1_H
 
 #include "strategie.hpp"
+#include <QPointF>
 
 class Ennemy;
 class Patate;

@@ -56,11 +56,11 @@ class Personnage : public QObject, public QGraphicsPixmapItem
 
         virtual void advance(int step) = 0;
 
-        virtual void test(){}
-        virtual void attaque() = 0;
-        void ChangeSensEtDeplacement(int compteur, int maxTour, int maxSprite, QString path);
-        void setVisible(bool vis);
-
+    virtual void test(){}
+    virtual void attaque() = 0;
+    void ChangeSensEtDeplacement();
+    void MoveToDest(QPointF pointDest);
+    void setVisible(bool vis);
     signals:
         void statChanged(const int, const QString&);
         void moveChanged();

@@ -20,9 +20,14 @@ HEADERS += \
     ennemyfactory.h \
     strategie.hpp \
     spritemanager.hpp \
+    ennemylopette.h \
     simpleanim.hpp \
     statsmanager.hpp \
-    highlighteffect.hpp
+    highlighteffect.hpp \
+    coffre.hpp \
+    longsword.h \
+    dragonsword.hpp \
+    inventaire.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -44,12 +49,16 @@ SOURCES += \
     strat1.cpp \
     strat2.cpp \
     spritemanager.cpp \
+    ennemylopette.cpp \
     simpleanim.cpp \
     statsmanager.cpp \
-    highlighteffect.cpp
+    highlighteffect.cpp \
+    coffre.cpp \
+    longsword.cpp \
+    dragonsword.cpp \
+    inventaire.cpp
 
 RESOURCES += \
-    mice.qrc \
     sprites.qrc
 
 # install

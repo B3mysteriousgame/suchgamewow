@@ -6,6 +6,7 @@
 #include "gamemanager.hpp"
 #include <QtDebug>
 #include <QTimer>
+#include <ennemylopette.h>
 
 EnnemyFactory::EnnemyFactory()
     : QObject()
@@ -25,6 +26,7 @@ void EnnemyFactory::createEnnemy()
 {
     static const float diff = 0.1;
     static GameManager* const gm = GameManager::Instance();
+
     int diffNiv = (gm->getPatate())->getLvl();
     short plusOuMoins = gm->randInt(1,2);
 
@@ -41,27 +43,50 @@ void EnnemyFactory::createEnnemy()
     if(diffNiv == 0)
         diffNiv = 1;
 
-    Ennemy *ennemy = new Ennemy(diffNiv);
-    ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
-                   ::cos((1 * 6.28) / 7) * 200);
-
-    Barre *barre = ennemy->getBarre();
-    barre->moveBy(-4,0);
-    barre->setParentItem(ennemy);
-
-    gm->addItemToScene(ennemy);
-
-    _listeMichels.append(ennemy);
-
-    if( _listeMichels.length() == EnnemyFactory::MAXENN)
+    if(gm->randInt(1,6) == 1)
     {
-        if(isTimerActive())
-            stopTimer();
+       EnnemyLopette *ennemyl = new EnnemyLopette();
+       ennemyl->setLevel(diffNiv);
+       qWarning() << "An ennemylopette popped lvl" << diffNiv;
+
+       ennemyl->setPos(::sin((1 * 6.28) / 7) * 200,
+                      ::cos((1 * 6.28) / 7) * 200);
+
+
+       gm->addItemToScene(ennemyl);
+
+       _listeMichels.append(ennemyl);
+
+       if( _listeMichels.length() == EnnemyFactory::MAXENN)
+       {
+           if(isTimerActive())
+               stopTimer();
+       }
+       else
+           gm->startTimer(100 * (gm->randInt(1,50)));
     }
     else
-        startTimer(100 * (gm->randInt(1,50)));
+    {
+       Ennemy *ennemy = new Ennemy();
+       ennemy->setLevel(diffNiv);
+       qWarning() << "An ennemy popped lvl" << diffNiv;
 
-    qWarning() << "An ennemy popped lvl" << diffNiv;
+       ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
+                      ::cos((1 * 6.28) / 7) * 200);
+
+
+       gm->addItemToScene(ennemy);
+
+       _listeMichels.append(ennemy);
+
+       if( _listeMichels.length() == EnnemyFactory::MAXENN)
+       {
+           if(gm->isTimerActive())
+               gm->stopTimer();
+       }
+       else
+           gm->startTimer(100 * (gm->randInt(1,50)));
+    }
 }
 
 

@@ -107,7 +107,7 @@ void Patate::avancer(short sens)
     if(_movin == false)
         _imgCpt = 0; // incr apres
     else
-        ChangeSensEtDeplacement(cpt,maxTour,maxSprite,spritePAth);
+        ChangeSensEtDeplacement();
 
     if(cpt >= maxTour) // on repasse a 1
         cpt = 0;
@@ -398,4 +398,44 @@ void Patate::stopKiCharge()
     _charginKi = false;
 
     //qWarning() << "ki charge stopped";
+}
+
+void Patate::quickPunch()
+{
+    qreal ddx = 0, ddy = 0,offset = 1.1;
+    int quickspeed = _speed * 20;
+
+    switch (_sens)
+    {
+        case Personnage::DROITE:
+            ddx += quickspeed * offset;
+            break;
+        case Personnage::GAUCHE:
+            ddx += quickspeed * offset * -1.;
+            break;
+        case Personnage::BAS:
+            ddy += quickspeed * offset;
+            break;
+        case Personnage::HAUT:
+            ddy += quickspeed * offset * -1.;
+            break;
+        default:
+            break;
+    }
+
+    QPointF arrive = QPointF(ddx,ddy);
+    QList<Ennemy*> listeMichels = _gm->getEnnemyFactory().getListMichel();
+
+    foreach(Ennemy simon, listeMichels)
+    {
+        QLineF dist = QLineF(simon.pos(),arrive);
+        if(dist.length() <= 1000)
+        {
+         qWarning() << "pos" << simon.pos();
+         simon.moveBy(50,50);
+         qWarning() << "posaprès" << simon.pos();
+
+        }
+    }
+    moveBy(ddx, ddy);
 }

@@ -8,6 +8,7 @@
 #include <math.h>
 #include "ennemy.hpp"
 #include "barre.hpp"
+#include "coffre.hpp"
 #include <iostream>
 #include <QGraphicsPixmapItem>
 #include <QFrame>
@@ -68,6 +69,33 @@ void GameManager::startGame()
 
     initView();
 
+
+    _scene->setBackgroundBrush(QBrush(QPixmap(_backgroundImgPath)));
+    //_scene->setSceneRect(0, 0, 1920, 1080);
+
+//! [4]
+    _view->setScene(_scene);
+    _view->setRenderHint(QPainter::Antialiasing);
+    //_view->setBackgroundBrush(QPixmap(":/images/MapTest.png"));
+//! [4] //! [5]
+    _view->setCacheMode(QGraphicsView::CacheBackground);
+    _view->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+//! [5] //! [6]
+
+    _view->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
+    _view->setAutoFillBackground(false);
+
+    QSize qs(MyView::WIDTH, MyView::HEIGHT);
+    _view->resize(qs);
+    //_view->setFixedSize();
+
+    //qWarning() << "Scene's at" << _scene->sceneRect().center();
+
+    _view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    _view->show();
+
     // init connections
     QObject::connect(_timer, SIGNAL(timeout()), _scene, SLOT(advance()));
     QObject::connect(_timerLvlUp, SIGNAL(timeout()), this, SLOT(hideLvlUp()));
@@ -77,7 +105,24 @@ void GameManager::startGame()
     // start timers
     _timer->start(1000 / 33);
     _ef.start();
+
+    //test coffre
+        _coffre = new Coffre();
+        _coffre->setActive(true);
+        addItemToScene(_coffre);
+        _coffre->setPos(50,50);
+
+        // test inventaire
+        _inventaire = new Inventaire();
+
+        }
+// test inventaire
+void GameManager::AfficheInventaire()
+{
+        _inventaire->show();
+        //_inventaire.setParent(_patate);
 }
+
 
 GameManager::~GameManager()
 {
@@ -178,9 +223,19 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                     }
                 }
                 break;
+            case Qt::Key_R :
+                _patate->quickPunch();
+                break;
+            case Qt::Key_F :
+                _coffre->ouvrir();
+                break;
+            case Qt::Key_I :
+                this->AfficheInventaire();
+                break;
             case Qt::Key_Z :
                 test();
                 break;
+
             /*default:
                 break;*/
         }
@@ -449,6 +504,11 @@ void GameManager::initView()
     _view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     _view->show();
+}
+
+EnnemyFactory GameManager::getEnnemyFactory()
+{
+    return _ef;
 }
 
 void GameManager::potatoDead()

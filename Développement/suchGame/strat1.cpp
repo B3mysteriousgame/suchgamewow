@@ -4,11 +4,9 @@
 #include "patate.hpp"
 #include "barre.hpp"
 
-Strat1::Strat1(Ennemy *parent) :
-      _parent(parent)
+Strat1::Strat1(Ennemy *parent)
 {
-    // Utilisation de cette strat pour lancer l'attaque lorsque les ennemis sont proche de la patate
-
+    _parent = parent;
 }
 
 Strat1::~Strat1()
@@ -24,51 +22,64 @@ void Strat1::analyser ()
 void Strat1::appliquer ()
 {
     QList<QGraphicsItem*> listCollides = _parent->collidingItems();
+    QList<QGraphicsItem*> ennemyCollided;
+    QPointF dest;
     static GameManager* const jose = GameManager::Instance();
     static Patate* const michel = jose->getPatate();
 
     // si on touche qqch
     if(listCollides.length() > 0)
     {
-        if(!_parent->touched()) // si on a pas deja gere le cas
-            foreach(QGraphicsItem *item, listCollides)
-            {
-                switch (item->type())
-                {
-                    case QGraphicsTextItem::Type:
-                        _parent->setTouched(false);
-                        break;
-
-                    case Barre::Type:
-                        _parent->setTouched(false);
-                        break;
-
-                    case Ennemy::Type: // test déplacer ennemy en contact avec ennemy ( Fonctionne tant qu'il n'entre pas en collision avec patate )
-                        _parent->setTouched(true);
-                        _parent->moveBy(jose->randInt(3,20),jose->randInt(3,20));
-                        break;
-
-                    case Patate::Type:
-                        _parent->setTouched(true);
-                        michel->loseHealth( _parent->getAtk() );
-                        //qWarning() << "Strat1 analysed.---" << jose->getPatate()->getActualHealth();
-                        break;
-
-                }
-            }
-        else // si on a deja gere le cas
+        foreach(QGraphicsItem *item, listCollides)
         {
-            // oncheck si on collide avec la patate
-            if(_parent->collidesWithItem(michel)) // probablement lourd...
-            {
-                // on la marave !
-                michel->loseHealth( _parent->getAtk() );
-            }
+            if(item->type() == Ennemy::Type)
+               {
+                 ennemyCollided.append(item);
+               }
         }
     }
-    else // sinon (si on touche rien)
-        if(_parent->touched())
-            _parent->setTouched(false);
+
+    // Tentative de changement de sens si collide avec un ennemy, mais pas de résultat vraiment ouf
+    if(ennemyCollided.length() > 0)
+    {
+       if(_parent->touched()) // si on a pas deja gere le cas
+       {
+            foreach(QGraphicsItem *item, ennemyCollided)
+            {
+                Ennemy* michel = (Ennemy*)item;
+                //_parent->setTouched(true);
+                int sens = michel->getSens();
+                switch(sens)
+                {
+                    case Ennemy::BAS:
+                        dest = QPointF(michel->x(),michel->y() + (10*_parent->getSpeed()));
+                        michel->setSens(Ennemy::HAUT);
+
+                    case Ennemy::HAUT:
+                        dest = QPointF(michel->x(),michel->y() + (-10*_parent->getSpeed()));
+                        michel->setSens(Ennemy::BAS);
 
 
+                    case Ennemy::DROITE:
+                        dest = QPointF(michel->x() + (-10*_parent->getSpeed()),michel->y());
+                        michel->setSens(Ennemy::GAUCHE);
+
+
+                    case Ennemy::GAUCHE:
+                        dest = QPointF(michel->x() + (10*_parent->getSpeed()),michel->y());
+                        michel->setSens(Ennemy::DROITE);
+
+                }
+                _parent->MoveToDest(dest);
+            }
+       }
+       else // sinon (si on touche rien)
+       {
+           if(_parent->touched())
+               _parent->setTouched(false);
+       }
+    }
+    else
+        _parent->MoveToDest(michel->pos());
 }
+

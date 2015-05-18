@@ -101,7 +101,7 @@ QPainterPath Ball::shape() const
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
-    painter->setBrush(Qt::green);
+    painter->setBrush(Qt::blue);
     painter->drawEllipse(0, 0, _diam, _diam);
 }
 
