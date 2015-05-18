@@ -150,7 +150,10 @@ void Personnage::loseHealth(const int degats)
             if(_actualhealth < 0)
                 _actualhealth = 0;
 
-            //  qWarning() << "saucisse" << _actualhealth;
+
+            if(_actualhealth == 0)
+                emit deadPerso();
+
         }
         this->setTargetable(false);
     }

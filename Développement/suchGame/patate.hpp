@@ -34,6 +34,7 @@ class Patate : public Personnage
         void setCharginKi(bool is);
 
     signals:
+        //void deadPerso();
         //void kiChanged(int);
 
     private slots:

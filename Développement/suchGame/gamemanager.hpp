@@ -26,14 +26,10 @@ class GameManager : public QObject
 
         QGraphicsScene* getScene() const ;
         MyView* getView() const;
-        QTimer* getPopTimer() const;
         Patate* getPatate() const;
         QList<Mouse*> getSceneMice();
         QPointF getPatatePos() const;
 
-        bool isTimerActive();
-        void stopTimer();
-        void startTimer(int ms);
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem*);
         void setText(const QString& txt);
@@ -59,12 +55,12 @@ class GameManager : public QObject
         void chargeKiStopped();
 
     public slots:
-        void popEnnemy();
         void removeItem(QGraphicsItem *it);
         void hideLvlUp();
 
    private slots:
         void setBarrePatate(const int pki, const QString &cible);
+        void potatoDead();
 
     private:
         Q_DISABLE_COPY(GameManager)
@@ -88,7 +84,6 @@ class GameManager : public QObject
         QGraphicsScene *_scene;
         MyView *_view;
         QTimer *_timer;
-        QTimer *_timerPopEnnemy;
         QTimer *_timerLvlUp;
         EnnemyFactory _ef;
 

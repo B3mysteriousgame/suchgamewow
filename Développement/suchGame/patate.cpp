@@ -121,6 +121,7 @@ void Patate::loseHealth(int degats)
 {
     qreal pourcentage;
     Personnage::loseHealth(degats); // personnage test si targetable
+
     pourcentage = getPourcentageVie();
     //_gm->setViePatate(pourcentage/2);
     emit statChanged(pourcentage/2, "vie");
