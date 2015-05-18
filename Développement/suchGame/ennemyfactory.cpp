@@ -17,6 +17,10 @@ EnnemyFactory::EnnemyFactory()
     start();
 }
 
+EnnemyFactory::EnnemyFactory(EnnemyFactory *lol)
+    : QObject(lol)
+{}
+
 EnnemyFactory::~EnnemyFactory()
 {
     delete(_timerPopEnnemy);
@@ -60,7 +64,7 @@ void EnnemyFactory::createEnnemy()
        if( _listeMichels.length() == EnnemyFactory::MAXENN)
        {
            if(isTimerActive())
-               stopTimer();
+               stop();
        }
        else
            gm->startTimer(100 * (gm->randInt(1,50)));
@@ -81,11 +85,11 @@ void EnnemyFactory::createEnnemy()
 
        if( _listeMichels.length() == EnnemyFactory::MAXENN)
        {
-           if(gm->isTimerActive())
-               gm->stopTimer();
+           if(isTimerActive())
+               stop();
        }
        else
-           gm->startTimer(100 * (gm->randInt(1,50)));
+           startTimer(100 * (gm->randInt(1,50)));
     }
 }
 
@@ -118,7 +122,7 @@ bool EnnemyFactory::isTimerActive()
     return _timerPopEnnemy->isActive();
 }
 
-void EnnemyFactory::stopTimer()
+void EnnemyFactory::stop()
 {
     _timerPopEnnemy->stop();
 }

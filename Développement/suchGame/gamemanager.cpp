@@ -375,7 +375,7 @@ void GameManager::scrollView(short sens)
     QPointF point = _view->mapToScene(_view->getCenter());
     //QPointF oldPoint = point;
 
-    pauseItems();
+    //pauseItems();
 
     switch(sens)
     {
@@ -407,9 +407,29 @@ void GameManager::ennemyGotKilled(const int xp)
 
 void GameManager::pauseItems()
 {
-    QRectF sceneRect(_view->mapToScene(0,0), _view->mapToScene(QPoint(_view->width(), _view->height())));
+    QTime t;
+    t.start();
 
-    ////qWarning() << sceneRect;
+    QList<QGraphicsItem*> items = _scene->items();
+
+    foreach (QGraphicsItem *it, items)
+        it->setEnabled(false);
+
+    _ef.stop();
+    qWarning() << "pauseItems with foreach: " + QString::number(t.elapsed()) + "ms.";
+}
+
+void GameManager::pauseItems1()
+{
+    QTime t;
+    t.start();
+
+    QList<QGraphicsItem*> items = _scene->items();
+
+    for(QList<QGraphicsItem*>::iterator it = items.begin(); it != items.cend(); ++it)
+        (*it)->setEnabled(false);
+
+    qWarning() << "pauseItems1 with iterator: " + QString::number(t.elapsed()) + "ms.";
 }
 
 void GameManager::patateLvlUp()
@@ -506,9 +526,9 @@ void GameManager::initView()
     _view->show();
 }
 
-EnnemyFactory GameManager::getEnnemyFactory()
+EnnemyFactory *GameManager::getEnnemyFactory()
 {
-    return _ef;
+    return &_ef;
 }
 
 void GameManager::potatoDead()
@@ -531,6 +551,8 @@ void GameManager::potatoDead()
 
         _scene->addItem(text);
         qWarning() << "potatoDead biaatch";
+
+        pauseItems();
 
         dead = true;
     }

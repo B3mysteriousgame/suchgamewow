@@ -42,6 +42,7 @@ Patate::Patate(QGraphicsItem *parent)
  * @brief Constructeur par copie ( pointeur vers l'objet patate a copié )
  * @param p (pointeur vers Objet patate a copier)
  */
+/*
 Patate::Patate(Patate *p)
     : Personnage(p->parentItem())
 {
@@ -55,6 +56,7 @@ Patate::Patate(Patate *p)
     setPixmap(p->pixmap());
     //show();
 }
+*/
 
 int Patate::getImgCpt() const
 {
@@ -402,6 +404,7 @@ void Patate::stopKiCharge()
 
 void Patate::quickPunch()
 {
+    static EnnemyFactory* const ef = _gm->getEnnemyFactory();
     qreal ddx = 0, ddy = 0,offset = 1.1;
     int quickspeed = _speed * 20;
 
@@ -424,16 +427,16 @@ void Patate::quickPunch()
     }
 
     QPointF arrive = QPointF(ddx,ddy);
-    QList<Ennemy*> listeMichels = _gm->getEnnemyFactory().getListMichel();
+    QList<Ennemy*> listeMichels = ef->getListMichel();
 
-    foreach(Ennemy simon, listeMichels)
+    foreach(Ennemy *simon, listeMichels)
     {
-        QLineF dist = QLineF(simon.pos(),arrive);
-        if(dist.length() <= 1000)
+        QLineF dist = QLineF(simon->pos(),arrive);
+        if(dist.length() <= 50)
         {
-         qWarning() << "pos" << simon.pos();
-         simon.moveBy(50,50);
-         qWarning() << "posaprès" << simon.pos();
+         qWarning() << "pos" << simon->pos();
+         simon->moveBy(50,50);
+         qWarning() << "posaprès" << simon->pos();
 
         }
     }

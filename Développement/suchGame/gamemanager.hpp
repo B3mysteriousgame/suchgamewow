@@ -32,7 +32,7 @@ class GameManager : public QObject
         Patate* getPatate() const;
         QList<Mouse*> getSceneMice();
         QPointF getPatatePos() const;
-        EnnemyFactory getEnnemyFactory();
+        EnnemyFactory* getEnnemyFactory();
 
         void addItemToScene(QGraphicsItem *item);
         void logCoords(const QGraphicsItem*);
@@ -105,6 +105,7 @@ class GameManager : public QObject
         ulong _kiChargStopTimestamp;
 
         void pauseItems();
+        void pauseItems1();
 
 };
 

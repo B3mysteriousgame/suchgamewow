@@ -15,14 +15,15 @@ class EnnemyFactory : public QObject
 
 public:
     EnnemyFactory();
+    EnnemyFactory(EnnemyFactory*lol);
     ~EnnemyFactory();
 
     Ennemy *getEnnemyAt(int listpos);
     int getNbEnnemy();
     void removeEnnemy(Ennemy *it);
-    QList<Ennemy*> getListMichel();
+    QList<Ennemy*> getListMichel() { return _listeMichels;}
     bool isTimerActive();
-    void stopTimer();
+    void stop();
     void startTimer(int ms);
     void start();
 
