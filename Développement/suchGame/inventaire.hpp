@@ -18,10 +18,12 @@ class Inventaire : public QWidget
 public:
     explicit Inventaire(QWidget *parent = 0);
     ~Inventaire();
+    void mouseMoveEvent(QMouseEvent *_event);
 
 private:
 
        QPushButton *boutonQuitter, *boutonValider;
+       QGridLayout *_legrid;
 
 signals:
 

@@ -6,9 +6,14 @@
 #include "dragonsword.hpp"
 #include <QDebug>
 
-Coffre::Coffre()
+Coffre::Coffre():
+    QObject()
 {
     _isOpen = false;
+    _popup = new Popup(this);
+    _popup->setParentItem(this);
+    _popup->moveBy(10,-15);
+    _ouvrable = false;
 
     int alea = GameManager::Instance()->randInt(1,2);
     if(alea == 1)
@@ -36,6 +41,23 @@ void Coffre::ouvrir()
     qWarning() << "chips" << this->_isOpen;
 
 }
+
+void Coffre::advance(int phase)
+{
+     QLineF dist = QLineF(GameManager::Instance()->getPatatePos(),this->pos());
+     if(dist.length() <=30 )
+         _ouvrable = true;
+     else
+         _ouvrable = false;
+
+     if(_ouvrable && !_isOpen)
+        _popup->show();
+     else
+        _popup->hide();
+
+}
+
+
 
 
 

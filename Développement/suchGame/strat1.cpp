@@ -54,20 +54,24 @@ void Strat1::appliquer ()
                     case Ennemy::BAS:
                         dest = QPointF(michel->x(),michel->y() + (10*_parent->getSpeed()));
                         michel->setSens(Ennemy::HAUT);
+                        break;
 
                     case Ennemy::HAUT:
                         dest = QPointF(michel->x(),michel->y() + (-10*_parent->getSpeed()));
                         michel->setSens(Ennemy::BAS);
+                        break;
 
 
                     case Ennemy::DROITE:
                         dest = QPointF(michel->x() + (-10*_parent->getSpeed()),michel->y());
                         michel->setSens(Ennemy::GAUCHE);
+                        break;
 
 
                     case Ennemy::GAUCHE:
                         dest = QPointF(michel->x() + (10*_parent->getSpeed()),michel->y());
                         michel->setSens(Ennemy::DROITE);
+                        break;
 
                 }
                 _parent->MoveToDest(dest);
