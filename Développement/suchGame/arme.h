@@ -6,6 +6,11 @@
 
 #include <QGraphicsItem>
 
+#include "popup.hpp"
+#include "gamemanager.hpp"
+
+class GameManager;
+
 class Arme : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
@@ -13,6 +18,7 @@ class Arme : public QObject, public QGraphicsPixmapItem
 
     public:
         Arme();
+        void advance(int phase);
         int get_atq() const;
         int get_def() const;
         int get_portee() const;
@@ -27,6 +33,8 @@ class Arme : public QObject, public QGraphicsPixmapItem
         int _atq;
         int _def;
         int _portee;
+        bool _ramassable;
+        Popup *_popup;
         QString _nom;
         QPixmap _pixmap;
 };

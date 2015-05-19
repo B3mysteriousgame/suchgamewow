@@ -112,16 +112,6 @@ void GameManager::startGame()
         _coffre->setActive(true);
         addItemToScene(_coffre);
         _coffre->setPos(150,150);
-
-        // test inventaire
-        _inventaire = new Inventaire();
-
-        }
-// test inventaire
-void GameManager::AfficheInventaire()
-{
-        _inventaire->show();
-        //_inventaire.setParent(_patate);
 }
 
 
@@ -231,13 +221,13 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 }
                 break;
             case Qt::Key_R :
-                _patate->quickPunch();
+                _patate->Teleportation();
                 break;
             case Qt::Key_F :
                 _coffre->ouvrir();
                 break;
             case Qt::Key_I :
-                this->AfficheInventaire();
+                _patate->AfficheInventaire();
                 break;
             case Qt::Key_Z :
                 test();

@@ -2,15 +2,37 @@
 #include "personnage.hpp"
 
 
-Arme::Arme()
-{
 
+Arme::Arme():
+    QObject(),
+    QGraphicsPixmapItem()
+{
+    _popup = new Popup(this);
+    _popup->setParentItem(this);
+    _popup->moveBy(10,-15);
+    _ramassable = false;
 }
 
 //int Arme::attaquer(Personnage *personnage)
 //{
 //    personnage->_actualhealth = personnage->_actualhealth - this->_atq;
 //}
+
+void Arme::advance(int phase)
+{
+     QLineF dist = QLineF(GameManager::Instance()->getPatatePos(),this->pos());
+     if(dist.length() <= 30 )
+         _ramassable = true;
+     else
+         _ramassable = false;
+
+     if(_ramassable)
+        _popup->show();
+     else
+        _popup->hide();
+
+}
+
 QPixmap Arme::get_pixmap()
 {
     return _pixmap;

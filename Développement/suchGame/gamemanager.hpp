@@ -8,7 +8,7 @@
 #include <QtGlobal>
 #include "ennemyfactory.h"
 #include "statsmanager.hpp"
-#include "inventaire.hpp"
+//#include "inventaire.hpp"
 
 
 class Mouse;
@@ -97,7 +97,6 @@ class GameManager : public QObject
         QTimer *_timerLvlUp;
         EnnemyFactory _ef;
         Coffre *_coffre;
-        Inventaire *_inventaire;
 
 
         Perso *_perso;

@@ -9,8 +9,6 @@
 #include <QGridLayout>
 
 
-class GameManager;
-
 
 class Inventaire : public QWidget
 {

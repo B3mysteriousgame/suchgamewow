@@ -4,6 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QObject>
 #include "personnage.hpp"
+#include "inventaire.hpp"
 
 class Patate : public Personnage
 {
@@ -32,7 +33,8 @@ class Patate : public Personnage
         void loseHealth(int degats);
         bool isCharginKi() const { return _charginKi; }
         void setCharginKi(bool is);
-        void quickPunch();
+        void Teleportation();
+        void AfficheInventaire();
 
     signals:
         //void kiChanged(int);
@@ -66,5 +68,7 @@ protected slots:
         int _ki;
         bool _charginKi;
         QTimer *_timerKiCharg;
+
+        Inventaire *_inventaire;
 };
 #endif // PATATE_HPP
