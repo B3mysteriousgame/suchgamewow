@@ -84,7 +84,6 @@ class Personnage : public QObject, public QGraphicsPixmapItem
         bool _targetable;
         QTimer *_timerTargetable;
         short _timout;
-        QPropertyAnimation *_animation;
 
         virtual void initStates();
         void initAnim();

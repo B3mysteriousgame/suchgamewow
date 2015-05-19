@@ -9,6 +9,7 @@
 #include "ennemy.hpp"
 #include "barre.hpp"
 #include "coffre.hpp"
+#include "dragon.hpp"
 #include <iostream>
 #include <QGraphicsPixmapItem>
 #include <QFrame>
@@ -501,6 +502,8 @@ void GameManager::initScene()
 
     _scene->addItem(_patate);
     //addMice();
+
+    _scene->addItem(new Dragon(1000, 30));
 }
 
 void GameManager::initView()

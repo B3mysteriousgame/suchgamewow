@@ -38,11 +38,29 @@
     <qresource prefix="/">
         <file>images/Sprites/lvlUpTxt.png</file>
         <file>images/Sprites/pointAggro.png</file>
-        <file>images/MapTest.png</file>
         <file>images/Sprites/coffre.png</file>
         <file>images/Sprites/Épée_élémentaire-icône.png</file>
         <file>images/Sprites/longsword.png</file>
         <file>images/Sprites/Sabre.png</file>
         <file>images/Sprites/dragonsword.png</file>
+        <file>images/MapTest.png</file>
+    </qresource>
+    <qresource prefix="/dragon">
+        <file>images/Sprites/dragon/dragonB1.png</file>
+        <file>images/Sprites/dragon/dragonB2.png</file>
+        <file>images/Sprites/dragon/dragonB3.png</file>
+        <file>images/Sprites/dragon/dragonB4.png</file>
+        <file>images/Sprites/dragon/dragonD1.png</file>
+        <file>images/Sprites/dragon/dragonD2.png</file>
+        <file>images/Sprites/dragon/dragonD3.png</file>
+        <file>images/Sprites/dragon/dragonD4.png</file>
+        <file>images/Sprites/dragon/dragonG1.png</file>
+        <file>images/Sprites/dragon/dragonG2.png</file>
+        <file>images/Sprites/dragon/dragonG3.png</file>
+        <file>images/Sprites/dragon/dragonG4.png</file>
+        <file>images/Sprites/dragon/dragonH1.png</file>
+        <file>images/Sprites/dragon/dragonH2.png</file>
+        <file>images/Sprites/dragon/dragonH3.png</file>
+        <file>images/Sprites/dragon/dragonH4.png</file>
     </qresource>
 </RCC>

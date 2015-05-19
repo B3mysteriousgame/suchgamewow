@@ -9,9 +9,9 @@ SpriteManager::SpriteManager(Personnage *parent,  const QString &spritename, con
     _spritePath(":" + _spriteName + "/images/Sprites/" + _spriteName + "/" + _spriteName),
     _maxSprit(maxsprite),
     _cpt(0),
-    _timout(130)
+    _timout(130),
+    _spriteTimer(new QTimer())
 {
-    _spriteTimer = new QTimer();
     connect(_spriteTimer, SIGNAL(timeout()), this, SLOT(nextImg()));
     connect(_parent, SIGNAL(moveChanged()), this, SLOT(triggerRunning()));
 

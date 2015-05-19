@@ -30,9 +30,6 @@ Personnage::~Personnage()
         delete(_sm);
 
     delete(_timerTargetable);
-
-    if(_animation != NULL)
-        delete(_animation);
 }
 
 void Personnage::setTargetable(bool targetable)
