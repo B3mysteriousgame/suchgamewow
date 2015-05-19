@@ -24,6 +24,28 @@ Personnage::Personnage(QGraphicsItem* parent) :
     connect(_timerTargetable, SIGNAL(timeout()), this, SLOT(setTargetable()));
 }
 
+bool Personnage::operator!=(const Personnage &p) const
+{
+    return !(*this == p);
+}
+
+bool Personnage::operator==(const Personnage &p) const
+{
+    if( this->_targetable == p.isTargetable()
+            && this->_fullhealth == p.getFullHealth()
+            && this->_actualhealth == p.getActualHealth()
+            && this->_atk == p.getAtk()
+            && this->_def == p.getDef()
+            && this->_mana == p.getMana()
+            && this->_lvl == p.getLvl()
+            && this->_sens == p.getSens()
+            && this->_speed == p.getSpeed()
+            && this->_movin == p.isMovin())
+        return true;
+
+    return false;
+}
+
 Personnage::~Personnage()
 {
     if(_sm != NULL)
@@ -277,21 +299,4 @@ void Personnage::setMovin(const bool move)
     }
 }
 
-bool Personnage::operator==(const Personnage &p) const
-{
-    if(this->_actualhealth != p.getActualHealth()
-            || this->_atk != p.getAtk()
-            || this->_fullhealth != p.getFullHealth()
-            || this->_movin != p.isMovin()
-            || this->_sens != p.getSens()
-            || this->_speed != p.getSpeed()
-            || this->type() != p.type())
-        return false;
-    else
-        return true;
-}
 
-bool Personnage::operator!=(const Personnage &p) const
-{
-    return !(*this == p);
-}

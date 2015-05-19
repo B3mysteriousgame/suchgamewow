@@ -7,7 +7,7 @@ class Dragon : public Ennemy
 {
 
 public:
-    enum { Type = UserType + 7 };
+    enum { Type = UserType + 5 }; // celui de ennemi
     virtual int type() const{return Type;}
 
     Dragon(short vie, short lvl, QGraphicsPixmapItem *parent = 0);

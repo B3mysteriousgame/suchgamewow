@@ -42,7 +42,7 @@ void SpriteManager::triggerRunning()
 }
 
 /**
- * @brief RaZ qd personnage change de sens et RESTART
+ * @brief RaZ qd personnage change de sens
  */
 void SpriteManager::razCpt()
 {

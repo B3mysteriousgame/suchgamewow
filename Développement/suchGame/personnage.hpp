@@ -32,6 +32,8 @@ class Personnage : public QObject, public QGraphicsPixmapItem
         void setSens(const short sens);
         qreal getSpeed() const;
         void setSpeed(const qreal val);
+        int getMana() const { return _mana; }
+        int getDef() const { return _def; }
         int getAtk() const { return _atk; }
         void setAtk(const int nuAtk) { _atk = nuAtk; }
         void addAtk(const int atk) { _atk += atk; }
@@ -50,8 +52,8 @@ class Personnage : public QObject, public QGraphicsPixmapItem
 
         bool isMovin() const;
         void setMovin(const bool move);
-        inline bool operator==(const Personnage &p) const;
-        inline bool operator!=(const Personnage &p) const;
+        virtual bool operator==(const Personnage &p) const;
+        virtual bool operator!=(const Personnage &p) const;
 
 
         virtual void advance(int step) = 0;

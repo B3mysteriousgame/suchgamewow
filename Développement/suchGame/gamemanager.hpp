@@ -48,7 +48,9 @@ class GameManager : public QObject
         void patateLvlUp();
         void centerOnPatate();
         void startGame();
+        void stopGame();
         void AfficheInventaire();
+        void stopEnnemys();
 
     signals:
         void downSignal();
@@ -88,7 +90,7 @@ class GameManager : public QObject
 
         QGraphicsScene *_scene;
         MyView *_view;
-        QTimer *_timer;
+        QTimer *_timerAdvance;
         QTimer *_timerLvlUp;
         EnnemyFactory _ef;
         Coffre *_coffre;

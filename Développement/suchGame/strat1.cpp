@@ -93,11 +93,13 @@ void Strat1::appliquer ()
     }
     else // aucun ennemi touche
     {
-        _parent->setTouched(false);
-
         if(patateTouched)
+        {
             michel->loseHealth(_parent->getAtk());
+            patateTouched = false;
+        }
 
+        _parent->setTouched(false);
         _parent->MoveToDest(michel->pos());
     }
 }
