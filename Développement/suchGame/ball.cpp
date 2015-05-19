@@ -10,6 +10,7 @@
 #include "perso.hpp"
 #include "patate.hpp"
 #include "ennemy.hpp"
+#include "dragon.hpp"
 
 Ball::Ball(QPointF ballScenePos, QGraphicsItem *parent) :
     QGraphicsItem(),
@@ -188,6 +189,7 @@ void Ball::doEffect(QGraphicsItem *item)
     static GameManager* const gm = GameManager::Instance();
     if(item->type() == Ennemy::Type)
     {
+        //Dragon *dracaufeu = ((Dragon*) item); // pr recup le dragon, NULL sinn
         Ennemy *leEnnemy = (Ennemy*) item;
         leEnnemy->loseHealth(_degats);
 

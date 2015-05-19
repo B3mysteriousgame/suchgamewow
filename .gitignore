@@ -7,3 +7,4 @@ Développement/suchGame/*.user.*
 *.autosave
 Développement/build-suchGame*
 .cpp.bak
+*.orig

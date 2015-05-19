@@ -44,6 +44,7 @@ Patate::Patate(QGraphicsItem *parent)
  * @brief Constructeur par copie ( pointeur vers l'objet patate a copié )
  * @param p (pointeur vers Objet patate a copier)
  */
+/*
 Patate::Patate(Patate *p)
     : Personnage(p->parentItem())
 {
@@ -57,6 +58,7 @@ Patate::Patate(Patate *p)
     setPixmap(p->pixmap());
     //show();
 }
+*/
 
 int Patate::getImgCpt() const
 {
@@ -123,6 +125,7 @@ void Patate::loseHealth(int degats)
 {
     qreal pourcentage;
     Personnage::loseHealth(degats); // personnage test si targetable
+
     pourcentage = getPourcentageVie();
     //_gm->setViePatate(pourcentage/2);
     emit statChanged(pourcentage/2, "vie");
@@ -403,10 +406,11 @@ void Patate::stopKiCharge()
 
 void Patate::Teleportation()
 {
-    if(_mana >= 5)
-    {
-        qreal ddx = 0, ddy = 0,offset = 1.1;
-        int quickspeed = _speed * 20;
+ if(_mana >= 5)
+ {
+    static EnnemyFactory* const ef = _gm->getEnnemyFactory();
+    qreal ddx = 0, ddy = 0,offset = 1.1;
+    int quickspeed = _speed * 20;
 
         switch (_sens)
         {
@@ -427,7 +431,7 @@ void Patate::Teleportation()
         }
 
         QPointF arrive = QPointF(this->x() + ddx, this->y() + ddy);
-        QList<Ennemy*> listeMichels = _gm->getEnnemyFactory().getListMichel();
+        QList<Ennemy*> listeMichels = _gm->getEnnemyFactory()->getListMichel();
 
         foreach(Ennemy *simon, listeMichels)
         {

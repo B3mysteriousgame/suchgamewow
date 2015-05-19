@@ -13,7 +13,6 @@ class Patate : public Personnage
         virtual int type() const{return Type;}
 
         Patate(QGraphicsItem *parent = 0);
-        Patate(Patate *p);
         ~Patate();
 
         QList<QString> getSprites() const;
@@ -37,6 +36,7 @@ class Patate : public Personnage
         void AfficheInventaire();
 
     signals:
+        //void deadPerso();
         //void kiChanged(int);
 
     private slots:
@@ -62,7 +62,6 @@ protected slots:
         short _blockinBorder;
         int _xp;
         int _xpMax;
-        int _lvl;
 
         int _fullki;
         int _ki;

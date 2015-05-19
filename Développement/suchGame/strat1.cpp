@@ -26,6 +26,7 @@ void Strat1::appliquer ()
     QPointF dest;
     static GameManager* const jose = GameManager::Instance();
     static Patate* const michel = jose->getPatate();
+    static bool patateTouched = false;
 
     // si on touche qqch
     if(listCollides.length() > 0)
@@ -33,21 +34,27 @@ void Strat1::appliquer ()
         foreach(QGraphicsItem *item, listCollides)
         {
             if(item->type() == Ennemy::Type)
-               {
-                 ennemyCollided.append(item);
-               }
+            {
+                ennemyCollided.append(item);
+                patateTouched = false;
+            }
+            else
+            {
+                if(item->type() == Patate::Type)
+                    patateTouched = true;
+            }
         }
     }
 
     // Tentative de changement de sens si collide avec un ennemy, mais pas de résultat vraiment ouf
     if(ennemyCollided.length() > 0)
     {
-       if(_parent->touched()) // si on a pas deja gere le cas
+       if(!_parent->touched()) // si on a pas deja gere le cas
        {
             foreach(QGraphicsItem *item, ennemyCollided)
             {
                 Ennemy* michel = (Ennemy*)item;
-                //_parent->setTouched(true);
+
                 int sens = michel->getSens();
                 switch(sens)
                 {
@@ -77,13 +84,23 @@ void Strat1::appliquer ()
                 _parent->MoveToDest(dest);
             }
        }
-       else // sinon (si on touche rien)
+       else // sinon (si on a deja gere le cas)
        {
-           if(_parent->touched())
-               _parent->setTouched(false);
+           // on fait rien
+           /* if(_parent->touched())
+               _parent->setTouched(false); */
        }
     }
-    else
+    else // aucun ennemi touche
+    {
+        if(patateTouched)
+        {
+            michel->loseHealth(_parent->getAtk());
+            patateTouched = false;
+        }
+
+        _parent->setTouched(false);
         _parent->MoveToDest(michel->pos());
+    }
 }
 

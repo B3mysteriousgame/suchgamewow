@@ -8,10 +8,42 @@
 #include "barre.hpp"
 #include <QList>
 
+Ennemy::Ennemy(short vie, short lvl, QGraphicsItem *parent) :
+    Personnage(parent)
+{
+    _fullhealth = vie;
+    _actualhealth = vie;
+    _lvl= lvl;
+    _imgCpt = 0;
+    _sens = Ennemy::DROITE;
+    _gm = NULL;
+
+    _touched = false;
+    _strat = new MoveFreelyStrat(this);
+    _xpDon = 30 + (9 * (_lvl - 1));
+    _atk = 80 + (15 * (_lvl - 1));
+    _def = 30 + (11 * (_lvl - 1));
+    _speed = 1;
+    setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
+
+    _pointAggro = new QGraphicsPixmapItem(QPixmap(":/images/Sprites/pointAggro.png"));
+    _pointAggro->setParentItem(this);
+    _pointAggro->setActive(true);
+
+    _barre = new Barre(false);
+    _barre->moveBy(-12,-15);
+    _barre->setParentItem(this);
+
+    _patateproche = false;
+    _movin = true;
+
+    _targetable = true;
+    _sm = new SpriteManager(this, "alex", 4);
+}
+
 Ennemy::Ennemy(QGraphicsItem *parent) :
     Personnage(parent)
 {
-    //_sprites.append(":/images/patateSaiyen.png");
     _imgCpt = 0;
     _sens = Ennemy::DROITE;
     _gm = NULL;
@@ -39,8 +71,6 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
 
     _targetable = true;
     _sm = new SpriteManager(this, "alex", 4);
-
-    initAnimation();
 }
 
 void Ennemy::setTargetable(bool targetable)
@@ -62,15 +92,6 @@ void Ennemy::setTargetable(bool targetable)
     */
 
     Personnage::setTargetable(targetable);
-}
-
-void Ennemy::initAnimation()
-{
-    _animation = new QPropertyAnimation(this, "visible");
-    _animation->setDuration(500);
-    _animation->setStartValue(true);
-    _animation->setEndValue(false);
-    _animation->setLoopCount(-1); // endless loop biatch
 }
 
 int Ennemy::getXpDon() const
