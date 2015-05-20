@@ -51,10 +51,9 @@ void Strat1::appliquer ()
     {
        if(!_parent->touched()) // si on a pas deja gere le cas
        {
-            foreach(QGraphicsItem *item, ennemyCollided)
-            {
-                Ennemy* michel = (Ennemy*)item;
-
+           // foreach(QGraphicsItem *item, ennemyCollided)
+           // {
+                Ennemy* michel = (Ennemy*) ennemyCollided.at(0);
                 int sens = michel->getSens();
                 switch(sens)
                 {
@@ -82,7 +81,7 @@ void Strat1::appliquer ()
 
                 }
                 _parent->MoveToDest(dest);
-            }
+            /*}*/
        }
        else // sinon (si on a deja gere le cas)
        {

@@ -453,3 +453,8 @@ void Patate::AfficheInventaire()
 {
     _inventaire->show();
 }
+
+void Patate::addItemToInventaire(Arme *arme)
+{
+    _inventaire->addItem(arme);
+}

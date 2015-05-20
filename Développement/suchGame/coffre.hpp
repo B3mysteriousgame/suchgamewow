@@ -18,8 +18,9 @@ public:
     Coffre();
     ~Coffre();
 
-    void ouvrir();
+    bool ouvrir();
     void advance(int phase);
+    Arme * getArme();
 
 private:
     bool _isOpen;

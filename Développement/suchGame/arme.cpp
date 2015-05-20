@@ -30,7 +30,6 @@ void Arme::advance(int phase)
         _popup->show();
      else
         _popup->hide();
-
 }
 
 QPixmap Arme::get_pixmap()
