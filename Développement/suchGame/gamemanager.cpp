@@ -12,6 +12,7 @@
 #include <iostream>
 #include <QGraphicsPixmapItem>
 #include <QFrame>
+#include "obstacle.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -112,6 +113,16 @@ void GameManager::startGame()
         _coffre->setActive(true);
         addItemToScene(_coffre);
         _coffre->setPos(50,50);
+        qWarning() << "coffre added";
+
+        // test obstacle
+
+        _obstacle = new Obstacle();
+        _obstacle->setPixmap(QPixmap(":/images/Sprites/obstacle.png"));
+        GameManager::Instance()->addItemToScene(_obstacle);
+        qWarning() << "obstacle added";
+        _obstacle->setActive(true);
+        _obstacle->setPos(200,200);
 
         // test inventaire
         _inventaire = new Inventaire();

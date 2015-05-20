@@ -16,6 +16,7 @@ class Perso;
 class Patate;
 class Ennemy;
 class Coffre;
+class Obstacle;
 
 class GameManager : public QObject
 {
@@ -98,6 +99,7 @@ class GameManager : public QObject
         EnnemyFactory _ef;
         Coffre *_coffre;
         Inventaire *_inventaire;
+        Obstacle *_obstacle;
 
 
         Perso *_perso;

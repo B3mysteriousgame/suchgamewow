@@ -44,5 +44,7 @@
         <file>images/Sprites/longsword.png</file>
         <file>images/Sprites/Sabre.png</file>
         <file>images/Sprites/dragonsword.png</file>
+        <file>images/Sprites/grass.jpg</file>
+        <file>images/Sprites/obstacle.png</file>
     </qresource>
 </RCC>
