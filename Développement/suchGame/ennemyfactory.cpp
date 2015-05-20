@@ -53,8 +53,8 @@ void EnnemyFactory::createEnnemy()
        ennemyl->setLevel(diffNiv);
        qWarning() << "An ennemylopette popped lvl" << diffNiv;
 
-       ennemyl->setPos(::sin((1 * 6.28) / 7) * 200,
-                      ::cos((1 * 6.28) / 7) * 200);
+       ennemyl->setPos(::sin((1 * 6.28) / 7) * 300,
+                      ::cos((1 * 6.28) / 7) * 300);
 
 
        gm->addItemToScene(ennemyl);

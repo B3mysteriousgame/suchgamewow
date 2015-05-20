@@ -33,6 +33,7 @@ class Patate : public Personnage
         bool isCharginKi() const { return _charginKi; }
         void setCharginKi(bool is);
         void Teleportation();
+        void addItemToInventaire(Arme *arme);
         void AfficheInventaire();
 
     signals:

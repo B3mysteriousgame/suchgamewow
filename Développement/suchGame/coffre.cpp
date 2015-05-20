@@ -28,7 +28,7 @@ Coffre::~Coffre()
 
 }
 
-void Coffre::ouvrir()
+bool Coffre::ouvrir()
 {
     QLineF dist = QLineF(GameManager::Instance()->getPatatePos(),this->pos());
     if( dist.length() <= 30 )
@@ -36,9 +36,11 @@ void Coffre::ouvrir()
         _isOpen = true;
         GameManager::Instance()->addItemToScene(_arme);
         _arme->setPos(this->pos().x() + 50,this->pos().y());
+        return true;
     }
 
     qWarning() << "chips" << this->_isOpen;
+    return false;
 
 }
 
@@ -55,6 +57,11 @@ void Coffre::advance(int phase)
      else
         _popup->hide();
 
+}
+
+Arme * Coffre::getArme()
+{
+    return _arme;
 }
 
 

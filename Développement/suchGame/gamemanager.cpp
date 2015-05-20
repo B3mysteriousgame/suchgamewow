@@ -242,7 +242,15 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 _patate->Teleportation();
                 break;
             case Qt::Key_F :
-                _coffre->ouvrir();
+                if(!_coffre->ouvrir())
+                {
+                    _patate->addItemToInventaire(_coffre->getArme());
+                    _scene->removeItem(_coffre->getArme());
+                }
+                else
+                {
+                    _coffre->ouvrir();
+                }
                 break;
             case Qt::Key_I :
                 _patate->AfficheInventaire();

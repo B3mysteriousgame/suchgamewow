@@ -1,6 +1,7 @@
 #include "inventaire.hpp"
 #include <QMouseEvent>
 #include <QDebug>
+#include <QCheckBox>
 
 Inventaire::Inventaire(QWidget *parent) : QWidget(parent)
 {
@@ -8,7 +9,7 @@ Inventaire::Inventaire(QWidget *parent) : QWidget(parent)
     //phase de test nocture, a changer avec ItemFactory(ArmeFactory - ArmureFactory - etc) + list de tout les items existants
 
     _legrid = new QGridLayout;
-
+/*
     Arme *arme1 = new Dragonsword();
     Arme *arme2 = new Longsword();
 
@@ -19,7 +20,7 @@ Inventaire::Inventaire(QWidget *parent) : QWidget(parent)
     label->setStyleSheet("background-color: grey;");
     label2->setStyleSheet("background-color: grey;");
     _legrid->addWidget(label);
-    _legrid->addWidget(label2);
+    _legrid->addWidget(label2);*/
 
     this->setLayout(_legrid);
 
@@ -30,7 +31,7 @@ Inventaire::~Inventaire()
 {
 
 }
-
+// Sensé affiché une fond différent au passage de la souris ==> ne fonctionne pas !
 void Inventaire::mouseMoveEvent(QMouseEvent *_event)
 {
     if(_event->type() == QEvent::Enter)
@@ -57,4 +58,38 @@ void Inventaire::mouseMoveEvent(QMouseEvent *_event)
     }
 }
 
+void Inventaire::addItem(Arme *arme)
+{
 
+    QLabel *image = new  QLabel();
+    QLabel *text = new  QLabel();
+    QCheckBox *checkbox = new QCheckBox();
+
+    image->setPixmap(arme->get_pixmap());
+    text->setText(arme->get_nom());
+    image->setStyleSheet("background-color: grey;");
+    text->setStyleSheet("background-color: white;");
+
+    _legrid->addWidget(image,_legrid->rowCount(),0);
+    _legrid->addWidget(text,_legrid->rowCount()-1,1);
+    _legrid->addWidget(checkbox,_legrid->rowCount()-1,2);
+
+}
+/*
+void Inventaire::checkEquipement()
+{
+    int row = 0;
+    int column = 1;
+    QList<QCheckBox*> listcheckbox = _legrid->findChild;
+    foreach(QCheckBox * chk,listcheckbox)
+    {
+        row++;
+
+        if(chk->isChecked())
+        {
+           QLabel lelabel=(QLabel) _legrid->itemAtPosition(row,column)->widget()->objectName();
+        }
+    }
+}
+
+*/

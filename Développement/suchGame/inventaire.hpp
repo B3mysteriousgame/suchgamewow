@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <arme.h>
 #include <longsword.h>
 #include <dragonsword.hpp>
 #include <QLabel>
@@ -17,6 +18,8 @@ public:
     explicit Inventaire(QWidget *parent = 0);
     ~Inventaire();
     void mouseMoveEvent(QMouseEvent *_event);
+    void addItem(Arme *arme);
+    void checkEquipement();
 
 private:
 
