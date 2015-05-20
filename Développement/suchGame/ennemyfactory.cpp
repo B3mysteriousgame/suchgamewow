@@ -2,20 +2,28 @@
 #include "barre.hpp"
 #include <math.h>
 #include "angleoperation.hpp"
-#include "gamemanager.hpp"
 #include "patate.hpp"
+#include "gamemanager.hpp"
 #include <QtDebug>
+#include <QTimer>
 #include <ennemylopette.h>
 
 EnnemyFactory::EnnemyFactory()
+    : QObject()
 {
+    _timerPopEnnemy = new QTimer();
+    QObject::connect(_timerPopEnnemy, SIGNAL(timeout()), this, SLOT(createEnnemy()));
 
-
+    start();
 }
+
+EnnemyFactory::EnnemyFactory(EnnemyFactory *lol)
+    : QObject(lol)
+{}
 
 EnnemyFactory::~EnnemyFactory()
 {
-
+    delete(_timerPopEnnemy);
 }
 
 void EnnemyFactory::createEnnemy()
@@ -55,8 +63,8 @@ void EnnemyFactory::createEnnemy()
 
        if( _listeMichels.length() == EnnemyFactory::MAXENN)
        {
-           if(gm->isTimerActive())
-               gm->stopTimer();
+           if(isTimerActive())
+               stop();
        }
        else
            gm->startTimer(100 * (gm->randInt(1,50)));
@@ -77,11 +85,11 @@ void EnnemyFactory::createEnnemy()
 
        if( _listeMichels.length() == EnnemyFactory::MAXENN)
        {
-           if(gm->isTimerActive())
-               gm->stopTimer();
+           if(isTimerActive())
+               stop();
        }
        else
-           gm->startTimer(100 * (gm->randInt(1,50)));
+           startTimer(100 * (gm->randInt(1,50)));
     }
 }
 
@@ -108,7 +116,23 @@ void EnnemyFactory::removeEnnemy(Ennemy *it)
     //qWarning() <<"nbmichel_indaListe :" <<  _listeMichels.length() ;
 }
 
-QList<Ennemy*> EnnemyFactory::getListMichel()
+//Gestion du timerPopEnnemy
+bool EnnemyFactory::isTimerActive()
 {
-    return _listeMichels;
+    return _timerPopEnnemy->isActive();
+}
+
+void EnnemyFactory::stop()
+{
+    _timerPopEnnemy->stop();
+}
+
+void EnnemyFactory::startTimer(int ms)
+{
+    _timerPopEnnemy->start(ms);
+}
+
+void EnnemyFactory::start()
+{
+    _timerPopEnnemy->start(1000 * 5);
 }

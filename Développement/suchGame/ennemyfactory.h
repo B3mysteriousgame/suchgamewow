@@ -2,22 +2,30 @@
 #define ENNEMYFACTORY_H
 
 #include <Qlist>
+#include <QObject>
 
 class Ennemy;
 class EnnemyLopette;
 class GameManager;
+class QTimer;
 
-class EnnemyFactory
+class EnnemyFactory : public QObject
 {
+    Q_OBJECT
+
 public:
     EnnemyFactory();
+    EnnemyFactory(EnnemyFactory*lol);
     ~EnnemyFactory();
 
     Ennemy *getEnnemyAt(int listpos);
     int getNbEnnemy();
-    void createEnnemy();
     void removeEnnemy(Ennemy *it);
-    QList<Ennemy*> getListMichel();
+    QList<Ennemy*> getListMichel() { return _listeMichels;}
+    bool isTimerActive();
+    void stop();
+    void startTimer(int ms);
+    void start();
 
 
 protected:
@@ -25,8 +33,12 @@ protected:
     QList<Ennemy*> _listeMichels;
     int            _nombreMichels;
 
+private slots:
+    void createEnnemy();
+
 private:
     static const int MAXENN = 20;
+    QTimer *_timerPopEnnemy;
 
 };
 

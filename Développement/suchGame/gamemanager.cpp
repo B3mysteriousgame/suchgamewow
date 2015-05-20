@@ -9,6 +9,7 @@
 #include "ennemy.hpp"
 #include "barre.hpp"
 #include "coffre.hpp"
+#include "dragon.hpp"
 #include <iostream>
 #include <QGraphicsPixmapItem>
 #include <QFrame>
@@ -50,9 +51,7 @@ GameManager::GameManager()
     _lvlUpTxt = NULL;
     _backgroundImgPath = ":/images/MapTest.png";
 
-    _timer = new QTimer();
-    _timerPopEnnemy = new QTimer();
-    _timer = new QTimer();
+    _timerAdvance = new QTimer();
     _timerLvlUp = new QTimer();
 
     _kiChargStartTimestamp = 0;
@@ -99,19 +98,20 @@ void GameManager::startGame()
     _view->show();
 
     // init connections
-    QObject::connect(_timer, SIGNAL(timeout()), _scene, SLOT(advance()));
-    QObject::connect(_timerPopEnnemy, SIGNAL(timeout()), this, SLOT(popEnnemy()));
+    QObject::connect(_timerAdvance, SIGNAL(timeout()), _scene, SLOT(advance()));
     QObject::connect(_timerLvlUp, SIGNAL(timeout()), this, SLOT(hideLvlUp()));
     QObject::connect(_patate, SIGNAL(statChanged(const int, const QString&)), this, SLOT(setBarrePatate(const int, const QString&)));
+    QObject::connect(_patate, SIGNAL(deadPerso()), this, SLOT(potatoDead()));
 
     // start timers
-    _timer->start(1000 / 33);
-    _timerPopEnnemy->start(1000 * 5);
+    _timerAdvance->start(1000 / 33);
+    _ef.start();
 
     //test coffre
         _coffre = new Coffre();
         _coffre->setActive(true);
         addItemToScene(_coffre);
+<<<<<<< HEAD
         _coffre->setPos(50,50);
         qWarning() << "coffre added";
 
@@ -133,6 +133,9 @@ void GameManager::AfficheInventaire()
 {
         _inventaire->show();
         //_inventaire.setParent(_patate);
+=======
+        _coffre->setPos(150,150);
+>>>>>>> f3490ced2335cdd961ebf815cf82d3179c30574a
 }
 
 
@@ -140,8 +143,7 @@ GameManager::~GameManager()
 {
     delete(_scene);
     delete(_view);
-    delete(_timer);
-	delete(_timerPopEnnemy);
+    delete(_timerAdvance);
     delete(_patate);
     delete(_timerLvlUp);
     delete(_lvlUpTxt);
@@ -164,7 +166,7 @@ void GameManager::removeItem(QGraphicsItem *it)
         _ef.removeEnnemy((Ennemy*)it);
 
     if(it != NULL)
-        delete(it);
+        _scene->removeItem(it);
 }
 
 
@@ -181,11 +183,6 @@ QGraphicsScene* GameManager::getScene() const
 MyView* GameManager::getView() const
 {
     return _view;
-}
-
-QTimer* GameManager::getPopTimer() const
-{
-    return _timerPopEnnemy;
 }
 
 void GameManager::mousePressEvent(QMouseEvent*)
@@ -242,13 +239,13 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 }
                 break;
             case Qt::Key_R :
-                _patate->quickPunch();
+                _patate->Teleportation();
                 break;
             case Qt::Key_F :
                 _coffre->ouvrir();
                 break;
             case Qt::Key_I :
-                this->AfficheInventaire();
+                _patate->AfficheInventaire();
                 break;
             case Qt::Key_Z :
                 test();
@@ -393,7 +390,7 @@ void GameManager::scrollView(short sens)
     QPointF point = _view->mapToScene(_view->getCenter());
     //QPointF oldPoint = point;
 
-    pauseItems();
+    //pauseItems();
 
     switch(sens)
     {
@@ -418,21 +415,36 @@ void GameManager::scrollView(short sens)
 void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
-    _timerPopEnnemy->start(100 * randInt(1,50));
+    _ef.startTimer(100 * randInt(1,50));
 
 }
 
 
 void GameManager::pauseItems()
 {
-    QRectF sceneRect(_view->mapToScene(0,0), _view->mapToScene(QPoint(_view->width(), _view->height())));
+    QTime t;
+    t.start();
 
-    ////qWarning() << sceneRect;
+    QList<QGraphicsItem*> items = _scene->items();
+
+    foreach (QGraphicsItem *it, items)
+        it->setEnabled(false);
+
+    _ef.stop();
+    qWarning() << "pauseItems with foreach: " + QString::number(t.elapsed()) + "ms.";
 }
 
-void GameManager::popEnnemy()
+void GameManager::pauseItems1()
 {
-    _ef.createEnnemy();
+    QTime t;
+    t.start();
+
+    QList<QGraphicsItem*> items = _scene->items();
+
+    for(QList<QGraphicsItem*>::iterator it = items.begin(); it != items.cend(); ++it)
+        (*it)->setEnabled(false);
+
+    qWarning() << "pauseItems1 with iterator: " + QString::number(t.elapsed()) + "ms.";
 }
 
 void GameManager::patateLvlUp()
@@ -459,21 +471,7 @@ void GameManager::hideLvlUp()
     _lvlUpTxt->setActive(false);
 }
 
-//Gestion du timerPopEnnemy
-bool GameManager::isTimerActive()
-{
-    return _timerPopEnnemy->isActive();
-}
 
-void GameManager::stopTimer()
-{
-    _timerPopEnnemy->stop();
-}
-
-void GameManager::startTimer(int ms)
-{
-    _timerPopEnnemy->start(ms);
-}
 
 void GameManager::centerOnPatate()
 {
@@ -517,7 +515,9 @@ void GameManager::initScene()
     _scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
     _scene->addItem(_patate);
-    addMice();
+    //addMice();
+
+    _scene->addItem(new Dragon(1000, 10));
 }
 
 void GameManager::initView()
@@ -543,7 +543,59 @@ void GameManager::initView()
     _view->show();
 }
 
-EnnemyFactory GameManager::getEnnemyFactory()
+EnnemyFactory *GameManager::getEnnemyFactory()
 {
-    return _ef;
+    return &_ef;
+}
+
+void GameManager::potatoDead()
+{
+    static bool dead = false;
+
+    if(_patate != NULL)
+    {
+        QPoint pos;
+        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("You dead !");
+        text->setFont(QFont("Helvetica", 88, QFont::Black, false));
+
+        pos = _view->getCenter();
+        pos.rx() -= text->boundingRect().width() / 2;
+        pos.ry() -= text->boundingRect().height() / 2;
+        text->setPos(pos);
+
+        //_view->setEnabled(false);
+
+
+        _scene->addItem(text);
+        qWarning() << "potatoDead biaatch";
+
+        //dead = true;
+        stopGame();
+    }
+}
+
+void GameManager::stopEnnemys()
+{
+    QList<QGraphicsItem*> michels = _scene->items();
+    Ennemy *toStop;
+
+    for(int i = 0; i < michels.size(); ++i)
+    {
+        toStop = (Ennemy*)michels[i];
+
+        if(toStop != NULL)
+            toStop->setMovin(false);
+    }
+}
+
+void GameManager::stopGame()
+{
+    _ef.stop();
+    _timerAdvance->stop();
+
+    //stopEnnemys();
+
+    removeItem(_patate);
+
+    //delete(_statsMan);
 }

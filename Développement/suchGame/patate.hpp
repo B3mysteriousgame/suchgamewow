@@ -4,6 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QObject>
 #include "personnage.hpp"
+#include "inventaire.hpp"
 
 class Patate : public Personnage
 {
@@ -12,7 +13,6 @@ class Patate : public Personnage
         virtual int type() const{return Type;}
 
         Patate(QGraphicsItem *parent = 0);
-        Patate(Patate *p);
         ~Patate();
 
         QList<QString> getSprites() const;
@@ -32,9 +32,11 @@ class Patate : public Personnage
         void loseHealth(int degats);
         bool isCharginKi() const { return _charginKi; }
         void setCharginKi(bool is);
-        void quickPunch();
+        void Teleportation();
+        void AfficheInventaire();
 
     signals:
+        //void deadPerso();
         //void kiChanged(int);
 
     private slots:
@@ -60,11 +62,12 @@ protected slots:
         short _blockinBorder;
         int _xp;
         int _xpMax;
-        int _lvl;
 
         int _fullki;
         int _ki;
         bool _charginKi;
         QTimer *_timerKiCharg;
+
+        Inventaire *_inventaire;
 };
 #endif // PATATE_HPP

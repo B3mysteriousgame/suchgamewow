@@ -10,15 +10,6 @@ StatsManager::StatsManager(QGraphicsScene *scene)
     QPointF p(25,25);
     const int marginBetween = 15;
     Barre *joeBarre;
-    /*
-    QPointF p(25,25);
-    int marginBetween = 15;
-    const short largeur = 100, hauteur = 10;
-    */
-
-    _vie = new Barre(true);
-    _mana = new Barre(true);
-    _ki = new Barre(true);
 
     _barreDico.insert("vie", new Barre(true));
     _barreDico.insert("mana", new Barre(true));
@@ -47,9 +38,22 @@ StatsManager::StatsManager(QGraphicsScene *scene)
 
 StatsManager::~StatsManager()
 {
-    delete(_vie);
-    delete(_mana);
-    delete(_ki);
+    GameManager *gm = GameManager::Instance();
+    /*
+    short size = _barreDico.size();
+
+    for(int i = 0; i < size; ++i)
+    {
+        gm->removeItem(_barreDico.);
+    }
+    */
+    Barre *toRemove = NULL;
+    QList<QString> keys = _barreDico.keys();
+    foreach (QString s, keys)
+    {
+        toRemove = _barreDico.take(s);
+        gm->removeItem(toRemove);
+    }
 }
 
 void StatsManager::moveBarresBy(const QPointF &dp)
@@ -66,12 +70,6 @@ void StatsManager::moveBarresBy(const QPointF &dp)
     {
         if(dx != 0 || dy != 0)
         {
-            //qWarning() << "dpos:" << dx << dy << dp;
-            /*
-            _vie->moveBy(dx, dy);
-            _mana->moveBy(dx, dy);
-            _ki->moveBy(dx, dy);
-            */
             for(QHash<QString, Barre*>::iterator i = _barreDico.begin(); i != _barreDico.end(); ++i)
                 (i.value())->moveBy(dx, dy);
         }

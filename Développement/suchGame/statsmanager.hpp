@@ -18,9 +18,6 @@ signals:
 public slots:
 
 private:
-    Barre *_vie;
-    Barre *_mana;
-    Barre *_ki;
     QHash<QString, Barre*> _barreDico;
 
     void initBarres(QGraphicsScene *scene);

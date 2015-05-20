@@ -28,7 +28,10 @@ HEADERS += \
     longsword.h \
     dragonsword.hpp \
     inventaire.hpp \
-    obstacle.h
+    obstacle.h \
+    popup.hpp \
+    dragon.hpp \
+    patate.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -58,7 +61,9 @@ SOURCES += \
     longsword.cpp \
     dragonsword.cpp \
     inventaire.cpp \
-    obstacle.cpp
+    obstacle.cpp\
+    popup.cpp \
+    dragon.cpp
 
 RESOURCES += \
     sprites.qrc
