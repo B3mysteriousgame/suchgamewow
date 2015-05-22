@@ -37,7 +37,7 @@ private slots:
     void createEnnemy();
 
 private:
-    static const int MAXENN = 20;
+    static const int MAXENN = 10;
     QTimer *_timerPopEnnemy;
 
 };
