@@ -125,7 +125,7 @@ void GameManager::startGame()
 }
 
 
-        }
+
 
 GameManager::~GameManager()
 {
@@ -551,7 +551,7 @@ void GameManager::potatoDead()
     if(_patate != NULL)
     {
         QPoint pos;
-        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("You dead !");
+        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("Julien la pute!");
         text->setFont(QFont("Helvetica", 88, QFont::Black, false));
 
         pos = _view->getCenter();
