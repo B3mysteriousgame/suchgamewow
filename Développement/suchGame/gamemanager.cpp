@@ -111,7 +111,6 @@ void GameManager::startGame()
         _coffre = new Coffre();
         _coffre->setActive(true);
         addItemToScene(_coffre);
-<<<<<<< HEAD
         _coffre->setPos(50,50);
         qWarning() << "coffre added";
 
@@ -124,20 +123,8 @@ void GameManager::startGame()
         _obstacle->setActive(true);
         _obstacle->setPos(200,200);
 
-        // test inventaire
-        _inventaire = new Inventaire();
 
         }
-// test inventaire
-void GameManager::AfficheInventaire()
-{
-        _inventaire->show();
-        //_inventaire.setParent(_patate);
-=======
-        _coffre->setPos(150,150);
->>>>>>> f3490ced2335cdd961ebf815cf82d3179c30574a
-}
-
 
 GameManager::~GameManager()
 {
