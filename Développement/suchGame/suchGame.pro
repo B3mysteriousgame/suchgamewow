@@ -28,6 +28,7 @@ HEADERS += \
     longsword.h \
     dragonsword.hpp \
     inventaire.hpp \
+    obstacle.h \
     popup.hpp \
     dragon.hpp \
     patate.hpp
@@ -60,6 +61,7 @@ SOURCES += \
     longsword.cpp \
     dragonsword.cpp \
     inventaire.cpp \
+    obstacle.cpp\
     popup.cpp \
     dragon.cpp
 

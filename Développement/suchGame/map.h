@@ -4,6 +4,9 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include "myview.hpp"
+#include "obstacle.h"
+
+class Obstacle;
 
 class Map : public QGraphicsScene
 {
@@ -18,6 +21,7 @@ class Map : public QGraphicsScene
         QTimer *_timer;
         QTimer *_timerLvlUp;
         QTimer *_timerPopEnnemy;
+        Obstacle *_obstacle;
 
     protected:
         QGraphicsPixmapItem _grass;

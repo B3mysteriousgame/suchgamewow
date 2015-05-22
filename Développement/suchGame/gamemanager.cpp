@@ -13,6 +13,7 @@
 #include <iostream>
 #include <QGraphicsPixmapItem>
 #include <QFrame>
+#include "obstacle.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -110,8 +111,20 @@ void GameManager::startGame()
         _coffre = new Coffre();
         _coffre->setActive(true);
         addItemToScene(_coffre);
+        qWarning() << "coffre added";
+
+        // test obstacle
+
+        _obstacle = new Obstacle();
+        _obstacle->setPixmap(QPixmap(":/images/Sprites/obstacle.png"));
+        GameManager::Instance()->addItemToScene(_obstacle);
+        qWarning() << "obstacle added";
+        _obstacle->setActive(true);
+        _obstacle->setPos(200,200);
         _coffre->setPos(300,300);
 }
+
+
 
 
 GameManager::~GameManager()
@@ -538,7 +551,7 @@ void GameManager::potatoDead()
     if(_patate != NULL)
     {
         QPoint pos;
-        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("You dead !");
+        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("Julien la pute!");
         text->setFont(QFont("Helvetica", 88, QFont::Black, false));
 
         pos = _view->getCenter();

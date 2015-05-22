@@ -8,7 +8,6 @@
 #include <QtGlobal>
 #include "ennemyfactory.h"
 #include "statsmanager.hpp"
-//#include "inventaire.hpp"
 
 
 class Mouse;
@@ -16,6 +15,7 @@ class Perso;
 class Patate;
 class Ennemy;
 class Coffre;
+class Obstacle;
 
 class GameManager : public QObject
 {
@@ -94,7 +94,7 @@ class GameManager : public QObject
         QTimer *_timerLvlUp;
         EnnemyFactory _ef;
         Coffre *_coffre;
-
+        Obstacle *_obstacle;
 
         Perso *_perso;
         Patate *_patate;
