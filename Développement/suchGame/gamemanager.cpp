@@ -111,7 +111,6 @@ void GameManager::startGame()
         _coffre = new Coffre();
         _coffre->setActive(true);
         addItemToScene(_coffre);
-        _coffre->setPos(50,50);
         qWarning() << "coffre added";
 
         // test obstacle
@@ -122,6 +121,8 @@ void GameManager::startGame()
         qWarning() << "obstacle added";
         _obstacle->setActive(true);
         _obstacle->setPos(200,200);
+        _coffre->setPos(300,300);
+}
 
 
         }

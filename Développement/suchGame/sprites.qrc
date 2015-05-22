@@ -65,4 +65,22 @@
         <file>images/Sprites/dragon/dragonH3.png</file>
         <file>images/Sprites/dragon/dragonH4.png</file>
     </qresource>
+    <qresource prefix="/patate">
+        <file>images/Sprites/patate/patateB1.png</file>
+        <file>images/Sprites/patate/patateB2.png</file>
+        <file>images/Sprites/patate/patateB3.png</file>
+        <file>images/Sprites/patate/patateB4.png</file>
+        <file>images/Sprites/patate/patateD1.png</file>
+        <file>images/Sprites/patate/patateD2.png</file>
+        <file>images/Sprites/patate/patateD3.png</file>
+        <file>images/Sprites/patate/patateD4.png</file>
+        <file>images/Sprites/patate/patateG1.png</file>
+        <file>images/Sprites/patate/patateG2.png</file>
+        <file>images/Sprites/patate/patateG3.png</file>
+        <file>images/Sprites/patate/patateG4.png</file>
+        <file>images/Sprites/patate/patateH1.png</file>
+        <file>images/Sprites/patate/patateH2.png</file>
+        <file>images/Sprites/patate/patateH3.png</file>
+        <file>images/Sprites/patate/patateH4.png</file>
+    </qresource>
 </RCC>

@@ -31,9 +31,9 @@ Patate::Patate(QGraphicsItem *parent)
     _inventaire = new Inventaire();
 
     setPos(10, 20);
-    setPixmap(QPixmap(":link/images/Sprites/link/linkD1.png"));
+    setPixmap(QPixmap(":link/images/Sprites/patate/patateD1.png"));
 
-    _sm = new SpriteManager(this, "link", 4);
+    _sm = new SpriteManager(this, "patate", 4);
 
     QObject::connect(_gm, SIGNAL(chargeKiStarted()), this, SLOT(startKiCharge()));
     QObject::connect(_gm, SIGNAL(chargeKiStopped()), this, SLOT(stopKiCharge()));
