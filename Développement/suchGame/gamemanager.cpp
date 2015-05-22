@@ -573,12 +573,15 @@ void GameManager::stopEnnemys()
 
 void GameManager::stopGame()
 {
+    // stop ennemy stataManager
+    stopEnnemys();
+
     _ef.stop();
     _timerAdvance->stop();
 
-    //stopEnnemys();
-
     removeItem(_patate);
+
+
 
     //delete(_statsMan);
 }
