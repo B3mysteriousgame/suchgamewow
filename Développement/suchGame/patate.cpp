@@ -16,7 +16,7 @@ Patate::Patate(QGraphicsItem *parent)
     _actualhealth = _fullhealth;
     _def = 50;
     _xp = 0;
-    _xpMax = 200;
+    _xpMax = 70;
     _lvl = 1;
     _atk = 100;
     _fullki = 100;
@@ -32,8 +32,17 @@ Patate::Patate(QGraphicsItem *parent)
 
     setPos(10, 20);
     setPixmap(QPixmap(":link/images/Sprites/patate/patateD1.png"));
+    setZValue(10);
 
     _sm = new SpriteManager(this, "patate", 4);
+    _kiAnim.setPixmap(QPixmap(":animEnergie/images/Sprites/animEnergie/sayen1.png"));
+    _kiAnim.setVisible(false);
+    _kiAnim.setParentItem(this);
+    _kiAnim.setPos(-30, -45);
+    //setParentItem(&_kiAnim);
+    _kiAnim.setZValue(-1);
+    //qWarning() << "patate z:" << zValue() << " ki z:" << _kiAnim.zValue();
+
 
     QObject::connect(_gm, SIGNAL(chargeKiStarted()), this, SLOT(startKiCharge()));
     QObject::connect(_gm, SIGNAL(chargeKiStopped()), this, SLOT(stopKiCharge()));
@@ -387,19 +396,44 @@ void Patate::loseKi(qreal ki)
 
 void Patate::startKiCharge()
 {
+    static QGraphicsScene* const scene = GameManager::Instance()->getScene();
+    static const short cptMax = 4; // max included
+    static short cpt = 1;
+
+    // handle the timer
     if(!_timerKiCharg->isActive())
         _timerKiCharg->start(100);
 
     _charginKi = true;
-    //qWarning() << "ki charge started";
+    // ----------------
+
+    // handle the anim
+    _kiAnim.setVisible(true);
+    scene->update();
+
+    if(cpt > cptMax)
+        cpt = 1;
+
+    //_kiAnim.setPixmap(QPixmap(":animEnergie/images/Sprites/animEnergie/sayen" + QString::number(cpt) + ".png"));
+    //scene->update();
+    // ---------------
+
+
+    qWarning() << "ki charge started";
 }
 
 void Patate::stopKiCharge()
 {
+    // handlin timer
     if(_timerKiCharg->isActive())
         _timerKiCharg->stop();
 
     _charginKi = false;
+    // -------------
+
+
+    // handlin anim
+    //_kiAnim.setVisible(false);
 
     //qWarning() << "ki charge stopped";
 }

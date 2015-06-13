@@ -83,4 +83,10 @@
         <file>images/Sprites/patate/patateH3.png</file>
         <file>images/Sprites/patate/patateH4.png</file>
     </qresource>
+    <qresource prefix="/animEnergie">
+        <file>images/Sprites/animEnergie/sayen1.png</file>
+        <file>images/Sprites/animEnergie/sayen2.png</file>
+        <file>images/Sprites/animEnergie/sayen3.png</file>
+        <file>images/Sprites/animEnergie/sayen4.png</file>
+    </qresource>
 </RCC>

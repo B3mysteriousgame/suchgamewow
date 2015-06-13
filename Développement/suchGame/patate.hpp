@@ -67,8 +67,10 @@ protected slots:
         int _fullki;
         int _ki;
         bool _charginKi;
-        QTimer *_timerKiCharg;
 
+        QGraphicsPixmapItem _kiAnim;
+
+        QTimer *_timerKiCharg;
         Inventaire *_inventaire;
 };
 #endif // PATATE_HPP
