@@ -8,6 +8,8 @@
 #include <QTimer>
 #include <ennemylopette.h>
 
+#define MAXENN 10
+
 EnnemyFactory::EnnemyFactory()
     : QObject()
 {
@@ -33,6 +35,8 @@ void EnnemyFactory::createEnnemy()
 
     int diffNiv = (gm->getPatate())->getLvl();
     short plusOuMoins = gm->randInt(1,2);
+    Ennemy *ennemy;
+    static QString logmsg = "An ";
 
     switch (plusOuMoins)
     {
@@ -49,48 +53,40 @@ void EnnemyFactory::createEnnemy()
 
     if(gm->randInt(1,6) == 1)
     {
-       EnnemyLopette *ennemyl = new EnnemyLopette();
-       ennemyl->setLevel(diffNiv);
-       qWarning() << "An ennemylopette popped lvl" << diffNiv;
-
-       ennemyl->setPos(::sin((1 * 6.28) / 7) * 300,
-                      ::cos((1 * 6.28) / 7) * 300);
-
-
-       gm->addItemToScene(ennemyl);
-
-       _listeMichels.append(ennemyl);
-
-       if( _listeMichels.length() == EnnemyFactory::MAXENN)
-       {
-           if(isTimerActive())
-               stop();
-       }
-       else
-           gm->startTimer(100 * (gm->randInt(1,50)));
+        ennemy = new EnnemyLopette();
+        logmsg = " EnnemyLopette lvl ";
     }
     else
     {
-       Ennemy *ennemy = new Ennemy();
-       ennemy->setLevel(diffNiv);
-       qWarning() << "An ennemy popped lvl" << diffNiv;
-
-       ennemy->setPos(::sin((1 * 6.28) / 7) * 200,
-                      ::cos((1 * 6.28) / 7) * 200);
-
-
-       gm->addItemToScene(ennemy);
-
-       _listeMichels.append(ennemy);
-
-       if( _listeMichels.length() == EnnemyFactory::MAXENN)
-       {
-           if(isTimerActive())
-               stop();
-       }
-       else
-           startTimer(100 * (gm->randInt(1,50)));
+       ennemy = new Ennemy();
+       logmsg = " Ennemy lvl ";
     }
+
+    ennemy->setLevel(diffNiv);
+    logmsg.append(diffNiv);
+
+
+
+    ennemy->setPos(::sin((1 * 6.28) / 7) * 300,
+                   ::cos((1 * 6.28) / 7) * 300);
+
+
+    gm->addItemToScene(ennemy);
+
+    _listeMichels.append(ennemy);
+
+    if( _listeMichels.length() == MAXENN && isTimerActive() )
+         stop();
+
+    /* SEEMS WEIRD
+    else
+    {
+        gm->startTimer(100 * (gm->randInt(1,50))); // Dafuh a gwan deh????
+        GameManager::sta
+    }
+    */
+
+    qWarning() << logmsg;
 }
 
 
@@ -99,12 +95,12 @@ void EnnemyFactory::createEnnemy()
  * @param listpos position de l'ennemy dans la liste
  * @return l'objet ennemy
  */
-Ennemy* EnnemyFactory::getEnnemyAt(int listpos)
+Ennemy* EnnemyFactory::getEnnemyAt(int listpos) const
 {
     return _listeMichels.at(listpos);
 }
 
-int EnnemyFactory::getNbEnnemy()
+int EnnemyFactory::getNbEnnemy() const
 {
     return _listeMichels.length();
 }
@@ -117,7 +113,7 @@ void EnnemyFactory::removeEnnemy(Ennemy *it)
 }
 
 //Gestion du timerPopEnnemy
-bool EnnemyFactory::isTimerActive()
+bool EnnemyFactory::isTimerActive() const
 {
     return _timerPopEnnemy->isActive();
 }

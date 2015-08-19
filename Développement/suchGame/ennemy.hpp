@@ -25,17 +25,17 @@ class Ennemy : public Personnage
         ~Ennemy();
 
         int getXpDon() const;
-        void loseHealth(int degats);
+        void loseHealth(const int degats);
         void advance(int step);
         void attaque(){}
-        bool touched(){ return _touched; }
+        bool touched() const { return _touched; }
         void setTouched(bool t){ _touched = t; }
-        Barre* getBarre();
+        Barre* getBarre() const;
         void handleSceneBounder();
         QString changeSens(QString lepath);
         void hidePointAggro();
         void showPointAggro();
-        void setLevel(int lvl);
+        void setLevel(const int lvl);
 
 
     protected:
@@ -47,6 +47,7 @@ class Ennemy : public Personnage
         Strategie *_strat;
         bool _patateproche;
         QGraphicsPixmapItem *_pointAggro;
+
         void setTargetable(bool targetable);
 
 

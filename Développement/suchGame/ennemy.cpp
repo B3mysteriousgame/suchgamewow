@@ -106,7 +106,7 @@ Ennemy::~Ennemy()
     delete(_pointAggro);
 }
 
-Barre *Ennemy::getBarre()
+Barre *Ennemy::getBarre() const
 {
     return _barre;
 }
@@ -115,21 +115,22 @@ void Ennemy::loseHealth(int degats)
 {
     qreal pourcentage;
     Personnage::loseHealth(degats); // personnage test si targetable
-    //pourcentage = Ennemy::getPourcentageVie();
+
     pourcentage = getPourcentageVie();
     _barre->setLargeur(pourcentage);
-    //qWarning() << "loseHealth:" << this->_actualhealth;
 }
 
 
 void Ennemy::advance(int)
 {
     static GameManager* const Michel = GameManager::Instance();
+    static short changeSensChance = 100, newsens = -1;
+
     QPointF pointpatate = Michel->getPatatePos();
     QPointF pointennemy = QPointF (this->pos().x(),this->pos().y());
     QLineF ligne = QLineF(pointpatate,pointennemy);
 
-    static short changeSensChance = 100, newsens = -1;
+
     handleSceneBounder();
     hidePointAggro();
 
@@ -168,43 +169,49 @@ void Ennemy::advance(int)
     _strat->executer();
 }
 
+/**
+ * @brief Ennemy::handleSceneBounder
+ *  Move Ennemy to the opposite side of the map if it
+ * crosses map's bounderies
+ */
 void Ennemy::handleSceneBounder()
 {
     static const QRectF bounder = GameManager::Instance()->getScene()->sceneRect();
+    qreal newx = x(), newy = y();
+
 
     if(y() > bounder.bottomLeft().y())
-        setPos(x(), bounder.topLeft().y());
+        newy = bounder.topLeft().y();
     else
     {
         if(y() < bounder.topLeft().y())
-            setPos(x(), bounder.bottomLeft().y());
+            newy = bounder.bottomLeft().y();
         else
         {
             if(x() > bounder.topRight().x())
-                setPos(bounder.topLeft().x(), y());
+                newx = bounder.topLeft().x();
             else
                 if(x() < bounder.topLeft().x())
-                    setPos(bounder.topRight().x(), y());
+                    newx = bounder.topRight().x();
         }
     }
+
+    setPos(newx, newy);
 }
 
 void Ennemy::hidePointAggro()
 {
-    //_timerPointAggro->stop();
     _pointAggro->hide();
     _pointAggro->setActive(false);
 }
 
 void Ennemy::showPointAggro()
 {
-    if (!_pointAggro->isActive())
-          _pointAggro->setActive(true);
-
+    _pointAggro->setActive(true);
     _pointAggro->show();
 }
 
-void Ennemy::setLevel(int lvl)
+void Ennemy::setLevel(const int lvl)
 {
     _lvl = lvl;
 }

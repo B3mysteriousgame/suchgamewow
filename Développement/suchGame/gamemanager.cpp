@@ -153,6 +153,7 @@ void GameManager::removeItem(QGraphicsItem *it)
     if(it->type() == Ennemy::Type)
         _ef.removeEnnemy((Ennemy*)it);
 
+
     if(it != NULL)
         _scene->removeItem(it);
 }
@@ -546,8 +547,6 @@ EnnemyFactory *GameManager::getEnnemyFactory()
 
 void GameManager::potatoDead()
 {
-    static bool dead = false;
-
     if(_patate != NULL)
     {
         QPoint pos;

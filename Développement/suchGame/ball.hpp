@@ -24,7 +24,7 @@ class Ball : public QGraphicsItem
         void doEffect(QGraphicsItem *item);
 
         int getDegats() const;
-        void setDegats(int degats);
+        void setDegats(const int degats);
 
     signals:
     public slots:

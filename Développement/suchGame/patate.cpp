@@ -102,8 +102,7 @@ void Patate::advance(int)
 void Patate::avancer(short sens)
 {
     static short cpt = 1; // va de 1 a maxTour non compris (1 a 3)
-    static const short maxTour = 7, maxSprite = 4;
-    static MyView *view = GameManager::Instance()->getView();
+    static const short maxTour = 7;
     QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
 
@@ -440,47 +439,50 @@ void Patate::stopKiCharge()
 
 void Patate::Teleportation()
 {
- if(_mana >= 5)
- {
-    static EnnemyFactory* const ef = _gm->getEnnemyFactory();
-    qreal ddx = 0, ddy = 0,offset = 1.1;
-    int quickspeed = _speed * 20;
+    static const float quickspeed = _speed * 20;
 
-        switch (_sens)
-        {
-            case Personnage::DROITE:
-                ddx += quickspeed * offset;
-                break;
-            case Personnage::GAUCHE:
-                ddx += quickspeed * offset * -1.;
-                break;
-            case Personnage::BAS:
-                ddy += quickspeed * offset;
-                break;
-            case Personnage::HAUT:
-                ddy += quickspeed * offset * -1.;
-                break;
-            default:
-                break;
-        }
+    if(_mana < 5)
+            return;
 
-        QPointF arrive = QPointF(this->x() + ddx, this->y() + ddy);
-        QList<Ennemy*> listeMichels = _gm->getEnnemyFactory()->getListMichel();
+    qreal ddx = 0, ddy = 0, offset = 1.1;
+    QPointF arrive;
+    QList<Ennemy*> listeMichels;
 
-        foreach(Ennemy *simon, listeMichels)
-        {
-            QLineF dist = QLineF(simon->pos(),arrive);
-            if(dist.length() <= 50)
-            {
-             qWarning() << "pos" << simon->pos();
-             simon->moveBy(10,30);
-             qWarning() << "posaprès" << simon->pos();
-
-            }
-        }
-        moveBy(ddx, ddy);
-        loseMana(5);
+    switch (_sens)
+    {
+        case Personnage::DROITE:
+            ddx += quickspeed * offset;
+            break;
+        case Personnage::GAUCHE:
+            ddx += quickspeed * offset * -1.;
+            break;
+        case Personnage::BAS:
+            ddy += quickspeed * offset;
+            break;
+        case Personnage::HAUT:
+            ddy += quickspeed * offset * -1.;
+            break;
+        default:
+            break;
     }
+
+    arrive = QPointF(this->x() + ddx, this->y() + ddy);
+    listeMichels = _gm->getEnnemyFactory()->getListMichel();
+
+    foreach(Ennemy *simon, listeMichels)
+    {
+        QLineF dist = QLineF(simon->pos(),arrive);
+        if(dist.length() <= 50)
+        {
+         qWarning() << "pos" << simon->pos();
+         simon->moveBy(10,30);
+         qWarning() << "posaprès" << simon->pos();
+
+        }
+    }
+
+    moveBy(ddx, ddy);
+    loseMana(5);
 }
 
 void Patate::AfficheInventaire()

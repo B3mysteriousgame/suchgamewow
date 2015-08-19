@@ -12,7 +12,7 @@ Popup::~Popup()
 
 }
 
-void Popup::paint(QPainter *lepainter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Popup::paint(QPainter *lepainter, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
 {
     lepainter->setBrush(QColor(Qt::gray));
     QRectF rect = QRectF(1,1,20,20);

@@ -15,20 +15,19 @@ class Barre : public QObject, public QGraphicsItem
 
 public:
     Barre(bool estPatate);
-    ~Barre();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget);
 
-    void setColor(QColor color);
+    void setColor(const QColor color);
     QColor getColor() const;
-    void setAlpha(int a);
+    void setAlpha(const int a);
     QRectF boundingRect() const;
 
-    void setLargeur(qreal plargeur);
-    qreal getLargeur();
-    void setHauteur(qreal hauteur);
-    qreal getHauteur();
+    void setLargeur(const qreal plargeur);
+    qreal getLargeur() const ;
+    void setHauteur(const qreal hauteur);
+    qreal getHauteur() const;
 
 protected:
     QColor _color;
@@ -37,7 +36,7 @@ protected:
     qreal  _hauteur;
     qreal  _largeurInit;
     qreal  _hauteurInit;
-    QTimer    _effectTimer;
+    QTimer _effectTimer;
 
 private slots:
     void stopEffect();

@@ -40,17 +40,16 @@ Ball::Ball(Patate *parent) :
     _speed(6),
     _diam(10)
 {
-    _degats = 5 + parent->getAtk();
-
-    short offset = 10;
-    qreal dx = 0, dy = 0;
-    int angle = 0;
-
     if(parent != NULL)
     {
-        setPos(parent->pos());
-        //qWarning() << pos();
+        _degats = 5 + parent->getAtk();
 
+        float offset = 10;
+        qreal dx = 0, dy = 0;
+        int angle = 0;
+
+
+        setPos(parent->pos());
         _sens = parent->getSens();
 
         switch (_sens)
@@ -58,10 +57,12 @@ Ball::Ball(Patate *parent) :
             case Patate::HAUT:
                 dy = -offset;
                 angle = 0;
+                dx = 1.5 * offset;
                 break;
             case Patate::BAS:
                 dy = offset;
                 angle = 180;
+                dx = 2.5 * offset;
                 break;
             case Patate::GAUCHE:
                 dx = -offset;

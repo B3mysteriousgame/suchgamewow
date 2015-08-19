@@ -20,14 +20,14 @@ class SpriteManager : public QObject
         */
 
     private:
-        QTimer *_spriteTimer;
-        const short _maxSprit;
+        Personnage *_parent;
         const QString _spriteName;
         const QString _spritePath;
-        QString _spriteFileName;
-        Personnage *_parent;
+        const short _maxSprit;
         short _cpt;
         const short _timout;
+        QTimer *_spriteTimer;
+        QString _spriteFileName;
 
     private slots:
         /**

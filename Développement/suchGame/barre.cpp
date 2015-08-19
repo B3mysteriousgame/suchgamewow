@@ -1,6 +1,10 @@
 #include "barre.hpp"
 #include <QGraphicsEffect>
 
+#define EFFECT_TIMEOUT 200
+#define ALPHA_EFFECT 128
+
+
 Barre::Barre(bool estPatate) :
     QObject(),
     QGraphicsItem()
@@ -24,11 +28,6 @@ Barre::Barre(bool estPatate) :
      */}
 
      QObject::connect(&_effectTimer, SIGNAL(timeout()), this, SLOT(stopEffect()));
-}
-
-Barre::~Barre()
-{
-
 }
 
 /**
@@ -71,21 +70,19 @@ void Barre::setLargeur(qreal plargeur)
     // plargeur est un pourcentage donc
     int largeur = plargeur * _largeurInit / 100;
 
+     _largeur = largeur;
+
     if(largeur > _largeurInit)
         _largeur = _largeurInit;
     else
-    {
         if(largeur < 0)
             _largeur = 0;
-        else
-            _largeur = largeur;
-    }
 
-    _bkColor.setAlpha(128);
-    _effectTimer.start(200);
+    _bkColor.setAlpha(ALPHA_EFFECT);
+    _effectTimer.start(EFFECT_TIMEOUT);
 }
 
-qreal Barre::getLargeur()
+qreal Barre::getLargeur() const
 {
     return _largeur;
 }
@@ -103,7 +100,7 @@ void Barre::setHauteur(qreal hauteur)
     }
 }
 
-qreal Barre::getHauteur()
+qreal Barre::getHauteur() const
 {
     return _hauteur;
 }

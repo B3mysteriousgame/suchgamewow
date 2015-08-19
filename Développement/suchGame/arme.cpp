@@ -5,34 +5,36 @@
 
 Arme::Arme():
     QObject(),
-    QGraphicsPixmapItem()
+    QGraphicsPixmapItem(),
+    _ramassable(false)
 {
     _popup = new Popup(this);
-    _popup->setParentItem(this);
     _popup->moveBy(10,-15);
-    _ramassable = false;
 }
 
-//int Arme::attaquer(Personnage *personnage)
-//{
-//    personnage->_actualhealth = personnage->_actualhealth - this->_atq;
-//}
-
-void Arme::advance(int phase)
+Arme::~Arme()
 {
-     QLineF dist = QLineF(GameManager::Instance()->getPatatePos(),this->pos());
-     if(dist.length() <= 30 )
-         _ramassable = true;
-     else
-         _ramassable = false;
-
-     if(_ramassable)
-        _popup->show();
-     else
-        _popup->hide();
+    delete(_popup);
 }
 
-QPixmap Arme::get_pixmap()
+void Arme::advance(int /*phase*/)
+{
+    GameManager* const gm = GameManager::Instance();
+    QLineF dist = QLineF(gm->getPatatePos(),this->pos());
+
+    if(dist.length() <= 30 )
+    {
+        _ramassable = true;
+        _popup->show();
+        return; // du coup le reste fait comme un else
+    }
+
+    // else
+    _ramassable = false;
+    _popup->hide();
+}
+
+QPixmap Arme::get_pixmap() const
 {
     return _pixmap;
 }
@@ -52,27 +54,27 @@ int Arme::get_portee() const
     return _portee;
 }
 
-void Arme::set_atq(int atq)
+void Arme::set_atq(const int atq)
 {
     _atq = atq;
 }
 
-void Arme::set_def(int def)
+void Arme::set_def(const int def)
 {
     _def = def;
 }
 
-void Arme::set_portee(int portee)
+void Arme::set_portee(const int portee)
 {
     _portee = portee;
 }
 
-void Arme::set_nom(QString nom)
+void Arme::set_nom(const QString& nom)
 {
     _nom = nom;
 }
 
-QString Arme::get_nom()
+QString Arme::get_nom() const
 {
     return _nom ;
 }

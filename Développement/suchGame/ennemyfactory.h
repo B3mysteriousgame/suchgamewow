@@ -15,14 +15,14 @@ class EnnemyFactory : public QObject
 
 public:
     EnnemyFactory();
-    EnnemyFactory(EnnemyFactory*lol);
+    EnnemyFactory(EnnemyFactory *lol);
     ~EnnemyFactory();
 
-    Ennemy *getEnnemyAt(int listpos);
-    int getNbEnnemy();
+    Ennemy* getEnnemyAt(int listpos) const;
+    int getNbEnnemy() const;
     void removeEnnemy(Ennemy *it);
     QList<Ennemy*> getListMichel() { return _listeMichels;}
-    bool isTimerActive();
+    bool isTimerActive() const;
     void stop();
     void startTimer(int ms);
     void start();
@@ -37,7 +37,6 @@ private slots:
     void createEnnemy();
 
 private:
-    static const int MAXENN = 10;
     QTimer *_timerPopEnnemy;
 
 };
