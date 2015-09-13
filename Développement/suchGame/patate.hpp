@@ -34,7 +34,7 @@ class Patate : public Personnage
         void setCharginKi(bool is);
         void Teleportation();
         void addItemToInventaire(Arme *arme);
-        void AfficheInventaire();
+        void afficheInventaire();
 
     signals:
         //void deadPerso();

@@ -185,7 +185,23 @@ void GameManager::mousePressEvent(QMouseEvent*)
 }
 
 void GameManager::test()
-{}
+{
+    //QGraphicsWidget *textEdit = _scene->addWidget(new QTextEdit);
+    //QGraphicsWidget *pushButton = _scene->addWidget(new QPushButton);
+
+    QGraphicsGridLayout *layout = new QGraphicsGridLayout();
+//    layout->addItem(textEdit, 0, 0);
+
+//    layout->addItem(pushButton, 1, 0);
+
+    QGraphicsWidget *form = new QGraphicsWidget();
+    form->setLayout(layout);
+    form->setGeometry(10, 10, 700, 350);
+
+    _scene->addItem(form);
+
+    pauseItems();
+}
 
 void GameManager::showPanel()
 {
@@ -269,7 +285,10 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 }
                 break;
             case Qt::Key_I :
-                _patate->AfficheInventaire();
+                _patate->afficheInventaire();
+                break;
+            case Qt::Key_T :
+                test();
                 break;
             case Qt::Key_Z :
                 showPanel();
@@ -609,7 +628,8 @@ void GameManager::potatoDead()
         qWarning() << "potatoDead biaatch";
 
         //dead = true;
-        stopGame();
+        //stopGame();
+        pauseItems();
     }
 }
 

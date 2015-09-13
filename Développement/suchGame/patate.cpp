@@ -485,7 +485,7 @@ void Patate::Teleportation()
     loseMana(5);
 }
 
-void Patate::AfficheInventaire()
+void Patate::afficheInventaire()
 {
     _inventaire->show();
 }

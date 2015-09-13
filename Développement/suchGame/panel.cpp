@@ -29,6 +29,7 @@ void Panel::addItem(QGraphicsItem *item)
     qWarning() << _view->mapFromScene(pos());
     //item->moveBy(x(), y());
     item->setParentItem(this);
+    item->setVisible(isVisible());
     _items.append(item);
 }
 
