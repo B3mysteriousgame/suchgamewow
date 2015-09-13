@@ -15,8 +15,7 @@ class SpriteManager : public QObject
         void razCpt();
         bool isRunning();
         /*
-        void stop();
-        void start();
+        stop and start is handled by parent's event "moveChanged"
         */
 
     private:

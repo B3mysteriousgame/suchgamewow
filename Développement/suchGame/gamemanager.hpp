@@ -16,6 +16,7 @@ class Patate;
 class Ennemy;
 class Coffre;
 class Obstacle;
+class Panel;
 
 class GameManager : public QObject
 {
@@ -49,8 +50,10 @@ class GameManager : public QObject
         void centerOnPatate();
         void startGame();
         void stopGame();
-        void AfficheInventaire();
+        void afficheInventaire();
         void stopEnnemys();
+        void showPanel();
+        void hidePanel();
 
     signals:
         void downSignal();
@@ -71,11 +74,32 @@ class GameManager : public QObject
 
     private:
         Q_DISABLE_COPY(GameManager)
+        static GameManager *m_instance;
+
         QGraphicsRectItem *rectangle;
         QGraphicsPixmapItem *_grass;
         QGraphicsPixmapItem *_background;
         QString _backgroundImgPath;
+        QGraphicsScene *_scene;
+        MyView *_view;
+        QTimer *_timerAdvance;
+        QTimer *_timerLvlUp;
+        EnnemyFactory _ef;
+        Coffre *_coffre;
+        Obstacle *_obstacle;
+        Perso *_perso;
+        Patate *_patate;
+        QGraphicsTextItem *_textItem;
+        QGraphicsPixmapItem *_lvlUpTxt;
+        int _ennemyCpt;
+        StatsManager *_statsMan;
+        ulong _kiChargStartTimestamp;
+        ulong _kiChargStopTimestamp;
+        bool _scenePaused;
+        Panel *_panel;
 
+        void pauseItems();
+        void resumeItems();
         //GameManager& operator= (const GameManager&){}
         //GameManager (const GameManager& g);
         GameManager();
@@ -85,28 +109,9 @@ class GameManager : public QObject
         void addMice();
         void initScene();
         void initView();
+        QList<Ennemy*> getEnnemies();
 
-        static GameManager *m_instance;
 
-        QGraphicsScene *_scene;
-        MyView *_view;
-        QTimer *_timerAdvance;
-        QTimer *_timerLvlUp;
-        EnnemyFactory _ef;
-        Coffre *_coffre;
-        Obstacle *_obstacle;
-
-        Perso *_perso;
-        Patate *_patate;
-        QGraphicsTextItem *_textItem;
-        QGraphicsPixmapItem *_lvlUpTxt;
-        int _ennemyCpt;
-        StatsManager *_statsMan;
-        ulong _kiChargStartTimestamp;
-        ulong _kiChargStopTimestamp;
-
-        void pauseItems();
-        void pauseItems1();
 
 };
 

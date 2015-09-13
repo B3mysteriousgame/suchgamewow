@@ -55,7 +55,9 @@ class Personnage : public QObject, public QGraphicsPixmapItem
         virtual bool operator==(const Personnage &p) const;
         virtual bool operator!=(const Personnage &p) const;
 
-
+        /*
+         * TODO: see doc for step
+         */
         virtual void advance(int step) = 0;
 
     virtual void test(){}
@@ -63,6 +65,8 @@ class Personnage : public QObject, public QGraphicsPixmapItem
     void ChangeSensEtDeplacement();
     void MoveToDest(QPointF pointDest);
     void setVisible(bool vis);
+    void stopSpriteMan();
+    void startSpriteMan();
     signals:
         void statChanged(const int, const QString&);
         void moveChanged();

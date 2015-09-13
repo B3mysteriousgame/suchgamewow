@@ -295,8 +295,7 @@ void Personnage::setMovin(const bool move)
                 _sm->stop();
         }
         */
-        //emit moveChanged();
     }
+
+    emit moveChanged();
 }
-
-

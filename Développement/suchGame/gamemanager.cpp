@@ -50,6 +50,7 @@ GameManager::GameManager()
 {
     _ennemyCpt = 0;
     _lvlUpTxt = NULL;
+    _panel = NULL;
     _backgroundImgPath = ":/images/MapTest.png";
 
     _timerAdvance = new QTimer();
@@ -57,6 +58,8 @@ GameManager::GameManager()
 
     _kiChargStartTimestamp = 0;
     _kiChargStopTimestamp = 0;
+
+    _scenePaused = false;
 }
 
 void GameManager::startGame()
@@ -139,6 +142,7 @@ GameManager::~GameManager()
     delete(_grass);
     delete(_background);
     delete(_statsMan);
+    delete(_panel);
     GameManager::m_instance = NULL;
 }
 
@@ -181,11 +185,33 @@ void GameManager::mousePressEvent(QMouseEvent*)
 }
 
 void GameManager::test()
-{
-    Panel *testPanel = new Panel(_view);
-    addItemToScene(testPanel);
+{}
 
+void GameManager::showPanel()
+{
+    if(_panel == NULL)
+    {
+        _panel = new Panel(_view);
+        QGraphicsTextItem *text = new QGraphicsTextItem("[ECHAP] pour fermer");
+
+        _panel->addItem(text);
+        addItemToScene(_panel);
+    }
+
+    _panel->setPos(_view->mapToScene(70,75));
+    _panel->setVisible(true);
+
+    pauseItems();
     qWarning() << "---------------panel added";
+}
+
+void GameManager::hidePanel()
+{
+    if(_panel != NULL)
+        _panel->setVisible(false);
+
+    resumeItems();
+    qWarning() << "---------------panel hidden";
 }
 
 void GameManager::keyPressEvent(QKeyEvent* event)
@@ -193,6 +219,10 @@ void GameManager::keyPressEvent(QKeyEvent* event)
     if(_patate != NULL)
         switch (event->key())
         {
+            case Qt::Key_Escape:
+                if(_scenePaused)
+                    hidePanel();
+                break;
             case Qt::Key_Up:
                 _patate->setSens(Patate::HAUT);
                 _patate->setMovin(true);
@@ -242,7 +272,7 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 _patate->AfficheInventaire();
                 break;
             case Qt::Key_Z :
-                test();
+                showPanel();
                 break;
 
             /*default:
@@ -416,29 +446,33 @@ void GameManager::ennemyGotKilled(const int xp)
 
 void GameManager::pauseItems()
 {
-    QTime t;
-    t.start();
+    QList<Ennemy*> ennemys = getEnnemies();
 
-    QList<QGraphicsItem*> items = _scene->items();
-
-    foreach (QGraphicsItem *it, items)
-        it->setEnabled(false);
-
+    //stopEnnemys();
+    _timerAdvance->stop();
     _ef.stop();
-    qWarning() << "pauseItems with foreach: " + QString::number(t.elapsed()) + "ms.";
+    foreach (Ennemy *e, ennemys)
+    {
+        e->setMovin(false);
+    }
+    // same for patate
+    _patate->setMovin(false);
+
+    _scenePaused = true;
 }
 
-void GameManager::pauseItems1()
+void GameManager::resumeItems()
 {
-    QTime t;
-    t.start();
+    QList<Ennemy*> ennemys = getEnnemies();
 
-    QList<QGraphicsItem*> items = _scene->items();
+    foreach (Ennemy *e, ennemys)
+    {
+        e->setMovin(true);
+    }
+    _ef.start();
+    _timerAdvance->start(1000 / 33);
 
-    for(QList<QGraphicsItem*>::iterator it = items.begin(); it != items.cend(); ++it)
-        (*it)->setEnabled(false);
-
-    qWarning() << "pauseItems1 with iterator: " + QString::number(t.elapsed()) + "ms.";
+    _scenePaused = false;
 }
 
 void GameManager::patateLvlUp()
@@ -497,6 +531,19 @@ void GameManager::addMice()
                       ::cos((i * 6.28) / MouseCount) * 200 + (_scene->height() / 2));
         _scene->addItem(mouse);
     }
+}
+
+QList<Ennemy*> GameManager::getEnnemies()
+{
+    QList<QGraphicsItem*> items = _scene->items();
+    QList<Ennemy*> ennemys = QList<Ennemy*>();
+    foreach (QGraphicsItem *item, items)
+    {
+        if(item->type() == Ennemy::Type)
+                ennemys.append((Ennemy*)item);
+    }
+
+    return ennemys;
 }
 
 void GameManager::initScene()
@@ -576,7 +623,10 @@ void GameManager::stopEnnemys()
         toStop = (Ennemy*)michels[i];
 
         if(toStop != NULL)
+        {
             toStop->setMovin(false);
+            //toStop->stopSpriteMan();
+        }
     }
 }
 

@@ -103,7 +103,7 @@ void Patate::avancer(short sens)
 {
     static short cpt = 1; // va de 1 a maxTour non compris (1 a 3)
     static const short maxTour = 7;
-    QString spritePAth = ":link/images/Sprites/link/link";
+    //QString spritePAth = ":link/images/Sprites/link/link";
     //static short lastBlockinDir = -1;
 
     if(_gm == NULL)
