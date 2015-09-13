@@ -31,7 +31,8 @@ HEADERS += \
     obstacle.h \
     popup.hpp \
     dragon.hpp \
-    patate.hpp
+    patate.hpp \
+    panel.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -63,7 +64,8 @@ SOURCES += \
     inventaire.cpp \
     obstacle.cpp\
     popup.cpp \
-    dragon.cpp
+    dragon.cpp \
+    panel.cpp
 
 RESOURCES += \
     sprites.qrc
@@ -75,3 +77,16 @@ INSTALLS += target
 OTHER_FILES += \
     images/MapTest.png \
     images/MapTest1.png
+
+static { # everything below takes effect with CONFIG ''= static
+    CONFIG += static
+    CONFIG += staticlib # this is needed if you create a static library, not a static executable
+    DEFINES+= STATIC
+    message("~~~ static build ~~~") # this is for information, that the static build is done
+    mac: TARGET = $$join(TARGET,,,_static)
+#this adds an _static in the end, so you can seperate static build
+#from non static build
+    win32: TARGET = $$join(TARGET,,,s)
+#this adds an s in the end, so you can seperate static build from
+#non static build
+}

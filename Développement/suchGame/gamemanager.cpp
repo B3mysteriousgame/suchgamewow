@@ -14,6 +14,7 @@
 #include <QGraphicsPixmapItem>
 #include <QFrame>
 #include "obstacle.h"
+#include "panel.hpp"
 
 #ifdef Q_OS_WIN
 #include <windows.h> // for Sleep
@@ -181,14 +182,10 @@ void GameManager::mousePressEvent(QMouseEvent*)
 
 void GameManager::test()
 {
-    // _scene->setActivePanel(0);
-    /*
-    QFrame *testWidget = new QGraphicsWidget((QWidget)*_view);
-    testWidget->setGeometry(QRect(10, 10, 400, 300));
-    testWidget->setVisible(true);
-    */
-    qWarning() << "fram added";
+    Panel *testPanel = new Panel(_view);
+    addItemToScene(testPanel);
 
+    qWarning() << "---------------panel added";
 }
 
 void GameManager::keyPressEvent(QKeyEvent* event)
@@ -540,7 +537,7 @@ void GameManager::initView()
     _view->show();
 }
 
-EnnemyFactory *GameManager::getEnnemyFactory()
+EnnemyFactory* GameManager::getEnnemyFactory()
 {
     return &_ef;
 }
@@ -550,7 +547,7 @@ void GameManager::potatoDead()
     if(_patate != NULL)
     {
         QPoint pos;
-        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("Julien la pute!");
+        QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem("Bitch please!");
         text->setFont(QFont("Helvetica", 88, QFont::Black, false));
 
         pos = _view->getCenter();

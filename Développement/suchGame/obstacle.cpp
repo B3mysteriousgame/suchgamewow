@@ -1,11 +1,10 @@
 #include "obstacle.h"
 
-Obstacle::Obstacle()
+Obstacle::Obstacle(QGraphicsItem *parent) :
+    QGraphicsPixmapItem(parent)
+{
+}
 
-    {
-
-    }
-
-Obstacle::~Obstacle(){
-
+Obstacle::~Obstacle()
+{
 }

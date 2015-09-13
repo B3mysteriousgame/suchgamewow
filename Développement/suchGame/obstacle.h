@@ -6,7 +6,7 @@ class Obstacle : public QGraphicsPixmapItem
 {
 
 public:
-    Obstacle();
+    Obstacle(QGraphicsItem* parent = 0);
     ~Obstacle();
     enum { Type = UserType + 7 };
     virtual int type() const{return Type;}
