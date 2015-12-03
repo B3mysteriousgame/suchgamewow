@@ -269,6 +269,8 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                             _patate->setCharginKi(true);
                     }
                 }
+//                if(!_patate->isCharginKi())
+//                    _patate->setCharginKi(true);
                 break;
             case Qt::Key_R :
                 _patate->Teleportation();
@@ -320,18 +322,10 @@ void GameManager::keyReleaseEvent(QKeyEvent* event)
                 lastSensReleased = Patate::DROITE;
                 break;
             case Qt::Key_E :
-            /*
-                { // accolades sinn la declaration du ulong chie
-                    ulong tt = event->timestamp();
-                    if(tt - _kiChargStartTimestamp > 200)
-                    {
-                        _kiChargStopTimestamp = tt;
+//                if(_patate->isCharginKi())
+//                    _patate->setCharginKi(false);
 
-                        if(_patate->isCharginKi())
-                            emit chargeKiStopped();
-                    }
-                }
-            */
+                //qWarning() << "stop charge bro";
                 break;
             default:
                 return;

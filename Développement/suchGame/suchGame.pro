@@ -32,7 +32,8 @@ HEADERS += \
     popup.hpp \
     dragon.hpp \
     patate.hpp \
-    panel.hpp
+    panel.hpp \
+    kianim.h
 
 SOURCES += \
     angleoperation.cpp \
@@ -65,7 +66,8 @@ SOURCES += \
     obstacle.cpp\
     popup.cpp \
     dragon.cpp \
-    panel.cpp
+    panel.cpp \
+    kianim.cpp
 
 RESOURCES += \
     sprites.qrc

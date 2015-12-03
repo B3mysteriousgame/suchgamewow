@@ -4,6 +4,7 @@
 #include "ball.hpp"
 #include "barre.hpp"
 #include <QDebug>
+#include <QTime>
 
 Patate::Patate(QGraphicsItem *parent)
     : Personnage(parent)
@@ -37,6 +38,7 @@ Patate::Patate(QGraphicsItem *parent)
     _sm = new SpriteManager(this, "patate", 4);
     _kiAnim.setPixmap(QPixmap(":animEnergie/images/Sprites/animEnergie/sayen1.png"));
     _kiAnim.setVisible(false);
+    //_kiAnim.setVisible(true);
     _kiAnim.setParentItem(this);
     _kiAnim.setPos(-30, -45);
     //setParentItem(&_kiAnim);
@@ -317,6 +319,10 @@ void Patate::addXp(const int xp)
  */
 void Patate::rechargKi()
 {
+    static QDateTime laststamp = QDateTime::currentDateTime();
+    static QDateTime tstamp;
+    static const short msOffset = 120;
+
     //qWarning() << "Patate::rechargKi()";
     loseKi(-2. - 0.12 * _lvl);
 
@@ -324,28 +330,51 @@ void Patate::rechargKi()
     {
         _timerKiCharg->start(100);
         _charginKi = false;
+        qWarning() << "start charge ki";
+
+        _kiAnim.setVisible(true);
     }
     else
     {
-        _timerKiCharg->stop();
+        tstamp = QDateTime::currentDateTime();
+
+        qWarning() << laststamp.msecsTo( tstamp );
+
+        if(laststamp.msecsTo(tstamp) > msOffset)
+        {
+            _timerKiCharg->stop();
+            _kiAnim.setVisible(false);
+            qWarning() << "stop charge ki";
+        }
+        laststamp = tstamp;
     }
 }
 
 void Patate::setCharginKi(bool is)
 {
+    static QGraphicsScene* const scene = GameManager::Instance()->getScene();
     _charginKi = is;
 
     if(is == true) // if now is chargin
     {
-        //qWarning() << "ki charge STARTED";
         if(!_timerKiCharg->isActive())
+        {
             _timerKiCharg->start(100);
+            //_kiAnim.setVisible(true);
+            //qDebug() << "sayen start";
+            //scene->update();
+        }
     }
     else // if ain't chargin no more
     {
         //qWarning() << "ki charge STOPPED";
         if(_timerKiCharg->isActive())
+        {
             _timerKiCharg->stop();
+            //_kiAnim.setVisible(false);
+            qDebug() << "sayen stop";
+            scene->update();
+        }
     }
 }
 
@@ -404,11 +433,12 @@ void Patate::startKiCharge()
         _timerKiCharg->start(100);
 
     _charginKi = true;
+    qWarning() << "charg on";
     // ----------------
 
     // handle the anim
-    _kiAnim.setVisible(true);
-    scene->update();
+    //_kiAnim.setVisible(true);
+    //scene->update();
 
     if(cpt > cptMax)
         cpt = 1;
@@ -423,6 +453,9 @@ void Patate::startKiCharge()
 
 void Patate::stopKiCharge()
 {
+    static QGraphicsScene* const scene = GameManager::Instance()->getScene();
+
+
     // handlin timer
     if(_timerKiCharg->isActive())
         _timerKiCharg->stop();
@@ -433,8 +466,9 @@ void Patate::stopKiCharge()
 
     // handlin anim
     //_kiAnim.setVisible(false);
+    //scene->update();
 
-    //qWarning() << "ki charge stopped";
+    qWarning() << "ki charge stopped";
 }
 
 void Patate::Teleportation()

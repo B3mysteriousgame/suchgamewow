@@ -63,7 +63,7 @@ void EnnemyFactory::createEnnemy()
     }
 
     ennemy->setLevel(diffNiv);
-    logmsg.append(diffNiv);
+    //logmsg.append(diffNiv);
 
 
 
@@ -86,7 +86,7 @@ void EnnemyFactory::createEnnemy()
     }
     */
 
-    qWarning() << logmsg;
+    qWarning() << logmsg << diffNiv;
 }
 
 
