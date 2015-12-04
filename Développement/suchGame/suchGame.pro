@@ -33,7 +33,8 @@ HEADERS += \
     dragon.hpp \
     patate.hpp \
     panel.hpp \
-    kianim.h
+    kianim.h \
+    aspritemanager.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -67,7 +68,8 @@ SOURCES += \
     popup.cpp \
     dragon.cpp \
     panel.cpp \
-    kianim.cpp
+    kianim.cpp \
+    aspritemanager.cpp
 
 RESOURCES += \
     sprites.qrc

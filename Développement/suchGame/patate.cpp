@@ -36,13 +36,11 @@ Patate::Patate(QGraphicsItem *parent)
     setZValue(10);
 
     _sm = new SpriteManager(this, "patate", 4);
-    _kiAnim.setPixmap(QPixmap(":animEnergie/images/Sprites/animEnergie/sayen1.png"));
-    _kiAnim.setVisible(false);
-    //_kiAnim.setVisible(true);
+    _kiAnim.setPixmap(QPixmap(":kiAnim/images/Sprites/kiAnim/kiAnim1.png"));
     _kiAnim.setParentItem(this);
     _kiAnim.setPos(-30, -45);
-    //setParentItem(&_kiAnim);
     _kiAnim.setZValue(-1);
+    _kiAnim.setVisible(false);
     //qWarning() << "patate z:" << zValue() << " ki z:" << _kiAnim.zValue();
 
 
