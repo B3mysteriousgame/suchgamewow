@@ -25,7 +25,7 @@ class ASpriteManager : public QObject
         const QString _spritePath;
         const short _maxSprit;
         short _cpt;
-        const short _timout;
+        short _timout;
         QTimer *_spriteTimer;
         QString _spriteFileName;
 
@@ -33,9 +33,9 @@ class ASpriteManager : public QObject
         /**
          * Slot called on _spriteTimer timeout signal
          */
-        void nextImg();
-        void setSprite();
-        void triggerRunning();
+        virtual void nextImg();
+        virtual void setSprite();
+        virtual void triggerRunning();
 };
 
 #endif // ASpriteManager_HPP

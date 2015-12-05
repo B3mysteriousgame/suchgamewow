@@ -1,5 +1,6 @@
 #include "ASpriteManager.hpp"
 #include "personnage.hpp"
+#include <QGraphicsPixmapItem>
 #include <QDebug>
 #include <QTimer>
 
@@ -11,18 +12,16 @@ ASpriteManager::ASpriteManager(Personnage *parent,  const QString &spritename, c
     _cpt(0),
     _timout(130),
     _spriteTimer(new QTimer())
-{
-    //this->init();
-}
+{}
 
-void ASpriteManager::init()
-{
-    qWarning() << "abs init";
-//    connect(_spriteTimer, SIGNAL(timeout()), this, SLOT(nextImg()));
-//    connect(_parent, SIGNAL(moveChanged()), this, SLOT(triggerRunning()));
+//void ASpriteManager::init()
+//{
+//    qWarning() << "abs init";
+// //    connect(_spriteTimer, SIGNAL(timeout()), this, SLOT(nextImg()));
+// //    connect(_parent, SIGNAL(moveChanged()), this, SLOT(triggerRunning()));
 
-//    _spriteTimer->start(_timout);
-}
+// //    _spriteTimer->start(_timout);
+//}
 
 ASpriteManager::~ASpriteManager()
 {
@@ -80,6 +79,11 @@ void ASpriteManager::stop()
 void ASpriteManager::nextImg()
 {
     static bool parentJustStopped = true; // parce que parent est arrete a la creation
+
+//    if(this->_spriteFileName == "kiAnim")
+//    {
+//        int i = 0;
+//    }
 
     if(_parent->isMovin())
     {

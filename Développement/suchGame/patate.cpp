@@ -36,12 +36,10 @@ Patate::Patate(QGraphicsItem *parent)
     setZValue(10);
 
     _sm = new SpriteManager(this, "patate", 4);
-    _kiAnim.setPixmap(QPixmap(":kiAnim/images/Sprites/kiAnim/kiAnim1.png"));
-    _kiAnim.setParentItem(this);
-    _kiAnim.setPos(-30, -45);
-    _kiAnim.setZValue(-1);
-    _kiAnim.setVisible(false);
-    //qWarning() << "patate z:" << zValue() << " ki z:" << _kiAnim.zValue();
+
+
+    _kism = new KiSpriteManager(this, "kiAnim", 4);
+    qWarning() << "patate z:" << zValue() << " ki z:" << _kiAnim.zValue();
 
 
     QObject::connect(_gm, SIGNAL(chargeKiStarted()), this, SLOT(startKiCharge()));
@@ -139,7 +137,12 @@ void Patate::loseHealth(int degats)
     emit statChanged(pourcentage/2, "vie");
 }
 
-Patate::~Patate(){}
+Patate::~Patate()
+{
+    delete(_timerKiCharg);
+    delete(_inventaire);
+    delete(_kism);
+}
 
 void Patate::attaque()
 {
@@ -330,7 +333,7 @@ void Patate::rechargKi()
         _charginKi = false;
         qWarning() << "start charge ki";
 
-        _kiAnim.setVisible(true);
+        //_kiAnim.setVisible(true);
     }
     else
     {
@@ -341,7 +344,8 @@ void Patate::rechargKi()
         if(laststamp.msecsTo(tstamp) > msOffset)
         {
             _timerKiCharg->stop();
-            _kiAnim.setVisible(false);
+            //_kiAnim.setVisible(false);
+            _kism->stop();
             qWarning() << "stop charge ki";
         }
         laststamp = tstamp;
@@ -361,6 +365,7 @@ void Patate::setCharginKi(bool is)
             //_kiAnim.setVisible(true);
             //qDebug() << "sayen start";
             //scene->update();
+            emit this->kiChargeEvent(1);
         }
     }
     else // if ain't chargin no more
@@ -372,6 +377,7 @@ void Patate::setCharginKi(bool is)
             //_kiAnim.setVisible(false);
             qDebug() << "sayen stop";
             scene->update();
+            emit this->kiChargeEvent(0);
         }
     }
 }

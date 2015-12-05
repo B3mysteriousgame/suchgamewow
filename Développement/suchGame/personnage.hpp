@@ -70,6 +70,7 @@ class Personnage : public QObject, public QGraphicsPixmapItem
     signals:
         void statChanged(const int, const QString&);
         void moveChanged();
+        void kiChargeEvent(short);
         void deadPerso();
 
     protected:

@@ -6,6 +6,8 @@
 #include "personnage.hpp"
 #include "inventaire.hpp"
 
+#include "kispritemanager.hpp"
+
 class Patate : public Personnage
 {
     public:
@@ -72,5 +74,6 @@ protected slots:
 
         QTimer *_timerKiCharg;
         Inventaire *_inventaire;
+        KiSpriteManager *_kism;
 };
 #endif // PATATE_HPP
