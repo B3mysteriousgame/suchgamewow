@@ -22,6 +22,7 @@ class GameManager : public QObject
 {
     Q_OBJECT
     public:
+        static void clearList(QList<QGraphicsItem *> *list);
         static GameManager *Instance();
         void keyPressEvent(QKeyEvent* event);
         void keyReleaseEvent(QKeyEvent* event);
@@ -41,7 +42,7 @@ class GameManager : public QObject
         void addItemToScene(QLineF &line);
         void addItemToScene(QRectF& rect);
         void addItemToScene(QGraphicsEllipseItem &el);
-        int randInt(int low, int high) const;
+        static int randInt(int low, int high);
         QPointF sceneCenter() const;
         void ennemyGotKilled(const int xp);
         static void qSleep(int ms);
@@ -97,6 +98,7 @@ class GameManager : public QObject
         ulong _kiChargStopTimestamp;
         bool _scenePaused;
         Panel *_panel;
+        QGraphicsTextItem *_text1;
 
         void pauseItems();
         void resumeItems();

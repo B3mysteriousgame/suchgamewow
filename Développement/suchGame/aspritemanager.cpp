@@ -1,5 +1,6 @@
 #include "ASpriteManager.hpp"
 #include "personnage.hpp"
+#include "patate.hpp"
 #include <QGraphicsPixmapItem>
 #include <QDebug>
 #include <QTimer>
@@ -36,13 +37,17 @@ ASpriteManager::~ASpriteManager()
 void ASpriteManager::triggerRunning()
 {
     static QString methodName = "ASpriteManager::triggerRunning";
-    if(_spriteTimer->isActive())
+    if(!_parent->isMovin())
     {
         _spriteTimer->stop();
+        if(_parent->type() == Patate::Type)
+            qWarning() << "sprite timer stop";
     }
     else
     {
         _spriteTimer->start(_timout);
+        if(_parent->type() == Patate::Type)
+            qWarning() << "sprite timer start";
     }
 }
 

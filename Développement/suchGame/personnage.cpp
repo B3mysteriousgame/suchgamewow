@@ -299,3 +299,14 @@ void Personnage::setMovin(const bool move)
 
     emit moveChanged();
 }
+
+const QString& Personnage::toString()
+{
+    return QString("Personnage:")
+            .append("lvl: ").append(QString::number(_lvl))
+            .append(" hp: ").append(QString::number(_actualhealth))
+            .append(" mana: ").append(QString::number(_mana))
+            .append(" atk: ").append(QString::number(_atk))
+            .append(" def: ").append(QString::number(_def))
+    ;
+}

@@ -16,7 +16,7 @@ EnnemyFactory::EnnemyFactory()
     _timerPopEnnemy = new QTimer();
     QObject::connect(_timerPopEnnemy, SIGNAL(timeout()), this, SLOT(createEnnemy()));
 
-    start();
+    //start();
 }
 
 EnnemyFactory::EnnemyFactory(EnnemyFactory *lol)
@@ -75,9 +75,11 @@ void EnnemyFactory::createEnnemy()
 
     _listeMichels.append(ennemy);
 
-    if( _listeMichels.length() == MAXENN && isTimerActive() )
+    if( _listeMichels.length() == MAXENN )
+    {
          stop();
-
+         qWarning() << "-------------------------------------too many ennemiys";
+    }
     /* SEEMS WEIRD
     else
     {
@@ -86,6 +88,7 @@ void EnnemyFactory::createEnnemy()
     }
     */
 
+    qWarning() << "-------" << _listeMichels.length();
     qWarning() << logmsg << diffNiv;
 }
 
@@ -130,5 +133,6 @@ void EnnemyFactory::startTimer(int ms)
 
 void EnnemyFactory::start()
 {
-    _timerPopEnnemy->start(1000 * 5);
+//    _timerPopEnnemy->start(1000 * 5);
+    startTimer(100 * GameManager::randInt(1,50));
 }

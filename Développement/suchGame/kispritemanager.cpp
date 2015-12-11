@@ -44,7 +44,8 @@ void KiSpriteManager::triggerRunning(short isrunning)
     static QPoint offsetpoint(-30, -46);
 
     qWarning() << "trigger running" << _spritePath + _spriteFileName;
-    if(isrunning == 0 || _spriteTimer->isActive())
+    //if(isrunning == 0 || _spriteTimer->isActive())
+    if(!((Patate*)_parent)->isCharginKi())
     {
         qWarning() << "trigger running stop";
         _spriteTimer->stop();

@@ -164,7 +164,7 @@ void GameManager::removeItem(QGraphicsItem *it)
 }
 
 
-Patate *GameManager::getPatate() const
+Patate* GameManager::getPatate() const
 {
     return _patate;
 }
@@ -203,16 +203,21 @@ void GameManager::test()
     pauseItems();
 }
 
+// called by keyPressEvent key::Z
 void GameManager::showPanel()
 {
-    if(_panel == NULL)
-    {
-        _panel = new Panel(_view);
-        QGraphicsTextItem *text = new QGraphicsTextItem("[ECHAP] pour fermer");
+    if(_panel != NULL)
+        return;
 
-        _panel->addItem(text);
-        addItemToScene(_panel);
-    }
+    _panel = new Panel(_view);
+
+    QGraphicsTextItem *text = new QGraphicsTextItem("[ECHAP] pour fermer", _panel);
+    QGraphicsTextItem *text1 = new QGraphicsTextItem("Stats: \n    " + _patate->toString(), _panel);
+    text1->moveBy(0, 50);
+
+//    _panel->addItem(text);
+//    _panel->addItem(text1);
+    addItemToScene(_panel);
 
     _panel->setPos(_view->mapToScene(70,75));
     _panel->setVisible(true);
@@ -223,8 +228,11 @@ void GameManager::showPanel()
 
 void GameManager::hidePanel()
 {
-    if(_panel != NULL)
-        _panel->setVisible(false);
+    if(_panel == NULL)
+        return;
+
+    delete(_panel);
+    _panel = NULL;
 
     resumeItems();
     qWarning() << "---------------panel hidden";
@@ -236,8 +244,7 @@ void GameManager::keyPressEvent(QKeyEvent* event)
         switch (event->key())
         {
             case Qt::Key_Escape:
-                if(_scenePaused)
-                    hidePanel();
+                hidePanel();
                 break;
             case Qt::Key_Up:
                 _patate->setSens(Patate::HAUT);
@@ -398,7 +405,7 @@ QList<Mouse*> GameManager::getSceneMice()
     return listeM;
 }
 
-int GameManager::randInt(int low, int high) const
+int GameManager::randInt(int low, int high)
 {
     // Random number between low and high
     return qrand() % ((high + 1) - low) + low;
@@ -452,7 +459,8 @@ void GameManager::scrollView(short sens)
 void GameManager::ennemyGotKilled(const int xp)
 {
     _patate->addXp(xp);
-    _ef.startTimer(100 * randInt(1,50));
+//    _ef.startTimer(100 * randInt(1,50));
+    _ef.start();
 
 }
 
@@ -460,6 +468,7 @@ void GameManager::ennemyGotKilled(const int xp)
 void GameManager::pauseItems()
 {
     QList<Ennemy*> ennemys = getEnnemies();
+    qWarning() << "Nb ennemis:" << ennemys.length();
 
     //stopEnnemys();
     _timerAdvance->stop();
@@ -658,3 +667,9 @@ void GameManager::stopGame()
 
     //delete(_statsMan);
 }
+
+//void GameManager::clearList(QList<>* list)
+//{
+//    qDeleteAll(list->begin(), list->end());
+//    list->clear();
+//}

@@ -344,9 +344,8 @@ void Patate::rechargKi()
         if(laststamp.msecsTo(tstamp) > msOffset)
         {
             _timerKiCharg->stop();
-            //_kiAnim.setVisible(false);
             _kism->stop();
-            qWarning() << "stop charge ki";
+//            qWarning() << "stop charge ki";
         }
         laststamp = tstamp;
     }
@@ -362,19 +361,15 @@ void Patate::setCharginKi(bool is)
         if(!_timerKiCharg->isActive())
         {
             _timerKiCharg->start(100);
-            //_kiAnim.setVisible(true);
-            //qDebug() << "sayen start";
-            //scene->update();
             emit this->kiChargeEvent(1);
         }
     }
     else // if ain't chargin no more
-    {
+    { // never called for now
         //qWarning() << "ki charge STOPPED";
         if(_timerKiCharg->isActive())
         {
             _timerKiCharg->stop();
-            //_kiAnim.setVisible(false);
             qDebug() << "sayen stop";
             scene->update();
             emit this->kiChargeEvent(0);
@@ -437,22 +432,14 @@ void Patate::startKiCharge()
         _timerKiCharg->start(100);
 
     _charginKi = true;
-    qWarning() << "charg on";
+//    qWarning() << "charg on";
     // ----------------
-
-    // handle the anim
-    //_kiAnim.setVisible(true);
-    //scene->update();
 
     if(cpt > cptMax)
         cpt = 1;
 
-    //_kiAnim.setPixmap(QPixmap(":animEnergie/images/Sprites/animEnergie/sayen" + QString::number(cpt) + ".png"));
-    //scene->update();
-    // ---------------
 
-
-    qWarning() << "ki charge started";
+//    qWarning() << "ki charge started";
 }
 
 void Patate::stopKiCharge()
@@ -466,11 +453,6 @@ void Patate::stopKiCharge()
 
     _charginKi = false;
     // -------------
-
-
-    // handlin anim
-    //_kiAnim.setVisible(false);
-    //scene->update();
 
     qWarning() << "ki charge stopped";
 }
@@ -523,7 +505,7 @@ void Patate::Teleportation()
     loseMana(5);
 }
 
-void Patate::afficheInventaire()
+void Patate::afficheInventaire() const
 {
     _inventaire->show();
 }
@@ -531,4 +513,16 @@ void Patate::afficheInventaire()
 void Patate::addItemToInventaire(Arme *arme)
 {
     _inventaire->addItem(arme);
+}
+
+const QString Patate::toString() const
+{
+    return QString("Patate:")
+            .append("lvl: ").append(QString::number(_lvl))
+            .append(" hp: ").append(QString::number(_actualhealth))
+            .append(" mana: ").append(QString::number(_mana))
+            .append(" atk: ").append(QString::number(_atk))
+            .append(" def: ").append(QString::number(_def))
+            .append(" xp: ").append(QString::number(_xp)).append("/").append(QString::number(_xpMax))
+    ;
 }

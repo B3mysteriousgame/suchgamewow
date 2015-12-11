@@ -36,7 +36,8 @@ class Patate : public Personnage
         void setCharginKi(bool is);
         void Teleportation();
         void addItemToInventaire(Arme *arme);
-        void afficheInventaire();
+        void afficheInventaire() const;
+        const QString toString() const;
 
     signals:
         //void deadPerso();

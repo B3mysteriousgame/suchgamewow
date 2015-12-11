@@ -20,7 +20,7 @@ Ennemy::Ennemy(short vie, short lvl, QGraphicsItem *parent) :
 
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = 30 + (9 * (_lvl - 1));
+    _xpDon = (30 + (9 * (_lvl - 1))) * 1.3;
     _atk = 80 + (15 * (_lvl - 1));
     _def = 30 + (11 * (_lvl - 1));
     _speed = 1;

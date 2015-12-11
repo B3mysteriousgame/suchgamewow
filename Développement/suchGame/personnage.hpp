@@ -17,7 +17,7 @@ class Personnage : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
     public:
-        enum { GAUCHE, HAUT, DROITE, BAS };
+        enum Sens { GAUCHE, HAUT, DROITE, BAS };
         enum { Type = UserType + 3 };
         virtual int type() const{return Type;}
 
@@ -26,6 +26,7 @@ class Personnage : public QObject, public QGraphicsPixmapItem
         Personnage(Personnage*){}
         ~Personnage();
 
+        const virtual QString& toString();
         QList<QString> getSprites() const{ return QList<QString>(); }
         int getImgCpt() const{ return _imgCpt; }
         int getSens() const;
