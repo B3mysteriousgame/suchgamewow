@@ -6,7 +6,7 @@
 #include <QGraphicsPixmapItem>
 
 
-class Arme;
+class Item;
 class Popup;
 class Coffre : public QObject, public QGraphicsPixmapItem
 {
@@ -19,13 +19,13 @@ public:
 
     bool ouvrir();
     void advance(int);
-    Arme* getArme() const;
+    Item* getItem() const;
 
 private:
     bool _isOpen;
     bool _ouvrable;
     Popup *_popup;
-    Arme *_arme;
+    Item *_item;
 };
 
 #endif // COFFRE_H

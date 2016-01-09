@@ -2,7 +2,7 @@
 #include <QGraphicsPixmapItem>
 #include <QDebug>
 
-#include "arme.h"
+#include "item.hpp"
 #include "coffre.hpp"
 #include "longsword.h"
 #include "dragonsword.hpp"
@@ -22,9 +22,9 @@ Coffre::Coffre():
 
     int alea = GameManager::Instance()->randInt(1,2);
     if(alea == 1)
-       _arme = new Longsword();
+       _item = new Longsword();
     else
-       _arme = new Dragonsword();
+       _item = new Dragonsword();
 
     setPixmap(QPixmap(":/images/Sprites/coffre.png"));
 }
@@ -40,14 +40,13 @@ bool Coffre::ouvrir()
     if( dist.length() <= 30 )
     {
         _isOpen = true;
-        GameManager::Instance()->addItemToScene(_arme);
-        _arme->setPos(this->pos().x() + 50,this->pos().y());
+        GameManager::Instance()->addItemToScene(_item);
+        _item->setPos(this->pos().x() + 50,this->pos().y());
         return true;
     }
 
-    qWarning() << "chips" << this->_isOpen;
+    //qWarning() << "chips" << this->_isOpen;
     return false;
-
 }
 
 void Coffre::advance(int /*phase*/)
@@ -68,9 +67,9 @@ void Coffre::advance(int /*phase*/)
 
 }
 
-Arme * Coffre::getArme() const
+Item* Coffre::getItem() const
 {
-    return _arme;
+    return _item;
 }
 
 

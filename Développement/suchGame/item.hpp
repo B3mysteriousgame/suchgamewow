@@ -1,34 +1,30 @@
-#ifndef ARME_H
-#define ARME_H
+#ifndef ITEM_H
+#define ITEM_H
+
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
 
 #include "popup.hpp"
 #include "gamemanager.hpp"
-#include "item.hpp"
 
 class GameManager;
 
-class Arme : public Item
+class Item : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
     public:
-        enum { Type = UserType + 9 };
+        enum { Type = UserType + 8 };
         virtual int type() const{return Type;}
 
-        Arme();
-        ~Arme();
-        void advance(int);
-        int get_atq() const;
-        int get_def() const;
-        int get_portee() const;
+        Item(QGraphicsItem *parent = 0);
+        ~Item();
+        virtual void advance(int) = 0;
         QPixmap get_pixmap() const;
-        void set_atq(const int atq);
-        void set_def(const int def);
-        void set_portee(const int portee);
+        QString get_nom() const;
+        void set_nom(const QString& nom);
 
     protected:
         int _atq;
@@ -40,4 +36,4 @@ class Arme : public Item
         QPixmap _pixmap;
 };
 
-#endif // ARME  _H
+#endif // ITEM_H

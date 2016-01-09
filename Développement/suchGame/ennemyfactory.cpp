@@ -3,12 +3,13 @@
 #include <math.h>
 #include "angleoperation.hpp"
 #include "patate.hpp"
+#include "dragon.hpp"
 #include "gamemanager.hpp"
 #include <QtDebug>
 #include <QTimer>
 #include <ennemylopette.h>
 
-#define MAXENN 10
+#define MAXENN 15
 
 EnnemyFactory::EnnemyFactory()
     : QObject()
@@ -30,6 +31,13 @@ EnnemyFactory::~EnnemyFactory()
 
 void EnnemyFactory::createEnnemy()
 {
+    if( _listeMichels.length() == MAXENN )
+    {
+//         stop();
+        qWarning() << "-------------------------------------too many ennemiys";
+        return;
+    }
+
     static const float diff = 0.1;
     static GameManager* const gm = GameManager::Instance();
 
@@ -51,15 +59,25 @@ void EnnemyFactory::createEnnemy()
     if(diffNiv == 0)
         diffNiv = 1;
 
-    if(gm->randInt(1,6) == 1)
+    int rand = gm->randInt(1,101);
+
+    if(rand < 20)
     {
         ennemy = new EnnemyLopette();
         logmsg = " EnnemyLopette lvl ";
     }
     else
     {
-       ennemy = new Ennemy();
-       logmsg = " Ennemy lvl ";
+        if(rand < 25)
+        {
+            ennemy = new Dragon();
+            logmsg = " EnnemyLopette lvl ";
+        }
+        else
+        {
+            ennemy = new Ennemy();
+            logmsg = " Ennemy lvl ";
+        }
     }
 
     ennemy->setLevel(diffNiv);
@@ -75,11 +93,11 @@ void EnnemyFactory::createEnnemy()
 
     _listeMichels.append(ennemy);
 
-    if( _listeMichels.length() == MAXENN )
-    {
-         stop();
-         qWarning() << "-------------------------------------too many ennemiys";
-    }
+//    if( _listeMichels.length() == MAXENN )
+//    {
+//         stop();
+//         qWarning() << "-------------------------------------too many ennemiys";
+//    }
     /* SEEMS WEIRD
     else
     {

@@ -10,9 +10,9 @@ public:
     enum { Type = UserType + 5 }; // celui de ennemi
     virtual int type() const{return Type;}
 
-    Dragon(short vie, short lvl, QGraphicsPixmapItem *parent = 0);
-    Dragon(QGraphicsPixmapItem *parent);
-
+    Dragon(QGraphicsPixmapItem *parent = 0);
+    Dragon(short lvl, QGraphicsPixmapItem *parent = 0);
+    void setLevel(const int lvl);
 };
 
 #endif // DRAGON_HPP

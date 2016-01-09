@@ -35,7 +35,9 @@ HEADERS += \
     panel.hpp \
     kianim.h \
     aspritemanager.hpp \
-    kispritemanager.hpp
+    kispritemanager.hpp \
+    item.hpp \
+    potion.hpp
 
 SOURCES += \
     angleoperation.cpp \
@@ -71,7 +73,9 @@ SOURCES += \
     panel.cpp \
     kianim.cpp \
     aspritemanager.cpp \
-    kispritemanager.cpp
+    kispritemanager.cpp \
+    item.cpp \
+    potion.cpp
 
 RESOURCES += \
     sprites.qrc

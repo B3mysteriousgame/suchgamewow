@@ -4,8 +4,7 @@
 
 
 Arme::Arme():
-    QObject(),
-    QGraphicsPixmapItem(),
+    Item(),
     _ramassable(false)
 {
     _popup = new Popup(this);
@@ -67,14 +66,4 @@ void Arme::set_def(const int def)
 void Arme::set_portee(const int portee)
 {
     _portee = portee;
-}
-
-void Arme::set_nom(const QString& nom)
-{
-    _nom = nom;
-}
-
-QString Arme::get_nom() const
-{
-    return _nom ;
 }

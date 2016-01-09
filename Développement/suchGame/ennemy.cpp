@@ -8,21 +8,25 @@
 #include "barre.hpp"
 #include <QList>
 
-Ennemy::Ennemy(short vie, short lvl, QGraphicsItem *parent) :
+Ennemy::Ennemy(short lvl, QGraphicsItem *parent) :
     Personnage(parent)
 {
-    _fullhealth = vie;
-    _actualhealth = vie;
-    _lvl= lvl;
     _imgCpt = 0;
     _sens = Ennemy::DROITE;
     _gm = NULL;
 
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _xpDon = (30 + (9 * (_lvl - 1))) * 1.3;
-    _atk = 80 + (15 * (_lvl - 1));
-    _def = 30 + (11 * (_lvl - 1));
+
+//    _fullhealth = vie;
+//    _actualhealth = vie;
+//    _lvl= lvl;
+//    _xpDon = (30 + (9 * (_lvl - 1))) * 1.3;
+//    _atk = 80 + (15 * (_lvl - 1));
+//    _def = 30 + (11 * (_lvl - 1));
+    setLevel(lvl);
+
+
     _speed = 1;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
@@ -49,12 +53,8 @@ Ennemy::Ennemy(QGraphicsItem *parent) :
     _gm = NULL;
     _touched = false;
     _strat = new MoveFreelyStrat(this);
-    _lvl = 1;
-    _xpDon = 30 + (9 * (_lvl - 1));
-    _fullhealth = 500 + (12 * (_lvl - 1));
-    _actualhealth = _fullhealth;
-    _atk = 80 + (15 * (_lvl - 1));
-    _def = 30 + (11 * (_lvl - 1));
+    setLevel(1);
+
     _speed = 1;
     setPixmap(QPixmap(":alex/images/Sprites/alex/alexD1.png"));
 
@@ -214,4 +214,9 @@ void Ennemy::showPointAggro()
 void Ennemy::setLevel(const int lvl)
 {
     _lvl = lvl;
+    _xpDon = (30 + (9 * (_lvl - 1))) * 1.4;
+    _fullhealth = 500 + (12 * (_lvl - 1));
+    _actualhealth = _fullhealth;
+    _atk = 80 + (15 * (_lvl - 1));
+    _def = 30 + (11 * (_lvl - 1));
 }

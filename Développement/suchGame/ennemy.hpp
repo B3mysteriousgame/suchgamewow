@@ -20,7 +20,7 @@ class Ennemy : public Personnage
         virtual int type() const{return Type;}
 
         Ennemy(QGraphicsItem *parent = 0);
-        Ennemy(short vie, short lvl, QGraphicsItem *parent = 0);
+        Ennemy(short lvl, QGraphicsItem *parent = 0);
         Ennemy(const Ennemy& e);
         ~Ennemy();
 
@@ -35,7 +35,7 @@ class Ennemy : public Personnage
         QString changeSens(QString lepath);
         void hidePointAggro();
         void showPointAggro();
-        void setLevel(const int lvl);
+        virtual void setLevel(const int lvl);
 
 
     protected:

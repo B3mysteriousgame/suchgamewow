@@ -15,6 +15,7 @@ class Perso;
 class Patate;
 class Ennemy;
 class Coffre;
+class Item;
 class Obstacle;
 class Panel;
 
@@ -72,6 +73,7 @@ class GameManager : public QObject
    private slots:
         void setBarrePatate(const int pki, const QString &cible);
         void potatoDead();
+        void cleanScene();
 
     private:
         Q_DISABLE_COPY(GameManager)
@@ -85,6 +87,7 @@ class GameManager : public QObject
         MyView *_view;
         QTimer *_timerAdvance;
         QTimer *_timerLvlUp;
+        QTimer *_timerCleanUp;
         EnnemyFactory _ef;
         Coffre *_coffre;
         Obstacle *_obstacle;
@@ -112,6 +115,7 @@ class GameManager : public QObject
         void initScene();
         void initView();
         QList<Ennemy*> getEnnemies();
+        void openCoffre(Item *item);
 
 
 

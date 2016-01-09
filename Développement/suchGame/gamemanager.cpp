@@ -55,6 +55,7 @@ GameManager::GameManager()
 
     _timerAdvance = new QTimer();
     _timerLvlUp = new QTimer();
+    _timerCleanUp = new QTimer();
 
     _kiChargStartTimestamp = 0;
     _kiChargStopTimestamp = 0;
@@ -104,12 +105,15 @@ void GameManager::startGame()
     // init connections
     QObject::connect(_timerAdvance, SIGNAL(timeout()), _scene, SLOT(advance()));
     QObject::connect(_timerLvlUp, SIGNAL(timeout()), this, SLOT(hideLvlUp()));
+//    QObject::connect(_timerCleanUp, SIGNAL(timeout()), this, SLOT(cleanScene()));
     QObject::connect(_patate, SIGNAL(statChanged(const int, const QString&)), this, SLOT(setBarrePatate(const int, const QString&)));
     QObject::connect(_patate, SIGNAL(deadPerso()), this, SLOT(potatoDead()));
 
     // start timers
     _timerAdvance->start(1000 / 33);
     _ef.start();
+    _timerCleanUp->start(2*60000); // 2mn
+
 
     //test coffre
         _coffre = new Coffre();
@@ -285,8 +289,9 @@ void GameManager::keyPressEvent(QKeyEvent* event)
             case Qt::Key_F :
                 if(!_coffre->ouvrir())
                 {
-                    _patate->addItemToInventaire(_coffre->getArme());
-                    _scene->removeItem(_coffre->getArme());
+                    Item *item = _coffre->getItem();
+
+                    openCoffre(item);
                 }
                 else
                 {
@@ -301,11 +306,28 @@ void GameManager::keyPressEvent(QKeyEvent* event)
                 break;
             case Qt::Key_Z :
                 showPanel();
+//                this->cleanScene();
                 break;
 
             /*default:
                 break;*/
         }
+}
+
+
+void GameManager::openCoffre(Item *item)
+{
+    switch (item->type())
+    {
+        case Arme::Type:
+            _patate->addItemToInventaire((Arme*)item);
+            _scene->removeItem(_coffre->getItem());
+            break;
+        case Item::Type:
+            break;
+        default:
+            break;
+    }
 }
 
 void GameManager::keyReleaseEvent(QKeyEvent* event)
@@ -473,6 +495,7 @@ void GameManager::pauseItems()
     //stopEnnemys();
     _timerAdvance->stop();
     _ef.stop();
+    _timerCleanUp->stop();
     foreach (Ennemy *e, ennemys)
     {
         e->setMovin(false);
@@ -521,6 +544,30 @@ void GameManager::hideLvlUp()
     _lvlUpTxt->setActive(false);
 }
 
+
+void GameManager::cleanScene()
+{
+    QList<QGraphicsItem*> items = _scene->items();
+    QList<Ennemy*> ennemies;
+    Ennemy *en = NULL;
+
+    foreach (QGraphicsItem* item, items)
+    {
+        en = (Ennemy*)item;
+
+        if(en != NULL)
+            ennemies.append(en);
+    }
+
+    if(!ennemies.isEmpty())
+    {
+        en = ennemies.first();
+        delete(en);
+    }
+
+    if(_timerCleanUp != NULL)
+        _timerCleanUp->start(2*60000); // 2mn
+}
 
 
 void GameManager::centerOnPatate()
@@ -580,7 +627,7 @@ void GameManager::initScene()
     _scene->addItem(_patate);
     //addMice();
 
-    _scene->addItem(new Dragon(1000, 10));
+    _scene->addItem(new Dragon(10));
 }
 
 void GameManager::initView()
